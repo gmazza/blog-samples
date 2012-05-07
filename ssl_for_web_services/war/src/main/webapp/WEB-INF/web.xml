@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>Sample web service provider</display-name>
+    <listener>
+        <!-- For Metro, use this listener-class instead: 
+             com.sun.xml.ws.transport.http.servlet.WSServletContextListener -->
+        <listener-class>
+              org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <!-- Remove below context-param element if using Metro -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+	      classpath:META-INF/cxf/cxf.xml
+        </param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>WebServicePort</servlet-name>
+        <!-- For Metro, use this servlet-class instead: 
+             com.sun.xml.ws.transport.http.servlet.WSServlet  -->
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebServicePort</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <security-constraint>
+       <web-resource-collection>
+          <web-resource-name>restricted web services</web-resource-name>
+          <url-pattern>/*</url-pattern>
+          <http-method>GET</http-method>
+          <http-method>POST</http-method>
+       </web-resource-collection>
+       <auth-constraint>
+          <!-- role listed in security-role element below and in tomcat-users.xml file -->
+          <role-name>mywsrole</role-name>
+       </auth-constraint>
+       <user-data-constraint>
+          <!-- require SSL -->
+          <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+       </user-data-constraint>
+    </security-constraint>
+
+    <!-- require basic authentication -->
+    <login-config>
+      <auth-method>BASIC</auth-method>
+    </login-config>
+
+    <security-role>
+	<role-name>mywsrole</role-name>
+    </security-role>
+</web-app>
+
