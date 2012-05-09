@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:di="http://www.example.org/schema/DoubleIt" xmlns:tns="http://www.example.org/contract/DoubleIt"
+   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+   xmlns:fi="http://java.sun.com/xml/ns/wsit/2006/09/policy/fastinfoset/service"
+   xmlns:tcp="http://java.sun.com/xml/ns/wsit/2006/09/policy/soaptcp/service"
+   xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
+   xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust" xmlns:wsaw="http://www.w3.org/2005/08/addressing"
+   xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
+   xmlns:tc="http://schemas.sun.com/ws/2006/05/trust/server" name="DoubleIt"
+   targetNamespace="http://www.example.org/contract/DoubleIt">
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://www.example.org/schema/DoubleIt">
+         <xsd:element name="DoubleIt">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="numberToDouble" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="DoubleItResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="doubledNumber" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="DoubleItRequest">
+      <wsdl:part element="di:DoubleIt" name="parameters" />
+   </wsdl:message>
+   <wsdl:message name="DoubleItResponse">
+      <wsdl:part element="di:DoubleItResponse" name="parameters" />
+   </wsdl:message>
+   <wsdl:portType name="DoubleItPortType">
+      <wsdl:operation name="DoubleIt">
+         <wsdl:input message="tns:DoubleItRequest" />
+         <wsdl:output message="tns:DoubleItResponse" />
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
+      <wsp:PolicyReference URI="#DoubleItBindingPolicy" />
+      <soap:binding style="document"
+         transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdl:operation name="DoubleIt">
+         <soap:operation soapAction="" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="DoubleItService">
+      <wsdl:port name="DoubleItPort" binding="tns:DoubleItBinding">
+         <soap:address
+            location="https://localhost:8443/doubleit/services/doubleit" />
+      </wsdl:port>
+   </wsdl:service>
+   <wsp:Policy wsu:Id="DoubleItBindingPolicy">
+      <wsp:ExactlyOne>
+         <wsp:All>
+            <wsaw:UsingAddressing
+               xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+               wsp:Optional="true" />
+            <sp:TransportBinding>
+               <wsp:Policy>
+                  <sp:TransportToken>
+                     <wsp:Policy>
+                        <sp:HttpsToken
+                           RequireClientCertificate="false" />
+                     </wsp:Policy>
+                  </sp:TransportToken>
+                  <sp:Layout>
+                     <wsp:Policy>
+                        <sp:Lax />
+                     </wsp:Policy>
+                  </sp:Layout>
+                  <sp:IncludeTimestamp/>
+                  <sp:AlgorithmSuite>
+                     <wsp:Policy>
+                        <sp:Basic128 />
+                     </wsp:Policy>
+                  </sp:AlgorithmSuite>
+               </wsp:Policy>
+            </sp:TransportBinding>
+            <sp:SignedSupportingTokens>
+               <wsp:Policy>
+                  <sp:UsernameToken
+                     sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                     <wsp:Policy>
+                        <sp:WssUsernameToken10 />
+                     </wsp:Policy>
+                  </sp:UsernameToken>
+               </wsp:Policy>
+            </sp:SignedSupportingTokens>
+            <sp:Wss11 />
+         </wsp:All>
+      </wsp:ExactlyOne>
+   </wsp:Policy>
+</wsdl:definitions>
+

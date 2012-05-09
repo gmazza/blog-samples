@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:jaxws="http://cxf.apache.org/jaxws"
+   xmlns:soap="http://cxf.apache.org/bindings/soap"
+   xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://cxf.apache.org/jaxws
+http://cxf.apache.org/schemas/jaxws.xsd">
+
+   <bean id="myPasswordCallback" class="service.ServerPasswordCallback" />
+
+   <jaxws:endpoint 
+      id="doubleit"
+      implementor="service.DoubleItPortTypeImpl"
+      address="/doubleit" 
+      wsdlLocation="WEB-INF/wsdl/DoubleIt.wsdl">
+ 
+      <!-- Uncomment only if using WS-SecurityPolicy -->
+      <jaxws:properties>
+         <entry key="ws-security.callback-handler">
+            <ref bean="myPasswordCallback"/>
+        </entry>
+      </jaxws:properties> 
+
+      <!-- Uncomment only if using standard WSS4J interceptors -->
+      <!--jaxws:inInterceptors>
+         <bean
+            class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+            <constructor-arg>
+               <map>
+                  <entry key="action" value="UsernameToken"/>
+                  <entry key="passwordType" value="PasswordText"/>
+                  <entry key="passwordCallbackRef">
+                     <ref bean="myPasswordCallback"/>
+                  </entry>
+               </map>
+            </constructor-arg>
+         </bean>
+      </jaxws:inInterceptors-->
+   </jaxws:endpoint>
+</beans>
+
