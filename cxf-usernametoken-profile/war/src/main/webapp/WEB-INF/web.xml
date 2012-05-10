@@ -10,14 +10,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <!-- cxf-ext-policy and cxf-ext-ws-security needed if using WS-SecPol
-              method, don't use with WSS4JInterceptor -->
         <param-value>
 	      classpath:META-INF/cxf/cxf.xml
-	      classpath:META-INF/cxf/cxf-extension-soap.xml
-	      classpath:META-INF/cxf/cxf-servlet.xml 
-              classpath:META-INF/cxf/cxf-extension-policy.xml
-              classpath:META-INF/cxf/cxf-extension-ws-security.xml
         </param-value>
     </context-param>
     <servlet>
