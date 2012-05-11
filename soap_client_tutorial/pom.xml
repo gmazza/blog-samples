@@ -6,7 +6,7 @@
    <groupId>org.gmazza.blog-samples.soap-client-tutorial</groupId>
    <artifactId>soap-client-tutorial</artifactId>
    <version>1.0-SNAPSHOT</version>
-   <name>SOAP Client Tutorial</name>
+   <name>Tutorial: Standalone SOAP Client</name>
    <packaging>jar</packaging>
    <url>http://www.jroller.com/gmazza/entry/soap_client_tutorial</url>
 

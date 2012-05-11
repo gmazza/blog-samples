@@ -9,7 +9,7 @@
       <version>1.0-SNAPSHOT</version>
    </parent>
    <artifactId>java-first-web-service-war</artifactId>
-   <name>Service WAR file</name>
+   <name>-- Service WAR file</name>
    <packaging>war</packaging>
    <url>http://maven.apache.org</url>
 

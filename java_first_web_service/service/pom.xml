@@ -9,7 +9,7 @@
       <version>1.0-SNAPSHOT</version>
    </parent>
    <artifactId>java-first-web-service-service</artifactId>
-   <name>Web Service Provider (WSP)</name>
+   <name>-- Web Service Provider</name>
    <packaging>jar</packaging>
 
    <build>

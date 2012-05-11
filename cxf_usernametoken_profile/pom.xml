@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.gmazza.blog-samples.cxf-usernametoken-profile</groupId>
     <artifactId>cxf-usernametoken-profile</artifactId>
-    <name>CXF w/UsernameToken Example - top-level POM</name>
+    <name>Tutorial: CXF w/UsernameToken Security</name>
     <description>
         This sample provides a CXF web service provider and SOAP client using UsernameToken 
         profile defined via WS-SecurityPolicy for security.  Follow modifications as  

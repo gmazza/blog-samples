@@ -6,19 +6,20 @@
     <groupId>org.gmazza</groupId>
     <artifactId>blog-samples</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Blog Samples</name>
+    <name>Blog Samples (Root POM)</name>
     <description>Source code for web service tutorials at http://www.jroller.com/gmazza/entry/blog_article_index</description>
     <packaging>pom</packaging>
 
     <modules>
         <module>soap_client_tutorial</module>
         <module>java_first_web_service</module>
+        <module>web_service_tutorial</module>
         <module>cxf_usernametoken_profile</module>
         <module>ssl_for_web_services</module>
     </modules>
 
-    <!-- Note soap_client_tutorial and java_first_web_service poms are
-         standalone (do not reference this pom) to help keep the
+    <!-- Note soap_client_tutorial, web_service_tutorial and java_first_web_service 
+         poms are standalone (do not reference this pom) to help keep the
          corresponding blog tutorials as clear as possible.
          Others reference this pom and hence rely on the below settings -->
 
@@ -26,9 +27,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cxf.version>2.6.0</cxf.version>
         <spring.version>3.0.6.RELEASE</spring.version>
-        <wsp.module.name>Web Service Provider (WSP)</wsp.module.name>
-        <wspwar.module.name>Service WAR file</wspwar.module.name>
-        <wsc.module.name>SOAP Client (WSC)</wsc.module.name>
+        <wsp.module.name>-- Web Service Provider</wsp.module.name>
+        <wspwar.module.name>-- Service WAR file</wspwar.module.name>
+        <wsc.module.name>-- SOAP Client</wsc.module.name>
     </properties>
 
     <dependencyManagement>

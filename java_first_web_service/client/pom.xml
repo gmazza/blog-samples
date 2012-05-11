@@ -10,7 +10,7 @@
       <version>1.0-SNAPSHOT</version>
    </parent>
    <artifactId>java-first-web-service-client</artifactId>
-   <name>SOAP Client (WSC)</name>
+   <name>-- SOAP Client</name>
    <packaging>jar</packaging>
 
    <dependencies>

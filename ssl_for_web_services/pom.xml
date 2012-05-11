@@ -10,7 +10,7 @@
    </parent>
    <groupId>org.gmazza.blog-samples.ssl-for-web-services</groupId>
    <artifactId>ssl-for-web-services</artifactId>
-   <name>SSL Web Service Tutorial - top-level POM</name>
+   <name>Tutorial: Web Service w/SSL</name>
    <packaging>pom</packaging>
    <url>http://www.jroller.com/gmazza/entry/ssl_for_web_services</url>
 
