@@ -4,19 +4,19 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>org.gmazza.blog.basic-doubleit</groupId>
-      <artifactId>basic-doubleit</artifactId>
+      <groupId>org.gmazza.blog-samples.java-first-web-service</groupId>
+      <artifactId>java-first-web-service</artifactId>
       <version>1.0-SNAPSHOT</version>
    </parent>
-   <artifactId>service-war</artifactId>
+   <artifactId>java-first-web-service-war</artifactId>
    <name>Service WAR file</name>
    <packaging>war</packaging>
    <url>http://maven.apache.org</url>
 
    <dependencies>
       <dependency>
-          <groupId>org.gmazza.blog.basic-doubleit</groupId>
-          <artifactId>service-bundle</artifactId>
+          <groupId>org.gmazza.blog-samples.java-first-web-service</groupId>
+          <artifactId>java-first-web-service-service</artifactId>
           <version>1.0-SNAPSHOT</version>
       </dependency>
    </dependencies>

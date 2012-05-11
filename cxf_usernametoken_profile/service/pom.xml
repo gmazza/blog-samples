@@ -8,38 +8,22 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>cxf-usernametoken-profile-service</artifactId>
-    <name>Web Service Provider (WSP)</name>
+    <name>${wsp.module.name}</name>
     <packaging>jar</packaging>
 
     <build>
         <plugins>
-            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts 
-                (i.e., the objects created by running wsdl2java or wsimport), as this JAR 
-                will also be used by the SOAP client. More info: http://maven.apache.org/plugins/maven-assembly-plugin/ -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.2</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/jaxws-jar.xml</descriptor>
                     </descriptors>
-                    <appendAssemblyId>true</appendAssemblyId>
-                    <attach>true</attach>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <configuration>
@@ -54,9 +38,6 @@
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

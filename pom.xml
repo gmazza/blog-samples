@@ -1,0 +1,211 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.gmazza</groupId>
+    <artifactId>blog-samples</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Blog Samples</name>
+    <description>Source code for web service tutorials at http://www.jroller.com/gmazza/entry/blog_article_index</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>soap_client_tutorial</module>
+        <module>java_first_web_service</module>
+        <module>cxf_usernametoken_profile</module>
+        <module>ssl_for_web_services</module>
+    </modules>
+
+    <!-- Note soap_client_tutorial and java_first_web_service poms are
+         standalone (do not reference this pom) to help keep the
+         corresponding blog tutorials as clear as possible.
+         Others reference this pom and hence rely on the below settings -->
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <cxf.version>2.6.0</cxf.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
+        <wsp.module.name>Web Service Provider (WSP)</wsp.module.name>
+        <wspwar.module.name>Service WAR file</wspwar.module.name>
+        <wsc.module.name>SOAP Client (WSC)</wsc.module.name>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-ws-security</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <!-- Omit below if using standard WSS4J interceptors instead of WS-SecPol 
+                statements -->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-ws-policy</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <!-- 
+                 See http://metro.java.net/guide/Using_Mavenized_Metro_Binaries.html  
+                 for more Metro/Maven config info 
+            -->
+            <dependency>
+               <groupId>org.glassfish.metro</groupId>
+               <artifactId>webservices-rt</artifactId>
+               <version>2.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <!--downloadJavadocs>true</downloadJavadocs-->
+                    <!--useProjectReferences>false</useProjectReferences-->
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!-- Below plugin provides a separate JAR for the JAX-WS artifacts 
+                     (i.e., the objects created by running wsdl2java or wsimport), as this JAR 
+                     will also be used by the SOAP client for each web service provider using this plugin. 
+                     More info: http://maven.apache.org/plugins/maven-assembly-plugin/ 
+                -->
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2.2</version>
+                    <configuration>
+                        <appendAssemblyId>true</appendAssemblyId>
+                        <attach>true</attach>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Below used with client poms, default params for running client via mvn exec:exec -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <executable>java</executable>
+                        <arguments>
+                            <argument>-classpath</argument>
+                            <classpath />
+                            <!-- Uncomment below for debug output with CXF. Will 
+                                need to configure client-side interceptors and supply a java.util.logging 
+                                properties file: http://cwiki.apache.org/CXF20DOC/debugging.html Place the 
+                                logging file in the client folder. -->
+                            <!--argument> -Djava.util.logging.config.file=mylogging.properties 
+                                </argument -->
+                            <argument>
+                                client.WSClient
+                            </argument>
+                        </arguments>
+                    </configuration>
+                </plugin>
+                <!-- Below used with OSGi deployment; in service poms -->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.5</version>
+                    <extensions>true</extensions>
+                </plugin>
+                <!-- Below used with CXF service poms -->
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${cxf.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>wsdl2java</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Below used with Metro service poms -->
+                <plugin>
+                    <groupId>org.jvnet.jax-ws-commons</groupId>
+                    <artifactId>jaxws-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>wsimport</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Below for WAR submodules, defaults for Tomcat deployment.
+                     Below uses Tomcat 7, for Tomcat 6 see 
+                     http://www.jroller.com/gmazza/entry/web_service_tutorial#WFstep8 
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>tomcat-maven-plugin</artifactId>
+                    <version>1.1</version>
+                    <configuration>
+                        <server>myTomcat</server>
+                        <url>http://localhost:8080/manager/text</url>
+                        <path>/${project.build.finalName}</path>
+                    </configuration>
+                </plugin>
+                <!-- Below for WAR submodules, defaults for when creating the WAR file. --> 
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                </plugin>
+            </plugins>        
+        </pluginManagement>
+    </build>
+
+</project>

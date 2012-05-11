@@ -5,18 +5,18 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>org.gmazza.blog.basic-doubleit</groupId>
-      <artifactId>basic-doubleit</artifactId>
+      <groupId>org.gmazza.blog-samples.ssl-for-web-services</groupId>
+      <artifactId>ssl-for-web-services</artifactId>
       <version>1.0-SNAPSHOT</version>
    </parent>
-   <artifactId>client</artifactId>
-   <name>SOAP Client</name>
+   <artifactId>ssl-for-web-services-client</artifactId>
+   <name>${wsc.module.name}</name>
    <packaging>jar</packaging>
 
    <dependencies>
       <dependency>
-         <groupId>org.gmazza.blog.basic-doubleit</groupId>
-         <artifactId>service-bundle</artifactId>
+         <groupId>org.gmazza.blog-samples.ssl-for-web-services</groupId>
+         <artifactId>ssl-for-web-services-service</artifactId>
          <!-- Classifier below used with Maven Assembly Plugin to 
               specify subset of above artifact needed. 
          -->
@@ -27,45 +27,15 @@
       <!--dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
-         <version>3.0.6.RELEASE</version>
       </dependency-->
    </dependencies>
 
+   <!-- mvn exec:exec to run SOAP client -->
    <build>
       <plugins>
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>exec</goal>
-                  </goals>
-               </execution>
-            </executions>
-            <configuration>
-               <executable>java</executable>
-               <arguments>
-                  <argument>-classpath</argument>
-                  <classpath/>
-                  <!-- Uncomment below for debug output with Metro. -->
-                  <!--argument>
-                     -Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true
-                  </argument-->
-                  <!-- Uncomment below for debug output with CXF.  Will need to configure
-                          client-side interceptors and supply a java.util.logging properties file:
-                          http://cwiki.apache.org/CXF20DOC/debugging.html
-                          Place the logging file in the same directory as this pom file.
-                   -->
-                  <!--argument>
-                     -Djava.util.logging.config.file=mylogging.properties
-                  </argument-->
-                  <argument>
-                     client.WSClient
-                  </argument>
-               </arguments>
-            </configuration>
          </plugin>
       </plugins>
    </build>
