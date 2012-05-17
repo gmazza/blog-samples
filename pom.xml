@@ -16,6 +16,8 @@
         <module>java_first_web_service</module>
         <module>ssl_for_web_services</module>
         <module>cxf_usernametoken_profile</module>
+        <module>cxf_x509_profile</module>
+        <module>cxf_x509_profile_secpol</module>
         <module>metro_usernametoken_profile</module>
     </modules>
 
@@ -43,6 +45,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>

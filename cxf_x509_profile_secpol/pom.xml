@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza</groupId>
+      <artifactId>blog-samples</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <groupId>org.gmazza.blog-samples.cxf-x509-profile-secpol</groupId>
+   <artifactId>cxf-x509-profile-secpol</artifactId>
+   <name>Tutorial: CXF w/X509 Profile (WS-SecPol method)</name>
+   <description>
+       This sample provides a CXF web service provider and SOAP client using X.509
+       token profile security via WS-SecurityPolicy statements defined in the WSDL.  
+       See the cxf-x509-profile sample for an alternative method using WSS4J 
+       interceptors that does not use any WSDL Policy statements.
+   </description>
+   <url>http://www.jroller.com/gmazza/entry/cxf_x509_profile_secpol</url>
+
+   <packaging>pom</packaging>
+
+   <modules>
+      <module>service</module>
+      <module>war</module>
+      <module>client</module>
+   </modules>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-ws-security</artifactId>
+      </dependency>
+      <!-- Below dependency activates processing of WS-Policy statements
+           (including WS-SecPol) in the WSDL; without it those statements
+           are ignored -->
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-ws-policy</artifactId>
+      </dependency>
+   </dependencies>
+
+</project>
+
