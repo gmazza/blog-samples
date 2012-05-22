@@ -12,7 +12,6 @@
    <jaxws:endpoint 
       id="doubleit"
       implementor="service.DoubleItPortTypeImpl"
-      wsdlLocation="DoubleIt.wsdl"
       address="/doubleit">
    </jaxws:endpoint>
    
