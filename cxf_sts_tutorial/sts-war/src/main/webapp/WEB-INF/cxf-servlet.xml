@@ -73,17 +73,4 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
         </jaxws:properties>
     </jaxws:endpoint>
 
-    <!--jaxws:endpoint id="X509STS_S12" implementor="#x509STSProviderBean"
-        address="/X509_SOAP12" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
-        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
-        serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port_SOAP12">
-        <jaxws:properties>
-            <entry key="ws-security.callback-handler"
-                value="sts.PasswordCallbackHandler" />
-            <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
-            <entry key="ws-security.signature.username" value="mystskey" />
-            <entry key="ws-security.encryption.username" value="useReqSigCert" />
-        </jaxws:properties>
-    </jaxws:endpoint-->
-
 </beans>
