@@ -19,6 +19,7 @@
         <module>cxf_x509_profile</module>
         <module>cxf_x509_profile_secpol</module>
         <module>metro_usernametoken_profile</module>
+        <module>cxf_sts_tutorial</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -32,6 +33,7 @@
         <spring.version>3.0.6.RELEASE</spring.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
+        <stswar.module.name>-- STS WAR file</stswar.module.name>
         <wsc.module.name>-- SOAP Client</wsc.module.name>
     </properties>
 
@@ -67,12 +69,26 @@
                 <artifactId>cxf-rt-ws-security</artifactId>
                 <version>${cxf.version}</version>
             </dependency>
-            <!-- Omit below if using standard WSS4J interceptors instead of WS-SecPol 
-                statements -->
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-ws-policy</artifactId>
                 <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf.services.sts</groupId>
+                <artifactId>cxf-services-sts-core</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-ws-mex</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.6.1</version>
+                <scope>runtime</scope>
             </dependency>
             <!-- 
                  See http://metro.java.net/guide/Using_Mavenized_Metro_Binaries.html  

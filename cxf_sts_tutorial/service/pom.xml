@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gmazza.blog-samples.cxf-sts-tutorial</groupId>
+        <artifactId>cxf-sts-tutorial</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <packaging>jar</packaging>
+    <artifactId>cxf-sts-tutorial-service</artifactId>
+    <name>${wsp.module.name}</name>
+
+         <build>
+            <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/jaxws-jar.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+               <plugin>
+                  <groupId>org.apache.cxf</groupId>
+                  <artifactId>cxf-codegen-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <configuration>
+                           <sourceRoot>
+                              ${basedir}/target/generated-sources
+                           </sourceRoot>
+                           <wsdlOptions>
+                              <wsdlOption>
+                                 <wsdl>
+                                    ${basedir}/src/main/resources/DoubleIt.wsdl
+                                 </wsdl>
+                              </wsdlOption>
+                           </wsdlOptions>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>maven-bundle-plugin</artifactId>
+                  <configuration>
+                     <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+                        <Export-Package>service</Export-Package>
+                     </instructions>
+                  </configuration>
+               </plugin>
+            </plugins>
+            <!-- Name of the generated WAR file -->
+            <finalName>doubleit</finalName>
+         </build>
+
+</project>
+

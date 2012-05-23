@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -7,21 +7,22 @@
         <artifactId>blog-samples</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.gmazza.blog-samples.cxf-usernametoken-profile</groupId>
-    <artifactId>cxf-usernametoken-profile</artifactId>
+    <groupId>org.gmazza.blog-samples.cxf-sts-tutorial</groupId>
+    <artifactId>cxf-sts-tutorial</artifactId>
     <packaging>pom</packaging>
-    <name>Tutorial: CXF w/UsernameToken Security</name>
+    <name>Tutorial: CXF Security Token Service (STS)</name>
     <description>
-        This sample provides a CXF web service provider and SOAP client using UsernameToken 
-        profile defined via WS-SecurityPolicy for security.  Follow modifications as  
-        given in blog entry below for non-WS-SecurityPolicy (WSS4J interceptor) method.
+        This sample shows a WS-Trust scenario of a web service client (WSC) authenticating
+        to a CXF Security Token Service (STS) to obtain a security token to use in 
+        subsequently making a call against a web service provider (WSP).
     </description>
-    <url>http://www.jroller.com/gmazza/entry/cxf_usernametoken_profile</url>  
+    <url>http://www.jroller.com/gmazza/entry/cxf_sts_tutorial</url>
 
     <modules>
         <module>service</module>
         <module>war</module>
         <module>client</module>
+        <module>sts-war</module>
     </modules>
 
     <dependencies>
@@ -37,8 +38,6 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
         </dependency>
-        <!-- Omit below if using standard WSS4J interceptors  
-             instead of WS-SecPol statements -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-policy</artifactId>
@@ -46,3 +45,4 @@
     </dependencies>
 
 </project>
+
