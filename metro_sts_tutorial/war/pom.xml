@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza.blog-samples.metro-sts-tutorial</groupId>
+      <artifactId>metro-sts-tutorial</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>metro-sts-tutorial-war</artifactId>
+   <name>${wspwar.module.name}</name>
+   <packaging>war</packaging>
+
+   <!-- Property needed to define ${keystore.dir} value in WSP WSDL
+        Value replaced during copying defined in maven-war-plugin below
+   -->
+   <properties>
+      <keystore.dir>${basedir}/../service/src/main/config</keystore.dir>
+   </properties>
+
+   <dependencies>
+      <dependency>
+          <groupId>${project.parent.groupId}</groupId>
+          <artifactId>${project.parent.artifactId}-service</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>tomcat-maven-plugin</artifactId>
+         </plugin>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                <webResources>
+                    <resource>
+                        <directory>../service/src/main/config</directory>
+                        <targetPath>WEB-INF/wsdl</targetPath>
+                        <includes>
+                            <include>*.wsdl</include>
+                        </includes>
+                        <filtering>true</filtering>
+                    </resource>
+                    <resource>
+                        <directory>src/main/webapp/WEB-INF</directory>
+                        <targetPath>WEB-INF</targetPath>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+      </plugins>
+      <!-- Name of the generated WAR file -->
+      <finalName>doubleit</finalName>
+   </build>
+</project>

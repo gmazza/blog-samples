@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.1 (branches/2.1-6728; 2011-02-03T14:14:58+0000) JAXWS-RI/2.2.3 JAXWS/2.2. --><!--
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+ Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
+
+Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+
+ The contents of this file are subject to the terms of either the GNU
+General Public License Version 2 only ("GPL") or the Common
+Development and Distribution License("CDDL") (collectively, the
+"License"). You may not use this file except in compliance with the
+License. You can obtain a copy of the License at
+http://www.netbeans.org/cddl-gplv2.html
+or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
+specific language governing permissions and limitations under the
+License.  When distributing the software, include this License Header
+Notice in each file and include the License file at
+nbbuild/licenses/CDDL-GPL-2-CP.  Oracle designates this
+particular file as subject to the "Classpath" exception as provided
+by Oracle in the GPL Version 2 section of the License file that
+accompanied this code. If applicable, add the following below the
+License Header, with the fields enclosed by brackets [] replaced by
+your own identifying information:
+"Portions Copyrighted [year] [name of copyright owner]"
+
+ Contributor(s):
+
+  The Original Software is NetBeans. The Initial Developer of the Original
+  Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
+  Microsystems, Inc. All Rights Reserved.
+
+If you wish your version of this file to be governed by only the CDDL
+or only the GPL Version 2, indicate your decision by adding
+"[Contributor] elects to include this software in this distribution
+under the [CDDL or GPL Version 2] license." If you do not indicate a
+single choice of license, a recipient has the option to distribute
+your version of this file under either the CDDL, the GPL Version 2 or
+to extend the choice of license to its licensees as provided above.
+However, if you add GPL Version 2 code and therefore, elected the GPL
+Version 2 license, then the option applies only if the new code is
+made subject to such option by the copyright holder.
+--><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:i0="http://xmlsoap.org/DAB" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:q1="http://schemas.message.com/Message" xmlns:q2="http://schemas.message.com/Message" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy" name="DoubleItSTSService" targetNamespace="http://tempuri.org/" xmlns:sc1="http://schemas.sun.com/2006/03/wss/client">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://tempuri.org/Imports">
+			<xsd:import schemaLocation="http://localhost:8080/DoubleItSTS/DoubleItSTSService?xsd=1" namespace="http://schemas.message.com/Message" />
+		</xsd:schema>
+	</wsdl:types>
+    <wsdl:message name="IDoubleItSTSService_IssueToken_InputMessage">
+        <wsdl:part name="rstMessage" type="q1:MessageBody" />
+	</wsdl:message>
+	<wsdl:message name="IDoubleItSTSService_IssueToken_OutputMessage">
+        <wsdl:part name="IssueTokenResult" type="q2:MessageBody" />
+	</wsdl:message>
+	<wsdl:portType name="IDoubleItSTSService">
+		<wsdl:operation name="IssueToken">
+			<wsdl:input wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" message="tns:IDoubleItSTSService_IssueToken_InputMessage" />
+			<wsdl:output wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal" message="tns:IDoubleItSTSService_IssueToken_OutputMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="IDoubleItSTSService_Binding" type="tns:IDoubleItSTSService">
+	 <wsp:PolicyReference URI="#IDoubleItSTSService_BindingPolicy"/>
+	 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="IssueToken">
+		 <soap:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DoubleItSTSService">
+		<wsdl:port name="IDoubleItSTSService_Port" binding="tns:IDoubleItSTSService_Binding">
+            <soap:address location="http://localhost:8080/DoubleItSTS/DoubleItSTSService" />
+            <jaxws:bindings>
+                <jaxws:provider>true</jaxws:provider>
+            </jaxws:bindings>
+		</wsdl:port>
+	</wsdl:service>
+ <wsp:Policy wsu:Id="IDoubleItSTSService_BindingPolicy">
+  <wsp:ExactlyOne>
+   <wsp:All>
+    <sc1:KeyStore wspp:visibility="private" storepass="cspass" alias="myclientkey" keypass="ckpass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
+    <sc1:TrustStore wspp:visibility="private" peeralias="mystskey" storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
+    <!--sc1:CallbackHandlerConfiguration wspp:visibility="private">
+     <sc1:CallbackHandler default="alice" name="usernameHandler"/>
+     <sc1:CallbackHandler default="clarinet" name="passwordHandler"/>
+    </sc1:CallbackHandlerConfiguration-->
+   </wsp:All>
+  </wsp:ExactlyOne>
+ </wsp:Policy>
+</wsdl:definitions>
