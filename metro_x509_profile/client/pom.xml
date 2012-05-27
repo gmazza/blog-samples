@@ -17,7 +17,7 @@
         Below constant filtered (inserted) by Maven into those files for portability 
    -->
    <properties>
-      <keystore.dir>${basedir}/..</keystore.dir>
+      <keystore.dir>${basedir}/src/main/config</keystore.dir>
    </properties>
 
    <dependencies>

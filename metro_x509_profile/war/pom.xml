@@ -28,6 +28,11 @@
                 <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                 <webResources>
                     <resource>
+                        <!-- Retrieving from target instead of src as WSDL
+                             file has keystore location filtered (placed) 
+                             into it. Can alternatively read from src and
+                             have this module do the filtering instead.
+                        -->
                         <directory>../service/target/classes</directory>
                         <targetPath>WEB-INF/wsdl</targetPath>
                         <includes>
