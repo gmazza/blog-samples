@@ -11,19 +11,17 @@ public class PasswordCallbackHandler implements CallbackHandler {
     public void handle(Callback[] callbacks) throws IOException,
             UnsupportedCallbackException {
         for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+            if (callbacks[i] instanceof WSPasswordCallback) {
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-/*                if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
-                    break;
-                } else if ("bob".equals(pc.getIdentifier())) {
-                    pc.setPassword("trombone");
-                    break;
-                } else */ if ("mystskey".equals(pc.getIdentifier())) {
+                if ("mystskey".equals(pc.getIdentifier())) {
                     pc.setPassword("stskpass");
+                    break;
+                } else if ("alice".equals(pc.getIdentifier())) {
+                    pc.setPassword("clarinet");
                     break;
                 }
             }
         }
     }
 }
+

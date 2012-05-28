@@ -10,12 +10,30 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
        <jaxws:properties>
+           <!-- Use below for UT Authentication between WSC and STS -->
+           <!--entry key="ws-security.sts.client">
+               <bean class="org.apache.cxf.ws.security.trust.STSClient">
+                   <constructor-arg ref="cxf"/>
+                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/UT?wsdl"/>
+                   <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService"/>
+                   <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port"/>
+                   <property name="properties">
+                       <map>
+                           <entry key="ws-security.username" value="alice"/>
+                           <entry key="ws-security.callback-handler" value="client.ClientCallbackHandler"/>
+                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/>
+                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                       </map>
+                   </property>
+               </bean>
+           </entry-->
+           <!-- Use below for X.509 Authentication between WSC and STS -->
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-                   <property name="wsdlLocation" value="DoubleItSTSService.wsdl"/>
-                   <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSService"/>
-                   <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSPort"/>
+                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/X509?wsdl"/>
+                   <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService"/>
+                   <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}X509_Port"/>
                    <property name="properties">
                        <map>
                            <entry key="ws-security.signature.username" value="myclientkey"/>
@@ -31,4 +49,5 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
    </jaxws:client>
 
 </beans>
+
 

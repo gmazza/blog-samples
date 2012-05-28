@@ -11,12 +11,16 @@ public class ClientCallbackHandler implements CallbackHandler {
     public void handle(Callback[] callbacks) throws IOException,
             UnsupportedCallbackException {
         for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+            if (callbacks[i] instanceof WSPasswordCallback) {
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
                 if ("myclientkey".equals(pc.getIdentifier())) {
                     pc.setPassword("ckpass");
                     break;
+                } else if ("alice".equals(pc.getIdentifier())) {
+                    pc.setPassword("clarinet");
+                    break;
                 }
+
             }
         }
     }

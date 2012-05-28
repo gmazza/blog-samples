@@ -20,53 +20,64 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
         </cxf:features>
     </cxf:bus>
 
-    <bean id="x509STSProviderBean"
+    <bean id="mySTSProviderBean"
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
-        <property name="issueOperation" ref="x509IssueDelegate" />
-        <property name="validateOperation" ref="x509ValidateDelegate" />
+        <property name="issueOperation" ref="myIssueDelegate" />
+        <property name="validateOperation" ref="myValidateDelegate" />
     </bean>
 
-    <bean id="x509IssueDelegate" class="org.apache.cxf.sts.operation.TokenIssueOperation">
-        <property name="tokenProviders" ref="x509SamlTokenProvider" />
-        <property name="services" ref="x509Service" />
-        <property name="stsProperties" ref="x509STSProperties" />
+    <bean id="myIssueDelegate" class="org.apache.cxf.sts.operation.TokenIssueOperation">
+        <property name="tokenProviders" ref="mySamlTokenProvider" />
+        <property name="services" ref="myServiceList" />
+        <property name="stsProperties" ref="mySTSProperties" />
     </bean>
 
-    <bean id="x509ValidateDelegate" class="org.apache.cxf.sts.operation.TokenValidateOperation">
-        <property name="tokenValidators" ref="x509SamlTokenValidator" />
-        <property name="stsProperties" ref="x509STSProperties" />
+    <bean id="myValidateDelegate" class="org.apache.cxf.sts.operation.TokenValidateOperation">
+        <property name="tokenValidators" ref="mySamlTokenValidator" />
+        <property name="stsProperties" ref="mySTSProperties" />
     </bean>
 
-    <bean id="x509SamlTokenProvider" class="org.apache.cxf.sts.token.provider.SAMLTokenProvider"/>
+    <bean id="mySamlTokenProvider" class="org.apache.cxf.sts.token.provider.SAMLTokenProvider"/>
 
-    <bean id="x509SamlTokenValidator"
+    <bean id="mySamlTokenValidator"
         class="org.apache.cxf.sts.token.validator.SAMLTokenValidator"/>
 
-    <bean id="x509Service" class="org.apache.cxf.sts.service.StaticService">
-        <property name="endpoints" ref="x509Endpoints" />
+    <bean id="myServiceList" class="org.apache.cxf.sts.service.StaticService">
+        <property name="endpoints" ref="wspAllowedEndpoints" />
     </bean>
 
-    <util:list id="x509Endpoints">
+    <util:list id="wspAllowedEndpoints">
         <value>http://localhost:8080/doubleit/services/doubleit.*</value>
     </util:list>
 
-    <bean id="x509STSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
+    <bean id="mySTSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
         <property name="signaturePropertiesFile" value="stsKeystore.properties" />
         <property name="signatureUsername" value="mystskey" />
-        <property name="callbackHandlerClass"
-            value="sts.PasswordCallbackHandler" />
+        <property name="callbackHandlerClass" value="sts.PasswordCallbackHandler" />
         <property name="encryptionPropertiesFile" value="stsKeystore.properties" />
         <property name="issuer" value="DoubleItSTSIssuer" />
-        <property name="encryptionUsername" value="myservicekey" />
+        <property name="encryptionUsername" value="myservicekey"/>
     </bean>
 
-    <jaxws:endpoint id="X509STS" implementor="#x509STSProviderBean"
+    <!-- Uncomment below for UT authentication between WSC and STS -->
+    <!--jaxws:endpoint id="UTSTS" implementor="#mySTSProviderBean"
+        address="/UT" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
+        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+        serviceName="ns1:SecurityTokenService" endpointName="ns1:UT_Port">
+        <jaxws:properties>
+            <entry key="ws-security.callback-handler" value="sts.PasswordCallbackHandler" />
+            <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
+            <entry key="ws-security.signature.username" value="mystskey" />
+        </jaxws:properties>
+    </jaxws:endpoint-->
+
+    <!-- Uncomment below for X509 authentication between WSC and STS -->
+    <jaxws:endpoint id="X509STS" implementor="#mySTSProviderBean"
         address="/X509" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler"
-                value="sts.PasswordCallbackHandler" />
+            <entry key="ws-security.callback-handler" value="sts.PasswordCallbackHandler" />
             <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
             <entry key="ws-security.signature.username" value="mystskey" />
             <entry key="ws-security.encryption.username" value="useReqSigCert" />
@@ -74,3 +85,4 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     </jaxws:endpoint>
 
 </beans>
+

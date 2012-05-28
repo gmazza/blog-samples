@@ -4,7 +4,6 @@
     xmlns:wstrust="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
     xmlns:wsap10="http://www.w3.org/2006/05/addressing/wsdl"
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
     xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
@@ -187,76 +186,6 @@
         </wsdl:operation>
     </wsdl:binding>
 
-    <wsdl:binding name="X509_Binding_soap12" type="wstrust:STS">
-        <wsp:PolicyReference URI="#X509_policy" />
-        <soap12:binding style="document"
-            transport="http://schemas.xmlsoap.org/soap/http" />
-        <wsdl:operation name="Issue">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" />
-            <wsdl:input>
-                <wsp:PolicyReference URI="#Input_policy" />
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <wsp:PolicyReference URI="#Output_policy" />
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="Validate">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Validate" />
-            <wsdl:input>
-                <wsp:PolicyReference URI="#Input_policy" />
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <wsp:PolicyReference URI="#Output_policy" />
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="Cancel">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel" />
-            <wsdl:input>
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="Renew">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew" />
-            <wsdl:input>
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="KeyExchangeToken">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/KeyExchangeToken" />
-            <wsdl:input>
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="RequestCollection">
-            <soap12:operation
-                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/RequestCollection" />
-            <wsdl:input>
-                <soap12:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-    </wsdl:binding>
-
     <wsp:Policy wsu:Id="X509_policy">
         <wsp:ExactlyOne>
             <wsp:All>
@@ -321,6 +250,141 @@
         </wsp:ExactlyOne>
     </wsp:Policy>
 
+    <wsdl:binding name="UT_Binding" type="wstrust:STS">
+        <wsp:PolicyReference URI="#UT_policy" />
+        <soap:binding style="document"
+            transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="Issue">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" />
+            <wsdl:input>
+                <wsp:PolicyReference URI="#Input_policy" />
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <wsp:PolicyReference URI="#Output_policy" />
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Validate">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Validate" />
+            <wsdl:input>
+                <wsp:PolicyReference URI="#Input_policy" />
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <wsp:PolicyReference URI="#Output_policy" />
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Cancel">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Renew">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="KeyExchangeToken">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/KeyExchangeToken" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RequestCollection">
+            <soap:operation
+                soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/RequestCollection" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+  <wsp:Policy wsu:Id="UT_policy">
+      <wsp:ExactlyOne>
+         <wsp:All>
+            <wsap10:UsingAddressing/>
+            <sp:SymmetricBinding
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+               <wsp:Policy>
+                  <sp:ProtectionToken>
+                     <wsp:Policy>
+                        <sp:X509Token
+                           sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+                           <wsp:Policy>
+                              <sp:RequireDerivedKeys />
+                              <sp:RequireThumbprintReference />
+                              <sp:WssX509V3Token10 />
+                           </wsp:Policy>
+                        </sp:X509Token>
+                     </wsp:Policy>
+                  </sp:ProtectionToken>
+                  <sp:AlgorithmSuite>
+                     <wsp:Policy>
+                        <sp:Basic128 />
+                     </wsp:Policy>
+                  </sp:AlgorithmSuite>
+                  <sp:Layout>
+                     <wsp:Policy>
+                        <sp:Lax />
+                     </wsp:Policy>
+                  </sp:Layout>
+                  <sp:IncludeTimestamp />
+                  <sp:EncryptSignature />
+                  <sp:OnlySignEntireHeadersAndBody />
+               </wsp:Policy>
+            </sp:SymmetricBinding>
+            <sp:SignedSupportingTokens
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+               <wsp:Policy>
+                  <sp:UsernameToken
+                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                     <wsp:Policy>
+                        <sp:WssUsernameToken10 />
+                     </wsp:Policy>
+                  </sp:UsernameToken>
+               </wsp:Policy>
+            </sp:SignedSupportingTokens>
+            <sp:Wss11
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+               <wsp:Policy>
+                  <sp:MustSupportRefKeyIdentifier />
+                  <sp:MustSupportRefIssuerSerial />
+                  <sp:MustSupportRefThumbprint />
+                  <sp:MustSupportRefEncryptedKey />
+               </wsp:Policy>
+            </sp:Wss11>
+            <sp:Trust13
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+               <wsp:Policy>
+                  <sp:MustSupportIssuedTokens />
+                  <sp:RequireClientEntropy />
+                  <sp:RequireServerEntropy />
+               </wsp:Policy>
+            </sp:Trust13>
+         </wsp:All>
+      </wsp:ExactlyOne>
+   </wsp:Policy>
 
     <wsp:Policy wsu:Id="Input_policy">
         <wsp:ExactlyOne>
@@ -381,8 +445,11 @@
     </wsp:Policy>
 
     <wsdl:service name="SecurityTokenService">
-        <wsdl:port name="X509_Port" binding="tns:X509_Binding_soap12">
-            <soap12:address location="dummy_value" />
+        <!--wsdl:port name="UT_Port" binding="tns:UT_Binding">
+            <soap:address location="http://localhost:8080/DoubleItSTS/UT?wsdl" />
+        </wsdl:port-->
+        <wsdl:port name="X509_Port" binding="tns:X509_Binding">
+            <soap:address location="http://localhost:8080/DoubleItSTS/X509?wsdl" />
         </wsdl:port>
     </wsdl:service>
 
