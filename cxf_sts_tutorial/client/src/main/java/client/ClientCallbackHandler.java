@@ -13,18 +13,21 @@ public class ClientCallbackHandler implements CallbackHandler {
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof WSPasswordCallback) {
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                // below usually only if using X.509 authentication
-                if ("myclientkey".equals(pc.getIdentifier())) {
-                    pc.setPassword("ckpass");
-                    break;
-                } // below if using UsernameToken authentication
-                  else if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
-                    break;
+                if (pc.getUsage() == WSPasswordCallback.DECRYPT || 
+                    pc.getUsage() == WSPasswordCallback.SIGNATURE) {
+                    // typically X.509 auth only
+                    if ("myclientkey".equals(pc.getIdentifier())) {
+                        pc.setPassword("ckpass");
+                    }
+                } else if (pc.getUsage() == WSPasswordCallback.USERNAME_TOKEN) {
+                    // UsernameToken auth only
+                    if ("alice".equals(pc.getIdentifier())) {
+                        pc.setPassword("clarinet");
+                    }
                 }
-
             }
         }
     }
+
 }
 
