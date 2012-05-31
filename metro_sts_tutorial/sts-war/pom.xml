@@ -8,7 +8,7 @@
       <artifactId>metro-sts-tutorial</artifactId>
       <version>1.0-SNAPSHOT</version>
    </parent>
-   <artifactId>metro-x509-profile-stswar</artifactId>
+   <artifactId>metro-sts-tutorial-stswar</artifactId>
    <name>${stswar.module.name}</name>
    <packaging>war</packaging>
 

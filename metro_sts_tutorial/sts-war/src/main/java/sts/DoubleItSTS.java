@@ -17,8 +17,8 @@ import javax.xml.ws.handler.MessageContext;
  *
  * @author gmazza
  */
-@WebServiceProvider(serviceName = "DoubleItSTSService", 
-        portName = "IDoubleItSTSService_Port", 
+@WebServiceProvider(serviceName = "SecurityTokenService", 
+        portName = "STS_Port", 
         targetNamespace = "http://tempuri.org/", 
         wsdlLocation = "WEB-INF/wsdl/DoubleItSTSService.wsdl")
 @ServiceMode(value = Mode.PAYLOAD)

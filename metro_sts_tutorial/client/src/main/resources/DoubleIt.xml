@@ -59,7 +59,7 @@
          <wsp:All>
             <sc1:KeyStore wspp:visibility="private" alias="myclientkey" keypass="ckpass" storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
             <sc1:TrustStore wspp:visibility="private" peeralias="myservicekey" storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
-            <tc:PreconfiguredSTS wspp:visibility="private" endpoint="http://localhost:8080/DoubleItSTS/DoubleItSTSService" wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"/>
+            <tc:PreconfiguredSTS wspp:visibility="private" endpoint="http://localhost:8080/DoubleItSTS/STS" wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"/>
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>

@@ -1,4 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.1 (branches/2.1-6728; 2011-02-03T14:14:58+0000) JAXWS-RI/2.2.3 JAXWS/2.2. --><!--
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
  Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
@@ -41,55 +43,94 @@ to extend the choice of license to its licensees as provided above.
 However, if you add GPL Version 2 code and therefore, elected the GPL
 Version 2 license, then the option applies only if the new code is
 made subject to such option by the copyright holder.
---><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:i0="http://xmlsoap.org/DAB" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:q1="http://schemas.message.com/Message" xmlns:q2="http://schemas.message.com/Message" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy" name="DoubleItSTSService" targetNamespace="http://tempuri.org/" xmlns:sc1="http://schemas.sun.com/2006/03/wss/client">
-	<wsdl:types>
-		<xsd:schema targetNamespace="http://tempuri.org/Imports">
-			<xsd:import schemaLocation="http://localhost:8080/DoubleItSTS/DoubleItSTSService?xsd=1" namespace="http://schemas.message.com/Message" />
-		</xsd:schema>
-	</wsdl:types>
-    <wsdl:message name="IDoubleItSTSService_IssueToken_InputMessage">
+-->
+
+<wsdl:definitions targetNamespace="http://tempuri.org/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:tns="http://tempuri.org/" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:q1="http://schemas.message.com/Message" 
+    xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" 
+    xmlns:sc1="http://schemas.sun.com/2006/03/wss/client" 
+    xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy">
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://schemas.message.com/Message">
+            <xsd:complexType name="MessageBody">
+                <xsd:sequence>
+                    <xsd:any minOccurs="0" maxOccurs="unbounded" namespace="##any" />
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="IssueToken_InputMessage">
         <wsdl:part name="rstMessage" type="q1:MessageBody" />
-	</wsdl:message>
-	<wsdl:message name="IDoubleItSTSService_IssueToken_OutputMessage">
-        <wsdl:part name="IssueTokenResult" type="q2:MessageBody" />
-	</wsdl:message>
-	<wsdl:portType name="IDoubleItSTSService">
-		<wsdl:operation name="IssueToken">
-			<wsdl:input wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" message="tns:IDoubleItSTSService_IssueToken_InputMessage" />
-			<wsdl:output wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal" message="tns:IDoubleItSTSService_IssueToken_OutputMessage" />
-		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:binding name="IDoubleItSTSService_Binding" type="tns:IDoubleItSTSService">
-	 <wsp:PolicyReference URI="#IDoubleItSTSService_BindingPolicy"/>
-	 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="IssueToken">
-		 <soap:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" style="document" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
-			</wsdl:output>
-		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:service name="DoubleItSTSService">
-		<wsdl:port name="IDoubleItSTSService_Port" binding="tns:IDoubleItSTSService_Binding">
-            <soap:address location="http://localhost:8080/DoubleItSTS/DoubleItSTSService" />
+    </wsdl:message>
+
+    <wsdl:message name="IssueToken_OutputMessage">
+        <wsdl:part name="IssueTokenResult" type="q1:MessageBody" />
+    </wsdl:message>
+
+    <wsdl:portType name="STSService">
+        <wsdl:operation name="IssueToken">
+            <wsdl:input wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue"
+                message="tns:IssueToken_InputMessage" />
+            <wsdl:output wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal"
+                message="tns:IssueToken_OutputMessage" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="UT_Binding" type="tns:STSService">
+        <wsp:PolicyReference URI="#UT_policy" />
+    </wsdl:binding>
+
+    <wsdl:binding name="X509_Binding" type="tns:STSService">
+        <wsp:PolicyReference URI="#X509_policy" />
+    </wsdl:binding>
+
+    <wsp:Policy wsu:Id="UT_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sc1:TrustStore wspp:visibility="private" peeralias="mystskey"
+                    storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
+                <sc1:CallbackHandlerConfiguration wspp:visibility="private"> 
+                    <sc1:CallbackHandler default="alice" name="usernameHandler"/> 
+                    <sc1:CallbackHandler default="clarinet" name="passwordHandler"/> 
+                </sc1:CallbackHandlerConfiguration>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+
+    <wsp:Policy wsu:Id="X509_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sc1:KeyStore wspp:visibility="private" storepass="cspass" alias="myclientkey"
+                    keypass="ckpass" type="JKS" location="${keystore.dir}/clientstore.jks" />
+                <sc1:TrustStore wspp:visibility="private" peeralias="mystskey"
+                    storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks" />
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+
+    <wsdl:service name="SecurityTokenService">
+        <wsdl:port name="STS_Port" binding="tns:UT_Binding">
+            <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
             <jaxws:bindings>
                 <jaxws:provider>true</jaxws:provider>
             </jaxws:bindings>
-		</wsdl:port>
-	</wsdl:service>
- <wsp:Policy wsu:Id="IDoubleItSTSService_BindingPolicy">
-  <wsp:ExactlyOne>
-   <wsp:All>
-    <sc1:KeyStore wspp:visibility="private" storepass="cspass" alias="myclientkey" keypass="ckpass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
-    <sc1:TrustStore wspp:visibility="private" peeralias="mystskey" storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
-    <!--sc1:CallbackHandlerConfiguration wspp:visibility="private">
-     <sc1:CallbackHandler default="alice" name="usernameHandler"/>
-     <sc1:CallbackHandler default="clarinet" name="passwordHandler"/>
-    </sc1:CallbackHandlerConfiguration-->
-   </wsp:All>
-  </wsp:ExactlyOne>
- </wsp:Policy>
+        </wsdl:port>
+        <!--wsdl:port name="STS_Port" binding="tns:X509_Binding">
+            <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
+            <jaxws:bindings>
+                <jaxws:provider>true</jaxws:provider>
+            </jaxws:bindings>
+        </wsdl:port-->
+    </wsdl:service>
+
 </wsdl:definitions>
