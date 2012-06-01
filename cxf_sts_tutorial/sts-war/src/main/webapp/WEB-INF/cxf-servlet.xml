@@ -59,28 +59,20 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
         <property name="encryptionUsername" value="myservicekey"/>
     </bean>
 
-    <!-- Uncomment below for UT authentication between WSC and STS -->
-    <!--jaxws:endpoint id="UTSTS" implementor="#mySTSProviderBean"
-        address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
-        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
-        serviceName="ns1:SecurityTokenService" endpointName="ns1:UT_Port">
-        <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="sts.PasswordCallbackHandler" />
-            <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
-            <entry key="ws-security.signature.username" value="mystskey" />
-        </jaxws:properties>
-    </jaxws:endpoint-->
-
     <!-- Uncomment below for X509 authentication between WSC and STS -->
-    <jaxws:endpoint id="X509STS" implementor="#mySTSProviderBean"
+    <jaxws:endpoint id="CXFSTS" implementor="#mySTSProviderBean"
         address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
-        serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port">
+        serviceName="ns1:SecurityTokenService" endpointName="ns1:STS_Port">
         <jaxws:properties>
             <entry key="ws-security.callback-handler" value="sts.PasswordCallbackHandler" />
             <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
             <entry key="ws-security.signature.username" value="mystskey" />
+            <!-- Below unused/unneeded if using UT auth between WSC and STS -->
             <entry key="ws-security.encryption.username" value="useReqSigCert" />
+            <!-- Uncomment below only if (1) using UT auth *and* (2) Metro clients -->
+            <!-- Needed due to lack of TokenType param (Metro bugs WSIT-1324 and WSIT-1570) -->
+            <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
         </jaxws:properties>
     </jaxws:endpoint>
 
