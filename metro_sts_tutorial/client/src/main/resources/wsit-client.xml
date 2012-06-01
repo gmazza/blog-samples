@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="mainclientconfig" 
     xmlns="http://schemas.xmlsoap.org/wsdl/"
-    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     
     <import location="DoubleItSTSService.xml" namespace="http://tempuri.org/" />
     <import location="DoubleIt.xml" namespace="http://www.example.org/contract/DoubleIt" />
