@@ -61,7 +61,7 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- Uncomment below for UT authentication between WSC and STS -->
     <!--jaxws:endpoint id="UTSTS" implementor="#mySTSProviderBean"
-        address="/UT" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
+        address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService" endpointName="ns1:UT_Port">
         <jaxws:properties>
@@ -73,7 +73,7 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- Uncomment below for X509 authentication between WSC and STS -->
     <jaxws:endpoint id="X509STS" implementor="#mySTSProviderBean"
-        address="/X509" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
+        address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port">
         <jaxws:properties>

@@ -14,7 +14,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
            <!--entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/UT?wsdl"/>
+                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/STS?wsdl"/>
                    <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService"/>
                    <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port"/>
                    <property name="properties">
@@ -31,7 +31,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/X509?wsdl"/>
+                   <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/STS?wsdl"/>
                    <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService"/>
                    <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}X509_Port"/>
                    <property name="properties">

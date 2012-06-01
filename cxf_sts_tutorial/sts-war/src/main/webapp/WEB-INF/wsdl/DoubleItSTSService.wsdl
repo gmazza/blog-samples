@@ -14,11 +14,6 @@
         <xs:schema elementFormDefault="qualified"
             targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512'>
 
-            <xs:element name='RequestSecurityToken'
-                type='wst:AbstractRequestSecurityTokenType' />
-            <xs:element name='RequestSecurityTokenResponse'
-                type='wst:AbstractRequestSecurityTokenType' />
-
             <xs:complexType name='AbstractRequestSecurityTokenType'>
                 <xs:sequence>
                     <xs:any namespace='##any' processContents='lax'
@@ -29,6 +24,12 @@
                 <xs:anyAttribute namespace='##other'
                     processContents='lax' />
             </xs:complexType>
+            
+            <xs:element name='RequestSecurityToken'
+                type='wst:AbstractRequestSecurityTokenType' />
+            <xs:element name='RequestSecurityTokenResponse'
+                type='wst:AbstractRequestSecurityTokenType' />
+
             <xs:element name='RequestSecurityTokenCollection'
                 type='wst:RequestSecurityTokenCollectionType' />
             <xs:complexType name='RequestSecurityTokenCollectionType'>
@@ -446,10 +447,10 @@
 
     <wsdl:service name="SecurityTokenService">
         <!--wsdl:port name="UT_Port" binding="tns:UT_Binding">
-            <soap:address location="http://localhost:8080/DoubleItSTS/UT?wsdl" />
+            <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
         </wsdl:port-->
         <wsdl:port name="X509_Port" binding="tns:X509_Binding">
-            <soap:address location="http://localhost:8080/DoubleItSTS/X509?wsdl" />
+            <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
         </wsdl:port>
     </wsdl:service>
 

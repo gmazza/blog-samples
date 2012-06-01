@@ -84,12 +84,12 @@
                               <sp:RequireInternalReference/>
                            </wsp:Policy>
                            <sp:Issuer>
-                              <wsaw:Address>http://localhost:8080/DoubleItSTS/DoubleItSTSServiceUT</wsaw:Address>
+                              <wsaw:Address>http://localhost:8080/DoubleItSTS/STS</wsaw:Address>
                               <wsaw:Metadata>
                                  <wsx:Metadata>
                                     <wsx:MetadataSection>
                                        <wsx:MetadataReference>
-                                          <wsaw:Address>http://localhost:8080/DoubleItSTS/DoubleItSTSServiceUT/mex</wsaw:Address>
+                                          <wsaw:Address>http://localhost:8080/DoubleItSTS/STS/mex</wsaw:Address>
                                        </wsx:MetadataReference>
                                     </wsx:MetadataSection>
                                  </wsx:Metadata>
