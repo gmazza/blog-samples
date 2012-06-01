@@ -19,7 +19,7 @@ import javax.xml.ws.handler.MessageContext;
  */
 @WebServiceProvider(serviceName = "SecurityTokenService", 
         portName = "STS_Port", 
-        targetNamespace = "http://tempuri.org/", 
+        targetNamespace = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/", 
         wsdlLocation = "WEB-INF/wsdl/DoubleItSTSService.wsdl")
 @ServiceMode(value = Mode.PAYLOAD)
 public class DoubleItSTS extends com.sun.xml.ws.security.trust.sts.BaseSTSImpl 

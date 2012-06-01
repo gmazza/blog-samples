@@ -45,7 +45,7 @@ Version 2 license, then the option applies only if the new code is
 made subject to such option by the copyright holder.
 -->
 
-<wsdl:definitions targetNamespace="http://tempuri.org/"
+<wsdl:definitions targetNamespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
     xmlns="http://schemas.xmlsoap.org/wsdl/" 
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
@@ -54,7 +54,7 @@ made subject to such option by the copyright holder.
     xmlns:i0="http://xmlsoap.org/DAB" 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
     xmlns:wsp="http://www.w3.org/ns/ws-policy"
-    xmlns:tns="http://tempuri.org/" 
+    xmlns:tns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
     xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
     xmlns:q1="http://schemas.message.com/Message" 
@@ -260,18 +260,19 @@ made subject to such option by the copyright holder.
                                 </sp:X509Token>
                             </wsp:Policy>
                         </sp:RecipientToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256 />
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
                         <sp:Layout>
                             <wsp:Policy>
                                 <sp:Strict />
                             </wsp:Policy>
                         </sp:Layout>
                         <sp:IncludeTimestamp />
+                        <sp:EncryptSignature />
                         <sp:OnlySignEntireHeadersAndBody />
-                        <sp:AlgorithmSuite>
-                            <wsp:Policy>
-                                <sp:Basic256 />
-                            </wsp:Policy>
-                        </sp:AlgorithmSuite>
                     </wsp:Policy>
                 </sp:AsymmetricBinding>
                 <sp:Wss10>
@@ -336,18 +337,13 @@ made subject to such option by the copyright holder.
     </wsp:Policy>
 
     <wsdl:service name="SecurityTokenService">
+        <!--wsdl:port binding="tns:X509_Binding" name="STS_Port"-->
         <wsdl:port binding="tns:UT_Binding" name="STS_Port">
             <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
             <jaxws:bindings>
                 <jaxws:provider>true</jaxws:provider>
             </jaxws:bindings>
         </wsdl:port>
-        <!--wsdl:port binding="tns:X509_Binding" name="STS_Port">
-            <soap:address location="http://localhost:8080/DoubleItSTS/STS" />
-            <jaxws:bindings>
-                <jaxws:provider>true</jaxws:provider>
-            </jaxws:bindings>
-        </wsdl:port-->
     </wsdl:service>
 
 </wsdl:definitions>
