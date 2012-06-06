@@ -22,6 +22,7 @@
         <module>metro_x509_profile</module>
         <module>cxf_sts_tutorial</module>
         <module>metro_sts_tutorial</module>
+        <module>opensaml_with_web_services</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  

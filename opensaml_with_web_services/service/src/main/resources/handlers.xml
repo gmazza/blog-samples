@@ -1,0 +1,9 @@
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+    <handler-chain>
+       <handler>
+           <handler-name>ServiceSOAPHandler</handler-name>
+           <handler-class>service.ServiceSAMLHandler</handler-class>
+       </handler>
+    </handler-chain>
+</handler-chains>
+
