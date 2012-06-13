@@ -88,7 +88,6 @@ public class WSClientTest {
       URL wsdlLocation = ClassLoader.getSystemResource("ShoppingService.wsdl");
       QName service = new QName("urn:ebay:apis:eBLBaseComponents", "Shopping");
       ShoppingInterface port = new Shopping(wsdlLocation, service).getShopping();
-      System.out.println("******* port is " + port == null ? "null" : "not null");
       BindingProvider bp = (BindingProvider) port;
       bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
             address);
