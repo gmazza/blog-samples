@@ -23,6 +23,7 @@
         <module>cxf_sts_tutorial</module>
         <module>metro_sts_tutorial</module>
         <module>opensaml_with_web_services</module>
+        <module>junit_for_soap_clients</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -34,6 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cxf.version>2.6.0</cxf.version>
         <spring.version>3.0.6.RELEASE</spring.version>
+        <slf4j.version>1.6.2</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
         <stswar.module.name>-- STS WAR file</stswar.module.name>
@@ -78,6 +80,11 @@
                 <version>${cxf.version}</version>
             </dependency>
             <dependency>
+               <groupId>org.apache.cxf</groupId>
+               <artifactId>cxf-rt-transports-http-jetty</artifactId>
+               <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.cxf.services.sts</groupId>
                 <artifactId>cxf-services-sts-core</artifactId>
                 <version>${cxf.version}</version>
@@ -90,17 +97,28 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
-                <version>1.6.1</version>
+                <version>${slf4j.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <!-- 
                  See http://metro.java.net/guide/Using_Mavenized_Metro_Binaries.html  
                  for more Metro/Maven config info 
             -->
             <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-               <version>2.2</version>
+                <groupId>org.glassfish.metro</groupId>
+                <artifactId>webservices-rt</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
