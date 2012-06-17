@@ -27,10 +27,10 @@
         </dependency>
     </dependencies>
 
-    <!-- mvn exec:exec to run SOAP client, see blog-samples/pom.xml
-         for this plugin's configuration -->
     <build>
         <plugins>
+            <!-- mvn exec:exec to run SOAP client, see blog-samples/pom.xml
+                 for this plugin's configuration -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

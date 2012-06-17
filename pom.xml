@@ -24,6 +24,7 @@
         <module>metro_sts_tutorial</module>
         <module>opensaml_with_web_services</module>
         <module>junit_for_soap_clients</module>
+        <module>junit_web_service_testing</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -33,7 +34,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.6.0</cxf.version>
+        <cxf.version>2.6.1</cxf.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <slf4j.version>1.6.2</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
@@ -146,7 +147,7 @@
                 <configuration>
                     <downloadSources>true</downloadSources>
                     <!--downloadJavadocs>true</downloadJavadocs-->
-                    <!--useProjectReferences>false</useProjectReferences-->
+                    <useProjectReferences>false</useProjectReferences>
                 </configuration>
             </plugin>
         </plugins>

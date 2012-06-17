@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza</groupId>
+      <artifactId>blog-samples</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <groupId>org.gmazza.blog-samples.junit-web-service-testing</groupId>
+   <artifactId>junit-web-service-testing</artifactId>
+   <packaging>pom</packaging>
+   <name>Tutorial: Testing WSP's with JUnit</name>
+   <url>http://www.jroller.com/gmazza/entry/junit_web_service_testing</url>
+
+   <dependencies>
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+      </dependency>
+   </dependencies>
+
+   <modules>
+      <module>service</module>
+      <module>war</module>
+      <module>client</module>
+   </modules>
+
+   <profiles>
+      <profile>
+         <id>CXF</id>
+         <!-- To use Metro by default, move activation element to its profile below  -->
+         <activation>
+            <activeByDefault>true</activeByDefault>
+         </activation>
+         <dependencies>
+            <dependency>
+               <groupId>org.apache.cxf</groupId>
+               <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.cxf</groupId>
+               <artifactId>cxf-rt-transports-http</artifactId>
+            </dependency>
+         </dependencies>
+      </profile>
+
+      <profile>
+         <id>Metro</id>
+         <dependencies>
+            <dependency>
+               <groupId>org.glassfish.metro</groupId>
+               <artifactId>webservices-rt</artifactId>
+            </dependency>
+         </dependencies>
+      </profile>
+   </profiles>
+
+</project>
+

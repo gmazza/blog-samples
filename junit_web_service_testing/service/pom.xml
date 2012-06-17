@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza.blog-samples.junit-web-service-testing</groupId>
+      <artifactId>junit-web-service-testing</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>junit-web-service-testing-service</artifactId>
+   <name>${wsp.module.name}</name>
+   <packaging>jar</packaging>
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+               <descriptors>
+                  <descriptor>src/assembly/jaxws-jar.xml</descriptor>
+               </descriptors>
+            </configuration>
+         </plugin>
+      </plugins>
+      <!-- Name of the generated WAR file -->
+      <finalName>doubleit</finalName>
+   </build>
+
+   <profiles>
+      <profile>
+         <id>CXF</id>
+         <!-- To use Metro, move below activation element to its profile -->
+         <activation>
+            <activeByDefault>true</activeByDefault>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.cxf</groupId>
+                  <artifactId>cxf-codegen-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <configuration>
+                           <wsdlOptions>
+                              <wsdlOption>
+                                 <wsdl>
+                                    ${basedir}/src/main/resources/DoubleIt.wsdl
+                                 </wsdl>
+                              </wsdlOption>
+                           </wsdlOptions>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>maven-bundle-plugin</artifactId>
+                  <configuration>
+                     <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+                        <Export-Package>service</Export-Package>
+                     </instructions>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+         <dependencies>
+            <!-- Use following dependency if testing w/Endpoint Class -->
+            <dependency>
+               <groupId>org.apache.cxf</groupId>
+               <artifactId>cxf-rt-transports-http-jetty</artifactId>
+               <scope>test</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+
+      <profile>
+         <id>Metro</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.jvnet.jax-ws-commons</groupId>
+                  <artifactId>jaxws-maven-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <configuration>
+                           <wsdlDirectory>
+                              src/main/resources
+                           </wsdlDirectory>
+                           <wsdlFiles>
+                              <wsdlFile>DoubleIt.wsdl</wsdlFile>
+                           </wsdlFiles>
+                           <sourceDestDir>
+                              ${basedir}/target/generated-sources
+                           </sourceDestDir>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+         <dependencies>
+            <!-- Use following dependency if testing w/Endpoint Class -->
+            <dependency>
+               <groupId>javax.servlet</groupId>
+               <artifactId>servlet-api</artifactId>
+               <version>2.5</version>
+               <scope>test</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+   </profiles>
+</project>
+
