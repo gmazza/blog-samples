@@ -14,6 +14,7 @@ import org.apache.catalina.realm.MemoryRealm;
 /* To test with Tomcat instead of Jetty:
    rename this file to EmbeddedTomcatIT.java
    change extension of EmbeddedJettyIT.java to .txt
+   switch from the Jetty to Tomcat dependencies in war/pom.xml
 */
 public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
    protected static Embedded server;
