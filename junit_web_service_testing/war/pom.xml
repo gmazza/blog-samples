@@ -18,12 +18,26 @@
           <artifactId>junit-web-service-testing-service</artifactId>
           <version>1.0-SNAPSHOT</version>
       </dependency>
-      <dependency>
+      <!-- Use the below dependency if testing with embedded Jetty -->
+      <!--dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-webapp</artifactId>
          <version>8.1.4.v20120524</version>
          <scope>test</scope>
+      </dependency-->
+      <!-- Use the below dependencies if testing with embedded Tomcat -->
+      <dependency>
+         <groupId>org.apache.tomcat</groupId>
+         <artifactId>catalina</artifactId>
+         <version>6.0.29</version>
+         <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.apache.tomcat</groupId>
+         <artifactId>coyote</artifactId>
+         <version>6.0.29</version>
+         <scope>test</scope>
+       </dependency>
    </dependencies>
 
    <build>

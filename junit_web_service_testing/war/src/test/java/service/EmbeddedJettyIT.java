@@ -31,7 +31,6 @@ public class EmbeddedJettyIT extends DoubleItPortTypeImplTest {
       // com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true;      
       
       WebAppContext wactx = new WebAppContext();
-      wactx.setParentLoaderPriority(true);
       wactx.setContextPath("/doubleit");
       wactx.setWar("target/doubleit.war");
 
