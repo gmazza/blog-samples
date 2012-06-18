@@ -1,0 +1,12 @@
+package service;
+
+import java.net.URL;
+import org.junit.BeforeClass;
+
+public class StandaloneTomcatIT extends DoubleItPortTypeImplTest {
+
+   @BeforeClass
+   public static void setUp() throws Exception {
+      wsdlURL = new URL("http://localhost:8080/doubleit/services/doubleit?wsdl");
+   }
+}
