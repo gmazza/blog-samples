@@ -4,12 +4,9 @@ import java.net.URL;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.Engine;
-import org.apache.catalina.Host;
-import org.apache.catalina.connector.Connector;
-import org.apache.catalina.startup.Embedded;
-import org.apache.catalina.realm.MemoryRealm;
+import org.apache.catalina.core.AprLifecycleListener;
+import org.apache.catalina.core.StandardServer;
+import org.apache.catalina.startup.Tomcat;
 
 /* To test with Tomcat instead of Jetty:
    rename this file to EmbeddedTomcatIT.java
@@ -17,7 +14,7 @@ import org.apache.catalina.realm.MemoryRealm;
    switch from the Jetty to Tomcat dependencies in war/pom.xml
 */
 public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
-   protected static Embedded server;
+   protected static Tomcat tomcat;
    protected static String address;
 
    @BeforeClass
@@ -25,33 +22,27 @@ public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
       address = "http://localhost:9001/doubleit/services/doubleit";
       wsdlURL = new URL(address + "?wsdl");
 
-      server = new Embedded();
-      // server.setRealm(new MemoryRealm()); // if using the tomcat-users.xml
-      // file.
-      Engine baseEngine = server.createEngine();
-      baseEngine.setDefaultHost("doubleItHost");
-      Host baseHost = server.createHost("doubleItHost",
-            "/data/workspace/blog-samples/junit_web_service_testing/war/target");
-      baseEngine.addChild(baseHost);
-      Context appCtx = server.createContext("/doubleit", "doubleit");
-      baseHost.addChild(appCtx);
-      server.addEngine(baseEngine);
-      Connector httpConnector = server.createConnector(
-            (java.net.InetAddress) null, 9001, false);
-      server.addConnector(httpConnector);
+      String appBase = "./target";
+      tomcat = new Tomcat();
+      tomcat.setPort(9001);
+      tomcat.setBaseDir(".");
+      tomcat.getHost().setAppBase(appBase);
+      
+      // Add AprLifecycleListener
+      StandardServer server = (StandardServer)tomcat.getServer();
+      AprLifecycleListener listener = new AprLifecycleListener();
+      server.addLifecycleListener(listener);
 
-      try {
-         server.start();
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
+      tomcat.addWebapp("/doubleit", "doubleit.war");
+      tomcat.start();
    }
 
    @AfterClass
    public static void tearDown() throws Exception {
-      if (server != null) {
-         server.stop();
-         server = null;
+      if (tomcat != null) {
+         tomcat.stop();
+         tomcat.destroy();
+         tomcat = null;
       }
    }
 }
