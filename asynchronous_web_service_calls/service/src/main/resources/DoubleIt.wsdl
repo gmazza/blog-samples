@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DoubleIt"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+   xmlns:di="http://www.example.org/schema/DoubleIt"
+   xmlns:tns="http://www.example.org/contract/DoubleIt" 
+   targetNamespace="http://www.example.org/contract/DoubleIt">
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://www.example.org/schema/DoubleIt">
+         <xsd:element name="SubmitDoubleIt">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="numberToDouble" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="SubmitDoubleItResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="correlationId" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="GetDoubleItResults">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="correlationId" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="GetDoubleItResultsResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="correlationId" type="xsd:int" />
+                  <xsd:element name="complete" type="xsd:boolean" />
+                  <xsd:element name="doubledNumber" type="xsd:int" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="BasicFault">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="errorDetails" type="xsd:string" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="SubmitDoubleItRequest">
+      <wsdl:part element="di:SubmitDoubleIt" name="parameters" />
+   </wsdl:message>
+   <wsdl:message name="SubmitDoubleItResponse">
+      <wsdl:part element="di:SubmitDoubleItResponse" name="parameters" />
+   </wsdl:message>
+   <wsdl:message name="GetDoubleItResultsRequest">
+      <wsdl:part element="di:GetDoubleItResults" name="parameters" />
+   </wsdl:message>
+   <wsdl:message name="GetDoubleItResultsResponse">
+      <wsdl:part element="di:GetDoubleItResultsResponse" name="parameters" />
+   </wsdl:message>
+   <wsdl:message name="CorrelationIdNotFoundFault">
+      <wsdl:part element="di:BasicFault" name="BasicFault" />
+   </wsdl:message>
+   <wsdl:portType name="DoubleItPortType">
+      <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+         <jaxws:enableWrapperStyle>false</jaxws:enableWrapperStyle>
+      </jaxws:bindings>
+      <wsdl:operation name="SubmitDoubleIt">
+         <wsdl:input message="tns:SubmitDoubleItRequest" />
+         <wsdl:output message="tns:SubmitDoubleItResponse" />
+      </wsdl:operation>
+      <wsdl:operation name="GetDoubleItResults">
+         <wsdl:input message="tns:GetDoubleItResultsRequest" />
+         <wsdl:output message="tns:GetDoubleItResultsResponse" />
+         <wsdl:fault message="tns:CorrelationIdNotFoundFault"
+            name="CorrelationIdNotFoundFault" />
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
+      <soap:binding style="document"
+         transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdl:operation name="SubmitDoubleIt">
+         <soap:operation soapAction="" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="GetDoubleItResults">
+         <soap:operation soapAction="" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+         <wsdl:fault name="CorrelationIdNotFoundFault">
+            <soap:fault name="CorrelationIdNotFoundFault"
+               use="literal" />
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="DoubleItService">
+      <wsdl:port name="DoubleItPort" binding="tns:DoubleItBinding">
+         <soap:address
+            location="http://localhost:8080/doubleit/services/doubleit" />
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions> 
