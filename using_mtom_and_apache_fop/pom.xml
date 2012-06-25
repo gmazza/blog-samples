@@ -8,11 +8,11 @@
       <artifactId>blog-samples</artifactId>
       <version>1.0-SNAPSHOT</version>
    </parent>
-   <groupId>org.gmazza.blog-samples.asynchronous_web_service_calls</groupId>
-   <artifactId>asynchronous_web_service_calls</artifactId>
+   <groupId>org.gmazza.blog-samples.using_mtom_and_apache_fop</groupId>
+   <artifactId>using_mtom_and_apache_fop</artifactId>
    <packaging>pom</packaging>
-   <name>Tutorial: Making Asynchronous Web Service Calls</name>
-   <url>http://www.jroller.com/gmazza/entry/asynchronous_web_service_calls</url>
+   <name>Tutorial: Using MTOM with Apache FOP</name>
+   <url>http://www.jroller.com/gmazza/entry/using_mtom_and_apache_fop</url>
 
    <modules>
       <module>service</module>

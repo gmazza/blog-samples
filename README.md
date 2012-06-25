@@ -11,5 +11,7 @@ Important notes:
 
 3.)  I've compiled and run the source code on JDK 7 without difficulty.  For JDK 6, CXF should be fine but the Metro samples will probably return compilation/deployment errors unless you update the jaxws-api.jar in your JDK (http://www.jroller.com/gmazza/entry/metro_usernametoken_profile#MetroUT2)
 
-4.)  The code samples may inadvertently have errors within them and are use-at-your-own-risk without any guarantees of security or reliability.  Thoroughly test all work for security holes before moving to production and don't use the supplied sample keys or passwords in production.
+4.)  To set up Tomcat so it will work with Maven commands such as mvn tomcat:deploy, tomcat:redeploy, etc., see here: http://www.jroller.com/gmazza/entry/web_service_tutorial#maventomcat.
+
+5.)  The code samples may inadvertently have errors within them and are use-at-your-own-risk without any guarantees of security or reliability.  Thoroughly test all work for security holes before moving to production and don't use the supplied sample keys or passwords in production.
 
