@@ -26,6 +26,7 @@
         <module>junit_for_soap_clients</module>
         <module>junit_web_service_testing</module>
         <module>asynchronous_web_service_calls</module>
+        <module>jaxws_handler_tutorial</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
