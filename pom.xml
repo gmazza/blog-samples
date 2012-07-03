@@ -27,6 +27,7 @@
         <module>junit_web_service_testing</module>
         <module>asynchronous_web_service_calls</module>
         <module>jaxws_handler_tutorial</module>
+        <module>jaxwshandlers_to_cxfinterceptors</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
