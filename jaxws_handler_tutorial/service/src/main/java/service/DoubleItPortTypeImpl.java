@@ -17,12 +17,11 @@ public class DoubleItPortTypeImpl implements DoubleItPortType {
    private WebServiceContext context;
 
    public int doubleIt(int numberToDouble) {
-      System.out.println("Context is " + ((context == null) ? "null" : "not null"));
-//    HandlerUtils.printMessageContext("Web Service Provider", context.getMessageContext());
+      HandlerUtils.printMessageContext("Web Service Provider", context.getMessageContext());
       // should fail (termOne has HANDLER scope)
-//    System.out.println("First Word: " + context.getMessageContext().get("termOne"));
+      System.out.println("First Word: " + context.getMessageContext().get("termOne"));
       // should succeed (termTwo has APPLICATION scope)
-//    System.out.println("Second Word: " + context.getMessageContext().get("termTwo"));
+      System.out.println("Second Word: " + context.getMessageContext().get("termTwo"));
       return numberToDouble * 2;
    }
 }
