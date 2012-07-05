@@ -15,6 +15,23 @@
    <packaging>jar</packaging>
    <url>http://www.jroller.com/gmazza/entry/customizing_jaxb_artifacts</url>
 
+   <properties>
+      <jaxb2.basics.version>0.6.3</jaxb2.basics.version>
+   </properties>
+
+   <dependencies>
+      <!-- Needed only when additional methods added by JAXB Basics Plugin 
+           into JAXB-generated classes (e.g., -XtoString) reference 
+           helper classes defined in JAXB2 Basics library, missing class
+           compilation errors will otherwise occur.
+      -->
+      <dependency>
+         <groupId>org.jvnet.jaxb2_commons</groupId>
+         <artifactId>jaxb2-basics-runtime</artifactId>
+         <version>${jaxb2.basics.version}</version>
+      </dependency>
+   </dependencies>
+
    <build>
       <plugins>
          <plugin>
@@ -37,7 +54,7 @@
    <profiles>
       <profile>
          <id>CXF</id>
-         <!-- To use Metro by default, move this activation element to its profile below  -->
+         <!-- To use Metro by default, move this activation element to its profile below or use -PMetro with all Maven commands -->
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
@@ -56,6 +73,13 @@
                <plugin>
                   <groupId>org.apache.cxf</groupId>
                   <artifactId>cxf-codegen-plugin</artifactId>
+                  <dependencies>
+                     <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2.basics.version}</version>
+                     </dependency>
+                  </dependencies>
                   <executions>
                      <execution>
                         <configuration>
@@ -66,9 +90,12 @@
                                     ${basedir}/src/main/resources/ShoppingService.wsdl
                                  </wsdl>
                                  <extraargs>
+                                    <!-- Below standard JAXB processing flags -->
                                     <extraarg>-xjc-Xlocator,-mark-generated</extraarg>
                                     <extraarg>-xjc-b,${basedir}/src/main/resources/sample.xjb</extraarg>
-                                    <extraarg>-xjc-extension</extraarg>
+                                    <!-- Below implemented by JAXB2 Basics Plugin -->
+                                    <extraarg>-xjc-XtoString</extraarg>
+                                    <extraarg>-xjc-Xinheritance</extraarg>
                                  </extraargs>
                               </wsdlOption>
                            </wsdlOptions>
@@ -92,6 +119,13 @@
                <plugin>
                   <groupId>org.jvnet.jax-ws-commons</groupId>
                   <artifactId>jaxws-maven-plugin</artifactId>
+                  <dependencies>
+                     <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2.basics.version}</version>
+                     </dependency>
+                  </dependencies>
                   <executions>
                      <execution>
                         <configuration>
@@ -101,11 +135,14 @@
                            </wsdlFiles>
                            <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
                            <xjcArgs>
+                              <!-- Below standard JAXB processing flags -->
                               <xjcArg>-mark-generated</xjcArg>
                               <xjcArg>-Xlocator</xjcArg>
                               <xjcArg>-b</xjcArg>
                               <xjcArg>${basedir}/src/main/resources/sample.xjb</xjcArg>
-                              <xjcArg>-extension</xjcArg>
+                              <!-- Below implemented by JAXB2 Basics Plugin -->
+                              <xjcArg>-XtoString</xjcArg>
+                              <xjcArg>-Xinheritance</xjcArg>
                            </xjcArgs>
                         </configuration>
                      </execution>

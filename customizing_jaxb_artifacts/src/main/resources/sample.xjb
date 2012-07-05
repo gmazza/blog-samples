@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <jaxb:bindings version="2.0" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance">
    <!--CXF -->
    <jaxb:bindings schemaLocation="ShoppingService.wsdl#types1" node="/xs:schema"> 
    <!--Metro -->
@@ -14,23 +15,25 @@
       </jaxb:globalBindings>
 
       <jaxb:schemaBindings>      
-         <jaxb:package name="com.mycompany.mysamples.abc"/>
+         <jaxb:package name="packagename.declared.injaxb.bindingfile"/>
       </jaxb:schemaBindings>
       
       <jaxb:bindings node="//xs:complexType[@name='CatalogProductType']">
-         <jaxb:class name="CatalogItemType">
-            <jaxb:javadoc><![CDATA[Sample class-level Javadoc comment.]]></jaxb:javadoc>
+         <jaxb:class name="MyRenamedCatalogProductType">
+            <jaxb:javadoc><![CDATA[Class-level Javadoc comment added by JAXB binding file.]]></jaxb:javadoc>
          </jaxb:class>
+         <inheritance:implements>java.lang.Cloneable</inheritance:implements>
+         <inheritance:implements>client.MyInterface</inheritance:implements>
       </jaxb:bindings>
       
       <jaxb:bindings node="//xs:complexType[@name='ErrorParameterType']">
          <jaxb:bindings node=".//xs:element[@name='Value']">
             <jaxb:property name="errorValue">
-               <jaxb:javadoc><![CDATA[Sample variable-level Javadoc comment.]]></jaxb:javadoc>
+               <jaxb:javadoc><![CDATA[Variable-level Javadoc comment added by JAXB binding file.]]></jaxb:javadoc>
             </jaxb:property>
          </jaxb:bindings>
          <jaxb:bindings node=".//xs:attribute[@name='ParamID']">
-            <jaxb:property name="paramIdentifier" />
+            <jaxb:property name="myParamOverrideID" />
          </jaxb:bindings>
       </jaxb:bindings>
       
