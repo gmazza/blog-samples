@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.0" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+   xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <!--CXF -->
+   <jaxb:bindings schemaLocation="ShoppingService.wsdl#types1" node="/xs:schema"> 
+   <!--Metro -->
+   <!--jaxb:bindings schemaLocation="ShoppingService.wsdl#types?schema1" 
+      node="/xs:schema"-->
+      <jaxb:globalBindings 
+         collectionType="java.util.ArrayList"
+         generateValueClass="true">
+         <jaxb:serializable uid="2" />
+      </jaxb:globalBindings>
+
+      <jaxb:schemaBindings>      
+         <jaxb:package name="com.mycompany.mysamples.abc"/>
+      </jaxb:schemaBindings>
+      
+      <jaxb:bindings node="//xs:complexType[@name='CatalogProductType']">
+         <jaxb:class name="CatalogItemType">
+            <jaxb:javadoc><![CDATA[Sample class-level Javadoc comment.]]></jaxb:javadoc>
+         </jaxb:class>
+      </jaxb:bindings>
+      
+      <jaxb:bindings node="//xs:complexType[@name='ErrorParameterType']">
+         <jaxb:bindings node=".//xs:element[@name='Value']">
+            <jaxb:property name="errorValue">
+               <jaxb:javadoc><![CDATA[Sample variable-level Javadoc comment.]]></jaxb:javadoc>
+            </jaxb:property>
+         </jaxb:bindings>
+         <jaxb:bindings node=".//xs:attribute[@name='ParamID']">
+            <jaxb:property name="paramIdentifier" />
+         </jaxb:bindings>
+      </jaxb:bindings>
+      
+   </jaxb:bindings>
+</jaxb:bindings>
+
