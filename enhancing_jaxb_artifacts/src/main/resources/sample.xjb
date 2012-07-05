@@ -3,9 +3,9 @@
    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance">
-   <!--CXF -->
+   <!-- Use below jaxb:bindings for CXF -->
    <jaxb:bindings schemaLocation="ShoppingService.wsdl#types1" node="/xs:schema"> 
-   <!--Metro -->
+   <!-- Use below jaxb:bindings for Metro -->
    <!--jaxb:bindings schemaLocation="ShoppingService.wsdl#types?schema1" 
       node="/xs:schema"-->
       <jaxb:globalBindings 
@@ -22,6 +22,7 @@
          <jaxb:class name="MyRenamedCatalogProductType">
             <jaxb:javadoc><![CDATA[Class-level Javadoc comment added by JAXB binding file.]]></jaxb:javadoc>
          </jaxb:class>
+         <!-- Inheritance JAXB plugin (http://tinyurl.com/7ndkha4) -->
          <inheritance:implements>java.lang.Cloneable</inheritance:implements>
          <inheritance:implements>client.MyInterface</inheritance:implements>
       </jaxb:bindings>
