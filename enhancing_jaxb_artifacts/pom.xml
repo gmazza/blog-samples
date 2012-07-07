@@ -11,7 +11,7 @@
 
    <groupId>org.gmazza.blog-samples.enhancing_jaxb_artifacts</groupId>
    <artifactId>enhancing_jaxb_artifacts</artifactId>
-   <name>Tutorial: enhancing JAXB-generated classes</name>
+   <name>Tutorial: Enhancing JAXB-generated classes</name>
    <packaging>jar</packaging>
    <url>http://www.jroller.com/gmazza/entry/enhancing_jaxb_artifacts</url>
 

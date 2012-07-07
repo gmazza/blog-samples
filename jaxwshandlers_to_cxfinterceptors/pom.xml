@@ -11,7 +11,7 @@
    <groupId>org.gmazza.blog-samples.jaxwshandlers_to_cxfinterceptors</groupId>
    <artifactId>jaxwshandlers_to_cxfinterceptors</artifactId>
    <packaging>pom</packaging>
-   <name>Tutorial: Switching from JAX-WS handlers to CXF interceptors</name>
+   <name>Tutorial: JAX-WS handlers --> CXF interceptors</name>
    <url>http://www.jroller.com/gmazza/entry/jaxwshandlers_to_cxfinterceptors</url>
 
    <modules>

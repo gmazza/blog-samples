@@ -29,6 +29,7 @@
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
         <module>enhancing_jaxb_artifacts</module>
+        <module>updating_databases_with_jaxws</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -130,6 +131,11 @@
                 <artifactId>junit</artifactId>
                 <version>4.8.2</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>10.9.1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
