@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData  http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+  version="2.0">
+    <schedule>
+        <job>
+            <name>DoubleItBatchDataJob</name>
+            <group>DoubleItQuartzJobs</group>
+            <description>First job for DoubleIt calls</description>
+            <job-class>myscheduler.DoubleItJob</job-class>
+            <job-data-map>
+                <entry>
+                    <key>JDNumberToDouble</key>
+                    <value>25</value>
+                </entry>
+            </job-data-map>
+        </job>
+        <trigger>
+            <cron>
+                <name>Trigger1</name>
+                <group>DoubleItQuartzJobs</group>
+                <description>Double a positive number...</description>
+                <job-name>DoubleItBatchDataJob</job-name>
+                <job-group>DoubleItQuartzJobs</job-group>
+                <job-data-map>
+                    <entry>
+                        <key>TNumberToDouble</key>
+                        <value>12</value>
+                    </entry>
+                </job-data-map>
+                <cron-expression>0 58 17 11 JUL ?</cron-expression>
+            </cron>
+        </trigger>
+        <trigger>
+            <cron>
+                <name>Trigger2</name>
+                <group>DoubleItQuartzJobs</group>
+                <description>Double a negative number...</description>
+                <job-name>DoubleItBatchDataJob</job-name>
+                <job-group>DoubleItQuartzJobs</job-group>
+                <job-data-map>
+                    <entry>
+                        <key>TNumberToDouble</key>
+                        <value>-12</value>
+                    </entry>
+                </job-data-map>
+                <cron-expression>0 00 18 11 JUL ?</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <!-- Add additional jobs here -->
+</job-scheduling-data>
+
