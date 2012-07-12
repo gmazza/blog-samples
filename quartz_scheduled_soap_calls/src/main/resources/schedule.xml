@@ -49,6 +49,5 @@
             </cron>
         </trigger>
     </schedule>
-    <!-- Add additional jobs here -->
 </job-scheduling-data>
 
