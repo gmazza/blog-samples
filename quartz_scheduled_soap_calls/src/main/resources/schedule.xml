@@ -11,7 +11,7 @@
             <job-class>myscheduler.DoubleItJob</job-class>
             <job-data-map>
                 <entry>
-                    <key>JDNumberToDouble</key>
+                    <key>JNumberToDouble</key>
                     <value>25</value>
                 </entry>
             </job-data-map>
@@ -29,7 +29,7 @@
                         <value>12</value>
                     </entry>
                 </job-data-map>
-                <cron-expression>0 58 17 11 JUL ?</cron-expression>
+                <cron-expression>0 55 22 11 JUL ?</cron-expression>
             </cron>
         </trigger>
         <trigger>
@@ -45,7 +45,7 @@
                         <value>-12</value>
                     </entry>
                 </job-data-map>
-                <cron-expression>0 00 18 11 JUL ?</cron-expression>
+                <cron-expression>0 57 22 11 JUL ?</cron-expression>
             </cron>
         </trigger>
     </schedule>

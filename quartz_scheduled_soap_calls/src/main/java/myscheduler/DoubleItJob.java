@@ -16,14 +16,14 @@ public class DoubleItJob implements Job {
         DoubleItPortType port = service.getDoubleItPort();           
       
       try {
-         // get value from JobDetail
+         // get value from Job element in schedule.xml
          JobDataMap dataMap = context.getMergedJobDataMap();
-         Integer numToDoubleJD = dataMap.getIntegerFromString("JDNumberToDouble");
+         Integer numToDoubleJD = dataMap.getIntegerFromString("JNumberToDouble");
          if (numToDoubleJD != null) {
              makeSOAPCall(port, numToDoubleJD);
          }
          
-         // get value from Trigger
+         // get value from Trigger element in schedule.xml
          Integer numToDoubleTrg = dataMap.getIntegerFromString("TNumberToDouble");
          if (numToDoubleTrg != null) {
              makeSOAPCall(port, numToDoubleTrg);
