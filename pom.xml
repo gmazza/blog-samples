@@ -31,6 +31,7 @@
         <module>enhancing_jaxb_artifacts</module>
         <module>updating_databases_with_jaxws</module>
         <module>quartz_scheduled_soap_calls</module>
+        <module>soap_contract_xslt_cleanup</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
