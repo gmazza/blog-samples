@@ -71,6 +71,8 @@
       <wsp:ExactlyOne>
          <wsp:All>
             <wsam:Addressing wsp:Optional="false"/>
+            <sc:KeyStore wspp:visibility="private" location="${keystore.dir}/servicestore.jks" type="JKS" storepass="sspass" alias="myservicekey" keypass="skpass"/>
+            <sc:TrustStore wspp:visibility="private" storepass="sspass" type="JKS" location="${keystore.dir}/servicestore.jks"/>
             <sp:SymmetricBinding>
                <wsp:Policy>
                   <sp:ProtectionToken>
@@ -127,8 +129,6 @@
                   <sp:RequireServerEntropy/>
                </wsp:Policy>
             </sp:Trust13>
-            <sc:KeyStore wspp:visibility="private" location="${keystore.dir}/servicestore.jks" type="JKS" storepass="sspass" alias="myservicekey" keypass="skpass"/>
-            <sc:TrustStore wspp:visibility="private" storepass="sspass" type="JKS" location="${keystore.dir}/servicestore.jks"/>
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>
