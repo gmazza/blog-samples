@@ -52,7 +52,7 @@
             <activeByDefault>true</activeByDefault>
          </activation>
          <properties>
-            <cxf.version>2.6.0</cxf.version>
+            <cxf.version>2.6.1</cxf.version>
          </properties>
          <dependencies>
             <dependency>
