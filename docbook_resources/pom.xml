@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.gmazza.blog-samples.docbook-resources</groupId>
+    <artifactId>docbook-resources</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Docbook Resources</name>
+    <description>Guide for Docbook Resources and Tips</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <version>2.0.14</version>
+
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <id>create-pdf-docs</id>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <configuration>
+                            <includes>DocbookResources.xml</includes>
+                            <xincludeSupported>true</xincludeSupported>
+                            <generatedSourceDirectory>${project.build.directory}/xinclude</generatedSourceDirectory>
+                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <id>create-html-docs</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <configuration>
+                            <includes>DocbookResources.xml</includes>
+                            <htmlCustomization>${basedir}/src/docbkx/xsl/customhtml.xsl</htmlCustomization>
+                            <chunkedOutput>false</chunkedOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
