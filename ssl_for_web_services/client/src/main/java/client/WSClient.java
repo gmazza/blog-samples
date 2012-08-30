@@ -17,8 +17,8 @@ public class WSClient {
             throw new IllegalStateException("Endpoint URL must use HTTPS!");
         }
                         
-//        portBP.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
-//        portBP.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "trombone");
+        portBP.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
+        portBP.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "trombone");
 
         doubleIt(port, 10);
         doubleIt(port, 0);
