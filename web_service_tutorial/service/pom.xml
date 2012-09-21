@@ -10,7 +10,7 @@
    </parent>
    <artifactId>web-service-tutorial-service</artifactId>
    <name>-- Web Service Provider</name>
-   <packaging>jar</packaging>
+   <packaging>bundle</packaging>
 
    <build>
       <plugins>
@@ -107,6 +107,10 @@
          <id>Metro</id>
          <build>
             <plugins>
+               <plugin>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>maven-bundle-plugin</artifactId>
+               </plugin>
                <plugin>
                   <groupId>org.jvnet.jax-ws-commons</groupId>
                   <artifactId>jaxws-maven-plugin</artifactId>

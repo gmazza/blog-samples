@@ -48,12 +48,12 @@
       <profile>
          <id>CXF</id>
          <!-- To use Metro by default, move activation element to its profile below  -->
-         <properties>
-            <cxf.version>2.6.2</cxf.version>
-         </properties>
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
+         <properties>
+            <cxf.version>2.6.2</cxf.version>
+         </properties>
          <dependencies>
             <dependency>
                <groupId>org.apache.cxf</groupId>
@@ -76,7 +76,7 @@
             <dependency>
                <groupId>org.glassfish.metro</groupId>
                <artifactId>webservices-rt</artifactId>
-               <version>2.2</version>
+               <version>2.2.1-1</version>
             </dependency>
          </dependencies>
       </profile>

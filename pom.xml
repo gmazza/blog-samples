@@ -32,6 +32,7 @@
         <module>updating_databases_with_jaxws</module>
         <module>quartz_scheduled_soap_calls</module>
         <module>soap_contract_xslt_cleanup</module>
+        <module>using_mtom_and_apache_fop</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -121,7 +122,7 @@
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-rt</artifactId>
-                <version>2.2</version>
+                <version>2.2.1-1</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -222,8 +223,8 @@
                             <classpath />
                             <!-- Uncomment below for debug output with CXF. Will 
                                 need to configure client-side interceptors and supply a java.util.logging 
-                                properties file: http://cwiki.apache.org/CXF20DOC/debugging.html Place the 
-                                logging file in the client folder. -->
+                                properties file: http://cxf.apache.org/docs/debugging-and-logging.html 
+                                Place the logging file in the client folder. -->
                             <!--argument> 
                                 -Djava.util.logging.config.file=mylogging.properties 
                             </argument -->
