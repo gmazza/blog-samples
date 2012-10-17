@@ -13,3 +13,4 @@ public class DoubleItPortTypeImpl implements DoubleItPortType {
         return numberToDouble * 2;
     }
 }
+
