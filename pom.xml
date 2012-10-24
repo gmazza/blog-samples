@@ -33,6 +33,7 @@
         <module>quartz_scheduled_soap_calls</module>
         <module>soap_contract_xslt_cleanup</module>
         <module>using_mtom_and_apache_fop</module>
+        <module>cxf_soap_over_jms</module>
     </modules>
 
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
@@ -42,8 +43,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.6.2</cxf.version>
-        <!--cxf.version>2.7.0-SNAPSHOT</cxf.version-->
+        <cxf.version>2.7.0</cxf.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <slf4j.version>1.6.2</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>

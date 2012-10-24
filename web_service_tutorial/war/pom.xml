@@ -11,7 +11,6 @@
    <artifactId>web-service-tutorial-war</artifactId>
    <name>-- Service WAR file</name>
    <packaging>war</packaging>
-   <url>http://maven.apache.org</url>
 
    <dependencies>
       <dependency>
