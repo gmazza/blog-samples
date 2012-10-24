@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gmazza.blog-samples.cxf-soap-over-jms</groupId>
+        <artifactId>cxf-soap-over-jms</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>cxf-soap-over-jms-client</artifactId>
+    <name>-- SOAP Client</name>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- 
+             Below dependency transitively brings in several other dependencies
+             needed by SOAP client such as CXF's JMS transport and ActiveMQ 
+             (run mvn dependency:tree from client folder for list) 
+        -->
+        <dependency>
+            <groupId>org.gmazza.blog-samples.cxf-soap-over-jms</groupId>
+            <artifactId>cxf-soap-over-jms-service</artifactId>
+            <!-- Classifier below used with Maven Assembly Plugin to specify 
+                subset of above artifact needed. -->
+            <classifier>jaxws</classifier>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+

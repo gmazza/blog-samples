@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DoubleIt"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:di="http://www.example.org/schema/DoubleIt"
+    xmlns:tns="http://www.example.org/contract/DoubleIt" xmlns:soapjms="http://www.w3.org/2010/soapjms/"
+    targetNamespace="http://www.example.org/contract/DoubleIt">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.example.org/schema/DoubleIt">
+            <xsd:element name="DoubleIt">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="numberToDouble"
+                            type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DoubleItResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="doubledNumber"
+                            type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="DoubleItRequest">
+        <wsdl:part element="di:DoubleIt" name="parameters" />
+    </wsdl:message>
+    <wsdl:message name="DoubleItResponse">
+        <wsdl:part element="di:DoubleItResponse" name="parameters" />
+    </wsdl:message>
+    <wsdl:portType name="DoubleItPortType">
+        <wsdl:operation name="DoubleIt">
+            <wsdl:input message="tns:DoubleItRequest" />
+            <wsdl:output message="tns:DoubleItResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
+        <soap:binding style="document"
+            transport="http://www.w3.org/2010/soapjms/" />
+        <soapjms:jndiConnectionFactoryName>ConnectionFactory
+        </soapjms:jndiConnectionFactoryName>
+        <soapjms:jndiInitialContextFactory>
+            org.apache.activemq.jndi.ActiveMQInitialContextFactory
+        </soapjms:jndiInitialContextFactory>
+        <soapjms:jndiURL>tcp://localhost:61616</soapjms:jndiURL>
+        <soapjms:deliveryMode>PERSISTENT</soapjms:deliveryMode>
+        <soapjms:priority>5</soapjms:priority>
+        <soapjms:timeToLive>3000</soapjms:timeToLive>
+        <wsdl:operation name="DoubleIt">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="DoubleItService">
+        <wsdl:port name="DoubleItPort" binding="tns:DoubleItBinding">
+            <soap:address
+                location="jms:jndi:dynamicQueues/test.cxf.jmstransport.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions> 
+

@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gmazza</groupId>
+        <artifactId>blog-samples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.gmazza.blog-samples.cxf-soap-over-jms</groupId>
+    <artifactId>cxf-soap-over-jms</artifactId>
+    <name>Tutorial: Sending SOAP messages over JMS</name>
+    <packaging>pom</packaging>
+    <url>http://www.jroller.com/gmazza/entry/cxf_soap_over_jms</url>
+
+    <modules>
+        <module>broker</module>
+        <module>service</module>
+        <module>war</module>
+        <module>client</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
