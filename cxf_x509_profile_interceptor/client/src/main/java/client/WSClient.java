@@ -1,8 +1,7 @@
 package client;
 
 import org.example.contract.doubleit.DoubleItPortType;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.example.contract.doubleit.DoubleItService;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
@@ -11,9 +10,8 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 
 public class WSClient {
     public static void main(String[] args) {
-        XmlBeanFactory factory = new XmlBeanFactory(
-                new ClassPathResource("client-context.xml"));
-        DoubleItPortType port = (DoubleItPortType) factory.getBean("client");
+        DoubleItService service = new DoubleItService();
+        DoubleItPortType port = service.getDoubleItPort();           
         
         // next three lines optional, they output the SOAP request/response XML
         Client client = ClientProxy.getClient(port);

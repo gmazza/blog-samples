@@ -7,23 +7,23 @@
           http://cxf.apache.org/jaxws
           http://cxf.apache.org/schemas/jaxws.xsd">
 
-   <bean id="client" class="org.example.contract.doubleit.DoubleItPortType" 
+    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort"
+        createdFromAPI="true">
+        <!--property name="serviceClass" value="org.example.contract.doubleit.DoubleItPortType"/-->
+        <!--property name="address" value="http://localhost:8080/doubleit/services/doubleit"/-->
+        <jaxws:inInterceptors>
+            <ref bean="TimestampSignEncrypt_Response"/>
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="TimestampSignEncrypt_Request"/>
+        </jaxws:outInterceptors>
+    </jaxws:client>
+
+   <!--bean id="client" class="org.example.contract.doubleit.DoubleItPortType" 
         factory-bean="clientFactory" factory-method="create"/>
         
    <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-     <property name="serviceClass" value="org.example.contract.doubleit.DoubleItPortType"/>
-     <property name="address" value="http://localhost:8080/doubleit/services/doubleit"/>
-       <property name="inInterceptors">
-         <list>
-            <ref bean="TimestampSignEncrypt_Response"/>
-         </list>
-       </property>
-       <property name="outInterceptors">
-         <list>
-            <ref bean="TimestampSignEncrypt_Request"/>
-         </list>
-       </property>
-   </bean>
+   </bean-->
 
     <!-- 
         This bean is an Out interceptor which will add a timestamp, 
