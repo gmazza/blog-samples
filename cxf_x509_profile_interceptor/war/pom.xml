@@ -3,18 +3,18 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gmazza.blog-samples.cxf-x509-profile</groupId>
-        <artifactId>cxf-x509-profile</artifactId>
+        <groupId>org.gmazza.blog-samples.cxf-x509-profile-interceptor</groupId>
+        <artifactId>cxf-x509-profile-interceptor</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>cxf-x509-profile-war</artifactId>
+    <artifactId>cxf-x509-profile-interceptor-war</artifactId>
     <name>${wspwar.module.name}</name>
     <packaging>war</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.gmazza.blog-samples.cxf-x509-profile</groupId>
-            <artifactId>cxf-x509-profile-service</artifactId>
+            <groupId>org.gmazza.blog-samples.cxf-x509-profile-interceptor</groupId>
+            <artifactId>cxf-x509-profile-interceptor-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

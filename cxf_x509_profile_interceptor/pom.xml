@@ -8,8 +8,8 @@
       <artifactId>blog-samples</artifactId>
       <version>1.0-SNAPSHOT</version>
    </parent>
-   <groupId>org.gmazza.blog-samples.cxf-x509-profile</groupId>
-   <artifactId>cxf-x509-profile</artifactId>
+   <groupId>org.gmazza.blog-samples.cxf-x509-profile-interceptor</groupId>
+   <artifactId>cxf-x509-profile-interceptor</artifactId>
    <name>Tutorial: CXF w/X509 Profile (interceptor method)</name>
    <description>
        This sample provides a CXF web service provider and SOAP client using X509 
@@ -17,7 +17,7 @@
        used).  See the cxf-x509-profile-secpol sample for the more modern 
        WS-SecurityPolicy approach.
    </description>
-   <url>http://www.jroller.com/gmazza/entry/cxf_x509_profile</url>
+   <url>http://www.jroller.com/gmazza/entry/cxf_x509_profile_interceptor</url>
 
    <packaging>pom</packaging>
 
