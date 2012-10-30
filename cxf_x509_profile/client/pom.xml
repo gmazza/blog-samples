@@ -4,18 +4,18 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gmazza.blog-samples.cxf-x509-profile-secpol</groupId>
-        <artifactId>cxf-x509-profile-secpol</artifactId>
+        <groupId>org.gmazza.blog-samples.cxf-x509-profile</groupId>
+        <artifactId>cxf-x509-profile</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>cxf-x509-profile-secpol-client</artifactId>
+    <artifactId>cxf-x509-profile-client</artifactId>
     <name>${wsc.module.name}</name>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.gmazza.blog-samples.cxf-x509-profile-secpol</groupId>
-            <artifactId>cxf-x509-profile-secpol-service</artifactId>
+            <groupId>org.gmazza.blog-samples.cxf-x509-profile</groupId>
+            <artifactId>cxf-x509-profile-service</artifactId>
             <!-- Classifier below used with Maven Assembly Plugin to specify 
                 subset of above artifact needed. -->
             <classifier>jaxws</classifier>

@@ -11,11 +11,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-	      classpath:META-INF/cxf/cxf.xml
-	      classpath:META-INF/cxf/cxf-extension-soap.xml
-	      classpath:META-INF/cxf/cxf-servlet.xml 
-              classpath:META-INF/cxf/cxf-extension-policy.xml
-              classpath:META-INF/cxf/cxf-extension-ws-security.xml
+ 	        classpath:META-INF/cxf/cxf.xml
         </param-value>
     </context-param>
     <servlet>
