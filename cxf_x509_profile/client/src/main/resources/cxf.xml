@@ -13,7 +13,7 @@
             <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/>
             <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
             <entry key="ws-security.encryption.username" value="myservicekey"/>
-       </jaxws:properties>
+        </jaxws:properties>
 
         <!-- Uncomment below interceptors to use CXF interceptor method -->
         <!--jaxws:inInterceptors>
