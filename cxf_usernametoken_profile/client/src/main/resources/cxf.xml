@@ -8,25 +8,24 @@
 
     <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
         <!-- Uncomment if using WS-SecPolicy method -->
-        <!--jaxws:properties>
+        <jaxws:properties>
             <entry key="ws-security.username" value="joe"/>        
             <entry key="ws-security.password" value="joespassword"/>
-        </jaxws:properties-->
+        </jaxws:properties>
 
         <!-- Uncomment if using CXF interceptor method -->
-        <jaxws:outInterceptors>
+        <!--jaxws:outInterceptors>
             <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
                 <constructor-arg>
                     <map>
                         <entry key="action" value="UsernameToken"/>
                         <entry key="user" value="joe"/>
-                        <entry key="PasswordType" 
-                           value="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"/>
+                        <entry key="PasswordType" value="PasswordText"/>
                         <entry key="Password" value="joespassword"/>
                     </map>
                 </constructor-arg>
             </bean>
-        </jaxws:outInterceptors>
+        </jaxws:outInterceptors-->
     </jaxws:client>
 
     <!-- 
