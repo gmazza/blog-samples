@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:jaxws="http://cxf.apache.org/jaxws"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://cxf.apache.org/jaxws 
+   http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
+        <!-- Uncomment if using WS-SecPolicy method -->
+        <!--jaxws:properties>
+            <entry key="ws-security.username" value="joe"/>        
+            <entry key="ws-security.password" value="joespassword"/>
+        </jaxws:properties-->
+
+        <!-- Uncomment if using CXF interceptor method -->
+        <jaxws:outInterceptors>
+            <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+                <constructor-arg>
+                    <map>
+                        <entry key="action" value="UsernameToken"/>
+                        <entry key="user" value="joe"/>
+                        <entry key="PasswordType" 
+                           value="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"/>
+                        <entry key="Password" value="joespassword"/>
+                    </map>
+                </constructor-arg>
+            </bean>
+        </jaxws:outInterceptors>
+    </jaxws:client>
+
+    <!-- 
+        Below bean does not exist, but if implemented provides an alternative  
+        to directly coding the user password above. To use, remove the 
+        "ws-security.password" or "password" entry and replace with: 
+
+        <entry key="ws-security.callback-handler">
+            <ref bean="myPasswordCallback"/>
+        </entry>
+        
+        The ClientPasswordCallback class would have the same structure as the 
+        ServerPasswordCallback class in the service submodule of this example.
+    -->
+    <!--bean id="myPasswordCallback" class="client.ClientPasswordCallback"/-->
+
+
+    <!--  to be converted to CXF interceptor: 
+            // Manual WSS4JOutInterceptor interceptor process - start
+       outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+        outProps.put(WSHandlerConstants.USER, "joe");
+        outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
+                ClientPasswordCallback.class.getName());
+                
+        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+        cxfEndpoint.getOutInterceptors().add(wssOut); */
+        // Manual WSS4JOutInterceptor interceptor process - end
+    -->
+    
+
+</beans>

@@ -23,23 +23,10 @@ public class WSClient {
         Client client = org.apache.cxf.frontend.ClientProxy.getClient(port);
         Endpoint cxfEndpoint = client.getEndpoint();
 
-        // Manual WSS4JOutInterceptor interceptor process - start
-/*      outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-        outProps.put(WSHandlerConstants.USER, "joe");
-        outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
-                ClientPasswordCallback.class.getName());
-                
-        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-        cxfEndpoint.getOutInterceptors().add(wssOut); */
-        // Manual WSS4JOutInterceptor interceptor process - end
-
-        
-        // Alternative WS-SecurityPolicy method
+        // WS-SecurityPolicy method
         Map ctx = ((BindingProvider)port).getRequestContext();
-        ctx.put("ws-security.username", "joe");
-        ctx.put("ws-security.callback-handler", ClientPasswordCallback.class.getName());
-//      ctx.put("ws-security.password", "joespassword"); // another option for passwords
+//        ctx.put("ws-security.username", "joe");
+//        ctx.put("ws-security.password", "joespassword");
 
         doubleIt(port, 10);
         doubleIt(port, 0);

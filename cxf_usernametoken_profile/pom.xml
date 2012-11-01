@@ -37,12 +37,6 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
         </dependency>
-        <!-- Omit below if using standard WSS4J interceptors  
-             instead of WS-SecPol statements -->
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-ws-policy</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
