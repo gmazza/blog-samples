@@ -18,8 +18,8 @@ public class WSClient {
         BindingProvider bp = (BindingProvider) port;
 
         Map<String, List<String>> httpHeaders = new HashMap<String, List<String>>();
-        // send GZIP on SOAP request
-        httpHeaders.put("Content-Encoding", Collections.singletonList("gzip"));
+        // send GZIP on SOAP request (CXF WSP's only, Metro WSP's can't handle compression)
+        // httpHeaders.put("Content-Encoding", Collections.singletonList("gzip"));
         // receive GZIP on SOAP response
         httpHeaders.put("Accept-Encoding", Collections.singletonList("gzip"));
         Map<String, Object> requestContext = bp.getRequestContext();
