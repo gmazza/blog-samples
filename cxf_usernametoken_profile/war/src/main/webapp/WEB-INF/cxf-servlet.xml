@@ -9,8 +9,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://cxf.apache.org/jaxws
 http://cxf.apache.org/schemas/jaxws.xsd">
 
-   <bean id="myPasswordCallback" class="service.ServerPasswordCallback" />
-
    <jaxws:endpoint 
       id="doubleit"
       implementor="service.DoubleItPortTypeImpl"
@@ -19,9 +17,7 @@ http://cxf.apache.org/schemas/jaxws.xsd">
  
       <!-- Uncomment only if using WS-SecurityPolicy -->
       <jaxws:properties>
-         <entry key="ws-security.callback-handler">
-            <ref bean="myPasswordCallback"/>
-        </entry>
+         <entry key="ws-security.callback-handler" value-ref="myPasswordCallback"/>
       </jaxws:properties> 
 
       <!-- Uncomment only if using standard WSS4J interceptors -->
@@ -32,13 +28,12 @@ http://cxf.apache.org/schemas/jaxws.xsd">
                <map>
                   <entry key="action" value="UsernameToken"/>
                   <entry key="passwordType" value="PasswordText"/>
-                  <entry key="passwordCallbackRef">
-                     <ref bean="myPasswordCallback"/>
-                  </entry>
+                  <entry key="passwordCallbackRef" value-ref="myPasswordCallback"/>
                </map>
             </constructor-arg>
          </bean>
       </jaxws:inInterceptors-->
    </jaxws:endpoint>
-</beans>
 
+   <bean id="myPasswordCallback" class="service.ServerPasswordCallback" />
+</beans>
