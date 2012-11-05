@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE stylesheet [
-<!ENTITY space "<xsl:text> </xsl:text>">
-<!ENTITY ivSp "<xsl:text>    </xsl:text>">
-<!ENTITY tab "<xsl:text>&#9;</xsl:text>">
-<!ENTITY cr "<xsl:text>
-</xsl:text>">
-]>
-
 <xsl:stylesheet version="1.0"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -35,13 +27,20 @@
                           </sp:TransportToken>
                           <sp:Layout>
                              <wsp:Policy>
-                                <sp:Lax />
+                                  <xsl:choose>
+                                      <xsl:when test="$security.header.layout = 'Lax'">
+                                          <sp:Lax/>
+                                      </xsl:when>
+                                      <xsl:otherwise>
+                                          <sp:Strict/>
+                                      </xsl:otherwise>
+                                  </xsl:choose>
                              </wsp:Policy>
                           </sp:Layout>
                           <sp:IncludeTimestamp/>
                           <sp:AlgorithmSuite>
                              <wsp:Policy>
-                                <sp:Basic128 />
+                                  <xsl:value-of select="$algorithm.suite"/>
                              </wsp:Policy>
                           </sp:AlgorithmSuite>
                        </wsp:Policy>
@@ -56,7 +55,14 @@
                           </sp:UsernameToken>
                        </wsp:Policy>
                     </sp:SignedSupportingTokens>
-                    <sp:Wss11 />
+                      <xsl:choose>
+                          <xsl:when test="$ws.security.version = '1.0'">
+                              <sp:Wss10/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                              <sp:Wss11 />
+                          </xsl:otherwise>
+                      </xsl:choose>
                  </wsp:All>
               </wsp:ExactlyOne>
            </wsp:Policy>

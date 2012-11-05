@@ -11,6 +11,7 @@
    <xsl:output method="xml" indent="yes" xalan:indent-amount="3"/>
    <xsl:import href="properties.xsl"/>
    <xsl:import href="UTPolicies.xsl"/>
+   <xsl:import href="X509Policies.xsl"/>
 
    <xsl:template match="wsdl:definitions">
        
@@ -36,13 +37,12 @@
 
           <!-- add the policy statement to the WSDL -->
           <xsl:choose>
-          <xsl:when test="$security.method = 'UT'">
-              <xsl:call-template name="print-ut-policy"/>
-          </xsl:when>
-          <xsl:when test="$security.method = 'X509'">
-          </xsl:when>
-          <xsl:otherwise>
-          </xsl:otherwise>
+              <xsl:when test="$security.method = 'UT'">
+                  <xsl:call-template name="print-ut-policy"/>
+              </xsl:when>
+              <xsl:when test="$security.method = 'X509'">
+                  <xsl:call-template name="print-x509-policy"/>
+              </xsl:when>
           </xsl:choose>
        </xsl:copy>
 

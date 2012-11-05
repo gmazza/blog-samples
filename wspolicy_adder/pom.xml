@@ -24,19 +24,6 @@
             <artifactId>xml-maven-plugin</artifactId>
             <version>1.0</version>
             <executions>
-               <!--execution>
-                  <goals>
-                     <goal>validate</goal>
-                  </goals>
-                    <configuration>
-                      <validationSets>
-                        <validationSet>
-                          <dir>src/main/resources</dir>
-                          <systemId>src/main/xmlschema.xml</systemId>
-                        </validationSet>
-                      </validationSets>
-                    </configuration>
-               </execution-->
                <execution>
                   <goals>
                      <goal>transform</goal>
