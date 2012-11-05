@@ -163,21 +163,6 @@
                     <useProjectReferences>false</useProjectReferences>
                 </configuration>
             </plugin>
-                <!-- Below activates any integration tests where testcases require
-                     the JAR or WAR to be created first (see http://tinyurl.com/7zfp7v7) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.12</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -289,6 +274,26 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>2.1.1</version>
                 </plugin>
+                <!-- Below activates any integration tests where testcases require
+                     the JAR or WAR to be created first (see http://tinyurl.com/7zfp7v7) -->
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-failsafe-plugin</artifactId>
+	                <version>2.12</version>
+	                <executions>
+	                    <execution>
+	                        <goals>
+	                            <goal>integration-test</goal>
+	                            <goal>verify</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+	            <plugin>
+	                <groupId>org.codehaus.mojo</groupId>
+	                <artifactId>xml-maven-plugin</artifactId>
+	                <version>1.0</version>
+	            </plugin>
             </plugins>        
         </pluginManagement>
     </build>

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE stylesheet [
-<!ENTITY ivSp "<xsl:text>    </xsl:text>">
-<!ENTITY tab "<xsl:text>&#9;</xsl:text>">
-<!ENTITY cr "<xsl:text>
-</xsl:text>">
-]>
-
 <xsl:stylesheet version="1.0"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xalan="http://xml.apache.org/xslt">
+
+   <xsl:output method="xml" indent="yes" xalan:indent-amount="3"/>
 
    <xsl:template match="xs:schema">
-       &cr;
        <!-- By itself, xsl:copy outputs only the top-level xs:schema element.
             It needs the additional coding below to copy the xs:schema element's 
             attributes and descendant elements. 
@@ -21,7 +16,7 @@
           <!-- output all (@*) attributes of the top-level xs:schema element -->
           <xsl:for-each select="@*"> 
               <xsl:copy/>
-          </xsl:for-each>&cr;
+          </xsl:for-each>
           
           <xsl:for-each select="./xs:import">
               <xsl:apply-templates select="."/>
@@ -52,8 +47,7 @@
    <xsl:template match="xs:import | xs:simpleType | xs:complexType | xs:element">
        <!-- Unlike xsl:copy above, xsl:copy-of automatically copies the 
             element's attributes and its descendant elements. -->
-       &ivSp;<xsl:copy-of select="."/>&cr;
+       <xsl:copy-of select="."/>
    </xsl:template>
    
 </xsl:stylesheet>
-
