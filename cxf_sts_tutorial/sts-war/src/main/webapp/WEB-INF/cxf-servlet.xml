@@ -21,26 +21,10 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     </cxf:bus>
 
     <bean id="mySTSProviderBean"
-        class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
-        <property name="issueOperation" ref="myIssueDelegate" />
-        <property name="validateOperation" ref="myValidateDelegate" />
-    </bean>
-
-    <bean id="myIssueDelegate" class="org.apache.cxf.sts.operation.TokenIssueOperation">
-        <property name="tokenProviders" ref="mySamlTokenProvider" />
+        class="org.apache.cxf.sts.provider.DefaultSecurityTokenServiceProvider">
+        <property name="stsProperties" ref="mySTSProperties" />
         <property name="services" ref="myServiceList" />
-        <property name="stsProperties" ref="mySTSProperties" />
     </bean>
-
-    <bean id="myValidateDelegate" class="org.apache.cxf.sts.operation.TokenValidateOperation">
-        <property name="tokenValidators" ref="mySamlTokenValidator" />
-        <property name="stsProperties" ref="mySTSProperties" />
-    </bean>
-
-    <bean id="mySamlTokenProvider" class="org.apache.cxf.sts.token.provider.SAMLTokenProvider"/>
-
-    <bean id="mySamlTokenValidator"
-        class="org.apache.cxf.sts.token.validator.SAMLTokenValidator"/>
 
     <bean id="myServiceList" class="org.apache.cxf.sts.service.StaticService">
         <property name="endpoints" ref="wspAllowedEndpoints" />
