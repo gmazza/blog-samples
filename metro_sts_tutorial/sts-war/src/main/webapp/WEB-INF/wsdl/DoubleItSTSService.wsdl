@@ -49,37 +49,56 @@ made subject to such option by the copyright holder.
     xmlns="http://schemas.xmlsoap.org/wsdl/" 
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
-    xmlns:i0="http://xmlsoap.org/DAB" 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
     xmlns:wsp="http://www.w3.org/ns/ws-policy"
     xmlns:tns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
     xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
-    xmlns:q1="http://schemas.message.com/Message" 
     xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" 
-    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
     xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
     xmlns:sc="http://schemas.sun.com/2006/03/wss/server" 
-    xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy">
+    xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
+    xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
 
     <wsdl:types>
-        <xsd:schema targetNamespace="http://schemas.message.com/Message">
-            <xsd:complexType name="MessageBody">
+        <xsd:schema elementFormDefault="qualified"
+            targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512'>
+
+            <xsd:complexType name='AbstractRequestSecurityTokenType'>
                 <xsd:sequence>
-                    <xsd:any minOccurs="0" maxOccurs="unbounded" namespace="##any" />
+                    <xsd:any namespace='##any' processContents='lax'
+                        minOccurs='0' maxOccurs='unbounded' />
                 </xsd:sequence>
+                <xsd:attribute name='Context' type='xsd:anyURI'
+                    use='optional' />
+                <xsd:anyAttribute namespace='##other'
+                    processContents='lax' />
             </xsd:complexType>
+            
+            <xsd:element name='RequestSecurityToken'
+                type='wst:AbstractRequestSecurityTokenType' />
+
+            <xsd:element name='RequestSecurityTokenResponseCollection'
+                type='wst:RequestSecurityTokenResponseCollectionType' />
+            <xsd:complexType name='RequestSecurityTokenResponseCollectionType'>
+                <xsd:sequence>
+                    <xsd:element ref='wst:RequestSecurityTokenResponse'
+                        minOccurs='1' maxOccurs='unbounded' />
+                </xsd:sequence>
+                <xsd:anyAttribute namespace='##other'
+                    processContents='lax' />
+            </xsd:complexType>
+
         </xsd:schema>
     </wsdl:types>
-
+    
     <wsdl:message name="IssueToken_InputMessage">
-        <wsdl:part name="rstMessage" type="q1:MessageBody" />
+        <wsdl:part name="rstMessage" element="wst:RequestSecurityToken" />
     </wsdl:message>
 
     <wsdl:message name="IssueToken_OutputMessage">
-        <wsdl:part name="IssueTokenResult" type="q1:MessageBody" />
+        <wsdl:part name="IssueTokenResult" element="wst:RequestSecurityTokenResponseCollection"/>
     </wsdl:message>
 
     <wsdl:portType name="STSService">
