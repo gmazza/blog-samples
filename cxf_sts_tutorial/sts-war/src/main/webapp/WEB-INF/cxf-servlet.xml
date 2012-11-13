@@ -43,7 +43,6 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
         <property name="encryptionUsername" value="myservicekey"/>
     </bean>
 
-    <!-- Uncomment below for X509 authentication between WSC and STS -->
     <jaxws:endpoint id="CXFSTS" implementor="#mySTSProviderBean"
         address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
