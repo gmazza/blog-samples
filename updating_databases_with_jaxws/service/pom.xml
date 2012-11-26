@@ -52,6 +52,7 @@
                                  <wsdl>
                                     ${basedir}/src/main/resources/Employee.wsdl
                                  </wsdl>
+                                 <wsdlLocation>classpath:Employee.wsdl</wsdlLocation>
                               </wsdlOption>
                            </wsdlOptions>
                         </configuration>
@@ -78,6 +79,7 @@
                            <wsdlFiles>
                               <wsdlFile>Employee.wsdl</wsdlFile>
                            </wsdlFiles>
+                           <wsdlLocation>/*</wsdlLocation>
                            <sourceDestDir>
                               ${basedir}/target/generated-sources
                            </sourceDestDir>

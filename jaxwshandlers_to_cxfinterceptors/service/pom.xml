@@ -33,6 +33,7 @@
                            <wsdl>
                               ${basedir}/src/main/resources/DoubleIt.wsdl
                            </wsdl>
+                           <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
                         </wsdlOption>
                      </wsdlOptions>
                   </configuration>

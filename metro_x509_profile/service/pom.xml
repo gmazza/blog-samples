@@ -50,6 +50,7 @@
                      <wsdlFiles>
                         <wsdlFile>DoubleIt.wsdl</wsdlFile>
                      </wsdlFiles>
+                     <wsdlLocation>/*</wsdlLocation>
                      <sourceDestDir>
                         ${basedir}/target/generated-sources
                      </sourceDestDir>

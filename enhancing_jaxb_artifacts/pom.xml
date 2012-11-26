@@ -89,6 +89,7 @@
                                  <wsdl>
                                     ${basedir}/src/main/resources/ShoppingService.wsdl
                                  </wsdl>
+                                 <wsdlLocation>classpath:ShoppingService.wsdl</wsdlLocation>
                                  <extraargs>
                                     <!-- Below standard JAXB processing flags -->
                                     <extraarg>-xjc-Xlocator,-mark-generated</extraarg>
@@ -133,6 +134,7 @@
                            <wsdlFiles>
                               <wsdlFile>ShoppingService.wsdl</wsdlFile>
                            </wsdlFiles>
+                           <wsdlLocation>/*</wsdlLocation>
                            <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
                            <xjcArgs>
                               <!-- Below standard JAXB processing flags -->

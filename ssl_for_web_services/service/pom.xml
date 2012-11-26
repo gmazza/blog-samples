@@ -50,6 +50,7 @@
                                             <wsdl>
                                                 ${basedir}/src/main/resources/DoubleIt.wsdl
                                             </wsdl>
+                                            <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
                                         </wsdlOption>
                                     </wsdlOptions>
                                 </configuration>
@@ -87,6 +88,7 @@
                                     <wsdlFiles>
                                         <wsdlFile>DoubleIt.wsdl</wsdlFile>
                                     </wsdlFiles>
+                                    <wsdlLocation>/*</wsdlLocation>
                                     <sourceDestDir>
                                         ${basedir}/target/generated-sources
                                     </sourceDestDir>

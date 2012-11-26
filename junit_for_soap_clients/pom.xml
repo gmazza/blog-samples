@@ -95,6 +95,7 @@
                                  <wsdl>
                                     ${basedir}/src/main/resources/ShoppingService.wsdl
                                  </wsdl>
+                                 <wsdlLocation>classpath:ShoppingService.wsdl</wsdlLocation>
                                  <!--extraargs>
                                     <extraarg>-impl</extraarg>
                                  </extraargs-->
@@ -132,6 +133,7 @@
                            <wsdlFiles>
                               <wsdlFile>ShoppingService.wsdl</wsdlFile>
                            </wsdlFiles>
+                           <wsdlLocation>/*</wsdlLocation>
                            <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
                         </configuration>
                      </execution>
