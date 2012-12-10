@@ -33,6 +33,7 @@
         </jaxws:outInterceptors>
         <jaxws:inInterceptors>
             <ref bean="TimestampSignEncrypt_Request"/>
+            <bean class="org.apache.cxf.ws.security.wss4j.DefaultCryptoCoverageChecker"/>
         </jaxws:inInterceptors-->
     </jaxws:endpoint>
 
@@ -53,6 +54,8 @@
                 <entry key="signaturePropFile" value="serviceKeystore.properties"/>
                 <entry key="decryptionPropFile" value="serviceKeystore.properties"/>
                 <entry key="passwordCallbackClass" value="service.ServiceKeystorePasswordCallback"/>
+                <entry key="encryptionKeyTransportAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p"/>
+                <entry key="signatureAlgorithm" value="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
             </map>
         </constructor-arg>
     </bean-->
@@ -78,6 +81,8 @@
                 <entry key="signatureParts" value="{Element}{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp;{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body"/>
                 <entry key="encryptionParts" value="{Element}{http://www.w3.org/2000/09/xmldsig#}Signature;{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body"/>
                 <entry key="encryptionSymAlgorithm" value="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/>
+                <entry key="encryptionKeyTransportAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p"/>
+                <entry key="signatureAlgorithm" value="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
             </map>
         </constructor-arg>
     </bean-->   
