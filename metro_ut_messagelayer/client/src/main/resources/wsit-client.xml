@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:tns="http://www.example.org/contract/DoubleIt"
+    targetNamespace="http://www.example.org/contract/DoubleIt"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+    xmlns:sc1="http://schemas.sun.com/2006/03/wss/client"
+    xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <wsdl:portType name="DoubleItPortType" />
+    <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
+        <wsp:PolicyReference URI="#DoubleItUTSymmetricX509Policy"/>
+        <!--wsp:PolicyReference URI="#DoubleItUTSymmetricPasswordPolicy"/-->
+    </wsdl:binding>
+    <wsdl:service name="DoubleItService">
+        <wsdl:port name="DoubleItPort" binding="tns:DoubleItBinding" />
+    </wsdl:service>
+    <wsp:Policy wsu:Id="DoubleItUTSymmetricX509Policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sc1:TrustStore wspp:visibility="private" peeralias="myservicekey" storepass="cspass" type="JKS" location="${keystore.dir}/clientstore.jks"/>
+                <sc1:CallbackHandlerConfiguration wspp:visibility="private">
+                    <!-- Can also do this via pwd callback handler; see metro_usernametoken_profile for an example -->
+                    <sc1:CallbackHandler name="usernameHandler" default="alice"/> 
+                    <sc1:CallbackHandler name="passwordHandler" default="clarinet"/>
+                </sc1:CallbackHandlerConfiguration>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="DoubleItUTSymmetricPasswordPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sc1:CallbackHandlerConfiguration wspp:visibility="private">
+                    <!-- Can also do this via pwd callback handler; see metro_usernametoken_profile for an example -->
+                    <sc1:CallbackHandler name="usernameHandler" default="alice"/> 
+                    <sc1:CallbackHandler name="passwordHandler" default="clarinet"/>
+                </sc1:CallbackHandlerConfiguration>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</wsdl:definitions>

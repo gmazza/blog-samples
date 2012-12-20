@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza.blog-samples.metro_ut_messagelayer</groupId>
+      <artifactId>metro_ut_messagelayer</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>metro_ut_messagelayer-war</artifactId>
+   <name>${wspwar.module.name}</name>
+   <packaging>war</packaging>
+
+   <dependencies>
+      <dependency>
+          <groupId>${project.parent.groupId}</groupId>
+          <artifactId>${project.parent.artifactId}-service</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                <webResources>
+                    <resource>
+                        <!-- Retrieving from target instead of src as WSDL
+                             file has keystore location filtered (placed) 
+                             into it. Can alternatively read from src and
+                             have this module do the filtering instead.
+                        -->
+                        <directory>../service/target/classes</directory>
+                        <targetPath>WEB-INF/wsdl</targetPath>
+                        <includes>
+                            <include>*.wsdl</include>
+                        </includes>
+                    </resource>
+                </webResources>
+            </configuration>
+         </plugin>
+      </plugins>
+      <!-- Name of the generated WAR file -->
+      <finalName>doubleit</finalName>
+   </build>
+</project>
