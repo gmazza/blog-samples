@@ -9,7 +9,6 @@ public class WSClient {
         DoubleItPortType port = service.getDoubleItPort();           
 
         doubleIt(port, 10);
-        doubleIt(port, 0);
         doubleIt(port, -10);
     } 
     

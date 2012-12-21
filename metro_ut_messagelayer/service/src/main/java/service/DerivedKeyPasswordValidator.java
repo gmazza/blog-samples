@@ -3,7 +3,6 @@ package service;
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback.DerivedKeyPasswordRequest;
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback.PasswordValidationException;
-import com.sun.xml.wss.impl.callback.PasswordValidationCallback.PlainTextPasswordRequest;
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback.Request;
 
 public class DerivedKeyPasswordValidator extends PasswordValidationCallback.DerivedKeyPasswordValidator {
@@ -28,4 +27,3 @@ public class DerivedKeyPasswordValidator extends PasswordValidationCallback.Deri
         return false;
     }
 }
-
