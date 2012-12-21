@@ -17,7 +17,7 @@
        minor modifications as described in the blog entry below) CXF interceptors
        that do not use any WSDL Policy statements.
    </description>
-   <url>http://www.jroller.com/gmazza/entry/usernametoken_symmetric_binding</url>
+   <url>http://www.jroller.com/gmazza/entry/usernametoken_messagelayer_encryption</url>
 
    <packaging>pom</packaging>
 
