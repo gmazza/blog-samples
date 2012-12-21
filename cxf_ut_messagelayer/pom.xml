@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza</groupId>
+      <artifactId>blog-samples</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <groupId>org.gmazza.blog-samples.cxf-ut-messagelayer</groupId>
+   <artifactId>cxf-ut-messagelayer</artifactId>
+   <name>Tutorial: UsernameToken w/Message-Layer encryption (CXF)</name>
+   <description>
+       This sample provides a CXF web service provider and SOAP client using X.509
+       token profile security via either WSDL WS-SecurityPolicy statements, or (with
+       minor modifications as described in the blog entry below) CXF interceptors
+       that do not use any WSDL Policy statements.
+   </description>
+   <url>http://www.jroller.com/gmazza/entry/usernametoken_symmetric_binding</url>
+
+   <packaging>pom</packaging>
+
+   <modules>
+      <module>service</module>
+      <module>war</module>
+      <module>client</module>
+   </modules>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+         <!-- If you want the WS-Policy statements in the
+              WSDL to be ignored, uncomment the below to
+              exclude the policy dependency.
+
+              This obviously is not the case with the WS-SecPol
+              approach, but also does not need to be done here for
+              the CXF interceptor method either, because we're 
+              using a different WSDL in that case which does
+              not have Policy statements within it.
+         -->
+         <!--exclusions>
+            <exclusion>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-rt-ws-policy</artifactId>
+            </exclusion>
+         </exclusions-->
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-ws-security</artifactId>
+      </dependency>
+   </dependencies>
+
+</project>
+
