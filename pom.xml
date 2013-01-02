@@ -35,6 +35,10 @@
         <module>cxf_soap_over_jms</module>
     </modules>
 
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
     <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
          poms are standalone (do not reference this pom) to help keep the
          corresponding blog tutorials as clear as possible.
@@ -42,7 +46,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.0</cxf.version>
+        <cxf.version>2.7.1</cxf.version>
         <spring.version>3.0.7.RELEASE</spring.version>
         <slf4j.version>1.6.2</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
@@ -126,7 +130,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.10</version>
+                <version>4.11</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -142,7 +146,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.0</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -168,7 +172,7 @@
                 -->
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.2.2</version>
+                    <version>2.4</version>
                     <configuration>
                         <appendAssemblyId>true</appendAssemblyId>
                         <attach>true</attach>
@@ -221,7 +225,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.3.6</version>
+                    <version>2.3.7</version>
                     <extensions>true</extensions>
                 </plugin>
                 <!-- Below used with CXF service poms -->
@@ -264,17 +268,22 @@
                         <path>/${project.build.finalName}</path>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.0</version>
+                </plugin>
                 <!-- Below for WAR submodules, defaults for when creating the WAR file. --> 
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.1.1</version>
+                    <version>2.3</version>
                 </plugin>
                 <!-- Below activates any integration tests where testcases require
                      the JAR or WAR to be created first (see http://tinyurl.com/7zfp7v7) -->
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-failsafe-plugin</artifactId>
-	                <version>2.12</version>
+	                <version>2.12.4</version>
 	                <executions>
 	                    <execution>
 	                        <goals>
