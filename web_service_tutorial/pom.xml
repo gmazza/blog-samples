@@ -46,6 +46,20 @@
             </configuration>
          </plugin>
       </plugins>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.tomcat.maven</groupId>
+               <artifactId>tomcat7-maven-plugin</artifactId>
+               <version>2.1</version>
+               <configuration>
+                  <server>myTomcat</server>
+                  <url>http://localhost:8080/manager/text</url>
+                  <path>/${project.build.finalName}</path>
+               </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
    </build>
 
    <profiles>
@@ -56,7 +70,7 @@
             <activeByDefault>true</activeByDefault>
          </activation>
          <properties>
-            <cxf.version>2.7.1</cxf.version>
+            <cxf.version>2.7.3</cxf.version>
          </properties>
          <dependencies>
             <dependency>

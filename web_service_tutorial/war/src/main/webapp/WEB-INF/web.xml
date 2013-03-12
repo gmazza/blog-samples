@@ -7,7 +7,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <!-- For Metro, use this listener-class instead: 
              com.sun.xml.ws.transport.http.servlet.WSServletContextListener -->
         <listener-class>
-              org.springframework.web.context.ContextLoaderListener
+             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
     <!-- Remove below context-param element if using Metro -->
