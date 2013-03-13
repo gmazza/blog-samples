@@ -56,7 +56,7 @@
             <activeByDefault>true</activeByDefault>
          </activation>
          <properties>
-            <cxf.version>2.7.1</cxf.version>
+            <cxf.version>2.7.3</cxf.version>
          </properties>
          <dependencies>
             <dependency>
