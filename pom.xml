@@ -254,24 +254,32 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!-- Below for WAR submodules, defaults for Tomcat deployment.
-                     Below uses Tomcat 7, for Tomcat 6 see 
-                     http://www.jroller.com/gmazza/entry/web_service_tutorial#WFstep8 
-                -->
+                <!-- 
+                  For Tomcat 7, both embedded (tomcat7:run-war) and standalone
+                  deployment - tomcat7:deploy/undeploy/redeploy 
+
+                  How to configure Maven and Tomcat to use below plugin:
+                  http://www.jroller.com/gmazza/entry/web_service_tutorial#WFstep8
+                --> 
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>tomcat-maven-plugin</artifactId>
-                    <version>1.1</version>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.1</version>
                     <configuration>
                         <server>myTomcat</server>
                         <url>http://localhost:8080/manager/text</url>
                         <path>/${project.build.finalName}</path>
                     </configuration>
                 </plugin>
+                <!-- Never used; bad URL error message will remind those 
+                     inadvertently using tomcat:xxx instead of tomcat7:xxx -->
                 <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.0</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>tomcat-maven-plugin</artifactId>
+                    <version>1.1</version>
+                    <configuration>
+                        <url>Use tomcat7:xxx instead of tomcat:xxx goals!</url>
+                    </configuration>
                 </plugin>
                 <!-- Below for WAR submodules, defaults for when creating the WAR file. --> 
                 <plugin>
