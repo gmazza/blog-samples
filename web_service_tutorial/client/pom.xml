@@ -67,7 +67,6 @@
             <configuration>
                <instructions>
                   <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                  <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
                   <Export-Package>client</Export-Package>
                   <Embed-Dependency>web-service-tutorial-service;classifier=jaxws</Embed-Dependency>
                </instructions>

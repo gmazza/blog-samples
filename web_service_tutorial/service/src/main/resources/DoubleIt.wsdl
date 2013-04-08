@@ -52,7 +52,7 @@
             location="http://localhost:8080/doubleit/services/doubleit"/>
          <!-- Default address for Karaf deployment -->
          <!--soap:address
-            location="http://localhost:8080/cxf/doubleit"/-->
+            location="http://localhost:8181/cxf/doubleit"/-->
       </wsdl:port>
    </wsdl:service>
 </wsdl:definitions> 

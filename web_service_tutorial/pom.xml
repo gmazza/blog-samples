@@ -93,13 +93,13 @@
       </profile>
 
       <profile>
-         <!-- See http://metro.java.net/guide/Using_Mavenized_Metro_Binaries.html for more Metro/Maven 
-              config info -->
+         <!-- See http://metro.java.net/guide/ch02.html#using-mavenized-metro-binaries
+              for more Metro/Maven config info -->
          <id>Metro</id>
          <dependencies>
             <dependency>
                <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
+               <artifactId>webservices-osgi</artifactId>
                <version>2.2.1-1</version>
             </dependency>
          </dependencies>

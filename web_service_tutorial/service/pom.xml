@@ -94,7 +94,6 @@
                   <configuration>
                      <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
                         <Export-Package>service</Export-Package>
                      </instructions>
                   </configuration>
@@ -134,6 +133,16 @@
                         </configuration>
                      </execution>
                   </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>maven-bundle-plugin</artifactId>
+                  <configuration>
+                     <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>service</Export-Package>
+                     </instructions>
+                  </configuration>
                </plugin>
             </plugins>
          </build>
