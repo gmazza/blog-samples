@@ -50,16 +50,6 @@
             </executions>
          </plugin>
       </plugins>
-      <pluginManagement>
-          <plugins>
-             <plugin>
-               <groupId>org.apache.felix</groupId>
-               <artifactId>maven-bundle-plugin</artifactId>
-               <version>2.3.7</version>
-               <extensions>true</extensions>
-            </plugin>
-         </plugins>
-      </pluginManagement>
       <!-- Name of the generated WAR file -->
       <finalName>doubleit</finalName>
    </build>
