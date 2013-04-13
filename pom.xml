@@ -13,7 +13,6 @@
     <modules>
         <module>web_service_tutorial</module>
         <module>soap_client_tutorial</module>
-        <module>java_first_web_service</module>
         <module>ssl_for_web_services</module>
         <module>cxf_usernametoken_profile</module>
         <module>metro_usernametoken_profile</module>
