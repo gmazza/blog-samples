@@ -32,6 +32,7 @@
         <module>soap_contract_xslt_cleanup</module>
         <module>using_mtom_and_apache_fop</module>
         <module>cxf_soap_over_jms</module>
+        <module>web_service_ear_tutorial</module>
     </modules>
 
     <prerequisites>

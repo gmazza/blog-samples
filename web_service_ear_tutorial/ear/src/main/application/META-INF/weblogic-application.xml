@@ -1,0 +1,16 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<weblogic-application xmlns="http://xmlns.oracle.com/weblogic/weblogic-application” 
+xmlns:xsi=”http://www.w3.org/2001/XMLSchema-instance 
+xsi:schemaLocation=”http://xmlns.oracle.com/weblogic/weblogic-application 
+http://xmlns.oracle.com/weblogic/weblogic-application/1.0/weblogic-application.xsd">
+   <application-param>
+      <param-name>webapp.encoding.default</param-name>
+      <param-value>UTF-8</param-value>
+   </application-param>
+   <!-- Should not need any overrides below for CXF, for Metro see here:
+        https://metro.java.net/guide/ch02.html#weblogic-10 -->
+   <prefer-application-packages>
+      <!--package-name>com.mycompany.util.*</package-name-->		
+   </prefer-application-packages>
+</weblogic-application>
+

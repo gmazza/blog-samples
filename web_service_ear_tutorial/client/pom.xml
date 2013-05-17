@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.gmazza.blog-samples.web-service-ear-tutorial</groupId>
+      <artifactId>web-service-ear-tutorial</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>web-service-ear-tutorial-client</artifactId>
+   <name>-- SOAP Client</name>
+   <packaging>bundle</packaging>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.gmazza.blog-samples.web-service-tutorial</groupId>
+         <artifactId>web-service-tutorial-service</artifactId>
+         <!-- Classifier below used with Maven Assembly Plugin to 
+              specify subset of above artifact needed. 
+         -->
+         <classifier>jaxws</classifier>
+         <version>1.0-SNAPSHOT</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+               <executable>java</executable>
+               <arguments>
+                  <argument>-classpath</argument>
+                  <classpath/>
+                  <!-- Uncomment below for debug output with Metro. -->
+                  <!--argument>
+                     -Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true
+                  </argument-->
+                  <!-- Uncomment below for debug output with CXF.  Will need to configure
+                          client-side interceptors and supply a java.util.logging properties file:
+                          http://cxf.apache.org/docs/debugging-and-logging.html
+                          Place the logging file in the same directory as this pom file.
+                   -->
+                  <!--argument>
+                     -Djava.util.logging.config.file=mylogging.properties
+                  </argument-->
+                  <argument>
+                     client.WSClient
+                  </argument>
+               </arguments>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <configuration>
+               <instructions>
+                  <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                  <Export-Package>client</Export-Package>
+                  <Embed-Dependency>web-service-tutorial-service;classifier=jaxws</Embed-Dependency>
+               </instructions>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+</project>
+
