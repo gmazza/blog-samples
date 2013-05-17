@@ -49,6 +49,16 @@
                </execution>
             </executions>
          </plugin>
+         <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <configuration>
+            <instructions>
+               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+               <Export-Package>service</Export-Package>
+            </instructions>
+            </configuration>
+         </plugin>
       </plugins>
       <!-- Name of the generated WAR file -->
       <finalName>doubleit</finalName>
@@ -83,16 +93,6 @@
                      </execution>
                   </executions>
                </plugin>
-               <plugin>
-                  <groupId>org.apache.felix</groupId>
-                  <artifactId>maven-bundle-plugin</artifactId>
-                  <configuration>
-                     <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>service</Export-Package>
-                     </instructions>
-                  </configuration>
-               </plugin>
             </plugins>
          </build>
       </profile>
@@ -117,10 +117,6 @@
                         </configuration>
                      </execution>
                   </executions>
-               </plugin>
-               <plugin>
-                  <groupId>org.apache.felix</groupId>
-                  <artifactId>maven-bundle-plugin</artifactId>
                </plugin>
             </plugins>
          </build>
