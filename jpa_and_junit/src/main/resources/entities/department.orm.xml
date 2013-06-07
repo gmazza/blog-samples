@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+    <description>Entity file for Department</description>
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <access>PROPERTY</access>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+    <package>entities</package>
+    <entity metadata-complete="true" name="Department"
+            class="entity.Department">
+        <table name="department"/>
+        <named-query name="Department.getAll">
+            <query>SELECT d FROM Department d</query>
+        </named-query>
+        <attributes>
+            <id name="id">
+                <column name="Dept_Id"/>
+            </id>
+            <basic name="name">
+                <column name="name" insertable="true" updatable="true" unique="false"/>
+            </basic>
+            <basic name="location">
+                <column name="location" insertable="true" updatable="true" unique="false"/>
+            </basic>
+            <one-to-many name="employees" mapped-by="Dept_Id" target-entity="entity.Employee" fetch="LAZY">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+</entity-mappings>
+

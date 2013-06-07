@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Fri Jun 07 09:47:13 EDT 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013f-1ee4-1d65-000006e0d3b8 
+on database directory /media/work1/blog-samples/jpa_and_junit/EMPLDB  with class loader sun.misc.Launcher$AppClassLoader@7d6d4e3e 
+Loaded from file:/media/work1/underthehood/db-derby-10.9.1.0-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_09-b05
+user.dir=/media/work1/blog-samples/jpa_and_junit
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Jun 07 09:55:12 EDT 2013: Shutting down Derby engine
+----------------------------------------------------------------
+Fri Jun 07 09:55:13 EDT 2013:
+Shutting down instance a816c00e-013f-1ee4-1d65-000006e0d3b8 on database directory /media/work1/blog-samples/jpa_and_junit/EMPLDB with class loader sun.misc.Launcher$AppClassLoader@7d6d4e3e 
+----------------------------------------------------------------
