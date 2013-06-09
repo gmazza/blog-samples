@@ -18,10 +18,10 @@
             <id name="id">
                 <column name="Empl_Id"/>
             </id>
-            <basic name="Last_Name">
+            <basic name="lastName">
                 <column name="last_name" insertable="true" updatable="true" unique="false"/>
             </basic>
-            <basic name="First_Name">
+            <basic name="firstName">
                 <column name="first_name" insertable="true" updatable="true" unique="false"/>
             </basic>
             <many-to-one name="department" target-entity="entities.Department">

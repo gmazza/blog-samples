@@ -3,7 +3,7 @@ package entities;
 public class Employee {
     
     // attributes
-    private String id;
+    private int id;
     private String lastName;
     private String firstName;
     
@@ -12,17 +12,17 @@ public class Employee {
     
     public Employee() {}
     
-    public Employee(String id, String lastName, String firstName) {
+    public Employee(int id, String lastName, String firstName) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
     
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     

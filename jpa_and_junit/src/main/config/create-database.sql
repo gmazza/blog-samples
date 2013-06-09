@@ -1,3 +1,4 @@
+# For Derby, see here: http://www.jroller.com/gmazza/entry/apache_derby_setup
 SET SCHEMA APP;
 DROP VIEW EmplByDeptView;
 DROP TABLE Employee;

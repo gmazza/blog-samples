@@ -10,7 +10,7 @@
     </persistence-unit-metadata>
     <package>entities</package>
     <entity metadata-complete="true" name="Department"
-            class="entity.Department">
+            class="entities.Department">
         <table name="department"/>
         <named-query name="Department.getAll">
             <query>SELECT d FROM Department d</query>
@@ -25,7 +25,7 @@
             <basic name="location">
                 <column name="location" insertable="true" updatable="true" unique="false"/>
             </basic>
-            <one-to-many name="employees" mapped-by="Dept_Id" target-entity="entity.Employee" fetch="LAZY">
+            <one-to-many name="employees" target-entity="entities.Employee" fetch="LAZY">
                 <cascade>
                     <cascade-all/>
                 </cascade>

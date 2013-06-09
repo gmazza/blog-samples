@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 public class Department {
     
-    private String id;
+    private int id;
     private String name;
     private String location;
     private Set employees = new TreeSet();
@@ -13,17 +13,17 @@ public class Department {
     public Department() {
     }
     
-    public Department(String id, String name, String location) {
+    public Department(int id, String name, String location) {
         this.id = id;
         this.name = name;
         this.location = location;
     }
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
      
