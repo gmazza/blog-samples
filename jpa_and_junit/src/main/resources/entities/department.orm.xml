@@ -18,6 +18,7 @@
         <attributes>
             <id name="id">
                 <column name="Dept_Id"/>
+                <generated-value strategy="IDENTITY"/>
             </id>
             <basic name="name">
                 <column name="name" insertable="true" updatable="true" unique="false"/>

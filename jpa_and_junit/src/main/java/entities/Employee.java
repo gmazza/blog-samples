@@ -42,6 +42,7 @@ public class Employee {
         this.firstName = firstName;
     }   
     
+/*
     public Department getDepartment() {
         return department;
     }
@@ -49,6 +50,6 @@ public class Employee {
     public void setDepartment(Department department) {
         this.department = department;
     }
-    
+*/    
 }
 

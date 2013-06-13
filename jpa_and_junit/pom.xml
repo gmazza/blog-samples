@@ -12,9 +12,16 @@
    <url>http://www.jroller.com/gmazza/entry/jpa_and_junit</url>
 
    <dependencies>
+      <!-- Needed if using Derby -->
       <dependency>
          <groupId>org.apache.derby</groupId>
          <artifactId>derby</artifactId>
+         <version>10.10.1.1</version>
+      </dependency>
+      <!-- Needed if using Derby & Network Mode -->
+      <dependency>
+         <groupId>org.apache.derby</groupId>
+         <artifactId>derbyclient</artifactId>
          <version>10.10.1.1</version>
       </dependency>
    </dependencies>

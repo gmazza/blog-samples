@@ -17,6 +17,7 @@
         <attributes>
             <id name="id">
                 <column name="Empl_Id"/>
+                <generated-value strategy="IDENTITY"/>
             </id>
             <basic name="lastName">
                 <column name="last_name" insertable="true" updatable="true" unique="false"/>
@@ -24,9 +25,9 @@
             <basic name="firstName">
                 <column name="first_name" insertable="true" updatable="true" unique="false"/>
             </basic>
-            <many-to-one name="department" target-entity="entities.Department">
+            <!--many-to-one name="department" target-entity="entities.Department">
 				<join-column name="dept_id" insertable="true" updatable="true" nullable="false"/>
-			</many-to-one>
+			</many-to-one-->
         </attributes>
     </entity>
 </entity-mappings>

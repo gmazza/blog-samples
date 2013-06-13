@@ -4,25 +4,41 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import entities.Department;
 
-/* Create Derby database via: 
-   connect 'jdbc:derby:/media/work1/EMPLDB;create=true';
-   run 'src/main/config/create-database.sql';
+/* Information on Derby:
+   http://www.jroller.com/gmazza/entry/apache_derby_setup
+
+   Create Derby DB via:
+   ij> connect 'jdbc:derby:/media/work1/EMPLDB;create=true';
+   ij> run 'src/main/config/create-database-derby.sql';
+
+   Before runs, activate Derby DB via:
+   % startNetworkServer
+   Can access database during runs via:
+   ij> connect 'jdbc:derby://localhost:1527//media/work1/EMPLDB';
 */
 public class TestClass {
 
     // used by standalone Java client
     public static void main (String[] args) throws Exception {
         Properties emfProps = new Properties();
-        emfProps.setProperty("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
-        emfProps.setProperty("javax.persistence.jdbc.url", "jdbc:derby:/media/work1/EMPLDB");
-        emfProps.setProperty("javax.persistence.jdbc.user",  "APP");
+
+        String driver, url;
+        /* Starting Derby in embedded (single JVM) mode: */
+        //driver = "org.apache.derby.jdbc.EmbeddedDriver";
+        //url = "jdbc:derby:/media/work1/EMPLDB";
+        /* Starting Derby in Network (multi JVM) mode: */
+        driver = "org.apache.derby.jdbc.ClientDriver";
+        url = "jdbc:derby://localhost:1527//media/work1/EMPLDB";
+
+        emfProps.setProperty("javax.persistence.jdbc.driver", driver);
+        emfProps.setProperty("javax.persistence.jdbc.url", url); 
+        emfProps.setProperty("javax.persistence.jdbc.user", "APP");
         emfProps.setProperty("javax.persistence.jdbc.password", "ANYTHING");
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CompanyPU", emfProps);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Department dp = new Department();
-        dp.setId(1);
         dp.setName("Glen's Department");
         dp.setLocation("Buffalo");
         em.persist(dp);
