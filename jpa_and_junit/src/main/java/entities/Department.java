@@ -2,6 +2,7 @@ package entities;
 
 import java.util.Set;
 import java.util.TreeSet;
+import javax.persistence.OneToMany;
 
 public class Department {
     
@@ -43,6 +44,7 @@ public class Department {
         this.name = name;
     }
     
+    @OneToMany
     public Set getEmployees() {
         return employees;
     }

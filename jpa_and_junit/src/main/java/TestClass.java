@@ -3,6 +3,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import entities.Department;
+import entities.Employee;
 
 /* Information on Derby:
    http://www.jroller.com/gmazza/entry/apache_derby_setup
@@ -42,6 +43,14 @@ public class TestClass {
         dp.setName("Glen's Department");
         dp.setLocation("Buffalo");
         em.persist(dp);
+
+        Employee emp = new Employee();
+        // add dp ID to satisfy uniqueness constraint
+        emp.setLastName("Smith" + dp.getId());
+        emp.setFirstName("Bill");
+        emp.setDepartment(dp);
+        em.persist(emp);
+
         em.getTransaction().commit();
         em.close();
     } 
