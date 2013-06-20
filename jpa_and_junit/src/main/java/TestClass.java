@@ -42,8 +42,13 @@ public class TestClass {
         Department dp = new Department();
         dp.setName("Glen's Department");
         dp.setLocation("Buffalo");
+        System.out.println("****DP Before: " + dp.getId());
         em.persist(dp);
+        // EclipseLink requires a commit to get new dp.id; OpenJPA doesn't.
+        em.getTransaction().commit();
+        System.out.println("****DP After: " + dp.getId());
 
+        em.getTransaction().begin();
         Employee emp = new Employee();
         // add dp ID to satisfy uniqueness constraint
         emp.setLastName("Smith" + dp.getId());
