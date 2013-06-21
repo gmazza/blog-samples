@@ -24,9 +24,6 @@ public class TestClass {
         Properties emfProps = new Properties();
 
         String driver, url;
-        /* Starting Derby in embedded (single JVM) mode: */
-        //driver = "org.apache.derby.jdbc.EmbeddedDriver";
-        //url = "jdbc:derby:/media/work1/EMPLDB";
         /* Starting Derby in Network (multi JVM) mode: */
         driver = "org.apache.derby.jdbc.ClientDriver";
         url = "jdbc:derby://localhost:1527//media/work1/EMPLDB";

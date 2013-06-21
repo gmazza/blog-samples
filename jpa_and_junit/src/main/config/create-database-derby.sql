@@ -1,8 +1,5 @@
-# For Derby, see here: http://www.jroller.com/gmazza/entry/apache_derby_setup
+/* For Derby notes, see here: http://www.jroller.com/gmazza/entry/apache_derby_setup */
 SET SCHEMA APP;
-DROP VIEW EmplByDeptView;
-DROP TABLE Employee;
-DROP TABLE Department;
 
 CREATE TABLE DEPARTMENT (
   Dept_Id   SMALLINT NOT NULL PRIMARY KEY
