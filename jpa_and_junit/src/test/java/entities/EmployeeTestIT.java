@@ -23,7 +23,7 @@ public class EmployeeTestIT {
     }
  
     @Test
-    public void departmentTest() throws Exception {
+    public void employeeTest() throws Exception {
         // sample departments to use
     	Department dpNew1 = new Department();
         em.getTransaction().begin();

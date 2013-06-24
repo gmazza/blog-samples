@@ -17,7 +17,7 @@ import entities.Employee;
    Can access database during runs via:
    ij> connect 'jdbc:derby://localhost:1527//media/work1/EMPLDB';
 */
-public class TestClass {
+public class SampleRun {
 
     // used by standalone Java client
     public static void main (String[] args) throws Exception {

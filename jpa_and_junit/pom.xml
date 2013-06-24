@@ -13,6 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -54,7 +55,7 @@
                         <argument>-classpath</argument>
                         <classpath />
                         <argument>
-                            TestClass
+                            SampleRun
                         </argument>
                     </arguments>
                 </configuration>
@@ -105,6 +106,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <useProjectReferences>false</useProjectReferences>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -164,4 +174,3 @@
         </profile>
     </profiles>
 </project>
-
