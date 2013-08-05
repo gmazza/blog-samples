@@ -1,15 +1,14 @@
 package entities;
 
 import java.util.Set;
-import java.util.TreeSet;
-import javax.persistence.OneToMany;
+import java.util.HashSet;
 
 public class Department {
     
     private int id;
     private String name;
     private String location;
-    private Set employees = new TreeSet();
+    private Set<Employee> employees = new HashSet<Employee>();
     
     public Department() {
     }
@@ -44,12 +43,11 @@ public class Department {
         this.name = name;
     }
     
-    @OneToMany
-    public Set getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
     
