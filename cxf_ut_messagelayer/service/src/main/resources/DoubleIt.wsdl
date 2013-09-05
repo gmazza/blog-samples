@@ -37,8 +37,8 @@
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
-        <!--wsp:PolicyReference URI="#DoubleItUTSymmetricX509Policy"/-->
-        <wsp:PolicyReference URI="#DoubleItUTSymmetricPasswordPolicy"/>
+        <wsp:PolicyReference URI="#DoubleItUTSymmetricX509Policy"/>
+        <!--wsp:PolicyReference URI="#DoubleItUTSymmetricPasswordPolicy"/-->
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
         <wsdl:operation name="DoubleIt">
             <soap:operation soapAction="http://www.example.org/contract/DoubleIt/DoubleItPortType/DoubleItRequest" />
@@ -119,6 +119,7 @@
                                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                                     <wsp:Policy>
                                         <sp:WssUsernameToken10 />
+                                        <sp:NoPassword />
                                         <!--sp:RequireDerivedKeys /-->
                                     </wsp:Policy>
                                 </sp:UsernameToken>
