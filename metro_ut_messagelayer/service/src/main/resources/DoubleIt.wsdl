@@ -127,6 +127,7 @@
                                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                                     <wsp:Policy>
                                         <sp:WssUsernameToken10 />
+                                        <sp:NoPassword />
                                         <!--sp:RequireDerivedKeys /-->
                                     </wsp:Policy>
                                 </sp:UsernameToken>
