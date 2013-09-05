@@ -47,17 +47,14 @@
               <artifactId>cxf-rt-ws-policy</artifactId>
             </exclusion>
          </exclusions-->
-         <version>2.7.3</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
-         <version>2.7.3</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-ws-security</artifactId>
-         <version>2.7.3</version>
       </dependency>
    </dependencies>
 
