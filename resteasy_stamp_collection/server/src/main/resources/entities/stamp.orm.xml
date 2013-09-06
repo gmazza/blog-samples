@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+    <description>Entity file for a Postage Stamp</description>
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <access>PROPERTY</access>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+    <package>entities</package>
+    <entity metadata-complete="true" name="Stamp"
+            class="entities.Stamp">
+        <table name="stamp"/>
+        <named-query name="Stamp.getAll">
+            <query>SELECT s FROM Stamp s</query>
+        </named-query>
+        <attributes>
+            <id name="id">
+                <column name="id"/>
+                <!--generated-value strategy="IDENTITY"/-->
+            </id>
+            <basic name="description">
+                <column name="description" insertable="true" updatable="true" unique="false"/>
+            </basic>
+            <basic name="image" fetch="LAZY">
+                <column name="image" insertable="true" updatable="true" unique="false"/>
+                <lob/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+
