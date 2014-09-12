@@ -16,7 +16,7 @@
         profile defined via WS-SecurityPolicy for security.  Follow modifications as  
         given in blog entry below for non-WS-SecurityPolicy (WSS4J interceptor) method.
     </description>
-    <url>http://www.jroller.com/gmazza/entry/cxf_usernametoken_profile</url>  
+    <url>http://web-gmazza.rhcloud.com/blog/entry/cxf-usernametoken-profile</url>  
 
     <modules>
         <module>service</module>

@@ -12,7 +12,7 @@
    <artifactId>asynchronous_web_service_calls</artifactId>
    <packaging>pom</packaging>
    <name>Tutorial: Making Asynchronous Web Service Calls</name>
-   <url>http://www.jroller.com/gmazza/entry/asynchronous_web_service_calls</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/asynchronous-web-service-calls</url>
 
    <modules>
       <module>service</module>

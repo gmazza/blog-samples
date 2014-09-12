@@ -12,7 +12,7 @@
     <artifactId>cxf-soap-over-jms</artifactId>
     <name>Tutorial: Sending SOAP messages over JMS</name>
     <packaging>pom</packaging>
-    <url>http://www.jroller.com/gmazza/entry/cxf_soap_over_jms</url>
+    <url>http://web-gmazza.rhcloud.com/blog/entry/cxf-soap-over-jms</url>
 
     <modules>
         <module>broker</module>

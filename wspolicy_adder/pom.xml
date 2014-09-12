@@ -15,7 +15,7 @@
    <artifactId>wspolicy_adder</artifactId>
    <name>Using XSLT to add policy statements</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/wspolicy_adder</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/xslt-for-adding-wsdl-policy</url>
 
    <build>
       <plugins>

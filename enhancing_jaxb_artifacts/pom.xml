@@ -13,7 +13,7 @@
    <artifactId>enhancing_jaxb_artifacts</artifactId>
    <name>Tutorial: Enhancing JAXB-generated classes</name>
    <packaging>jar</packaging>
-   <url>http://www.jroller.com/gmazza/entry/enhancing_jaxb_artifacts</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/enhancing-jaxb-artifacts</url>
 
    <properties>
       <jaxb2.basics.version>0.6.3</jaxb2.basics.version>

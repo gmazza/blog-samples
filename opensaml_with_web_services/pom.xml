@@ -12,7 +12,7 @@
    <artifactId>opensaml-with-web-services</artifactId>
    <name>Tutorial: OpenSAML with web services</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/opensaml_with_web_services</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/opensaml-with-web-services</url>
 
    <modules>
       <module>service</module>

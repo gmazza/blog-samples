@@ -1,4 +1,3 @@
-/* For Derby notes, see here: http://www.jroller.com/gmazza/entry/apache_derby_setup */
 SET SCHEMA APP;
 
 CREATE TABLE DEPARTMENT (

@@ -16,7 +16,7 @@
         to a CXF Security Token Service (STS) to obtain a security token to use in 
         subsequently making a call against a web service provider (WSP).
     </description>
-    <url>http://www.jroller.com/gmazza/entry/cxf_sts_tutorial</url>
+    <url>http://web-gmazza.rhcloud.com/blog/entry/cxf-sts-tutorial</url>
 
     <modules>
         <module>service</module>

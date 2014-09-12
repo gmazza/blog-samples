@@ -11,7 +11,7 @@
    <groupId>org.gmazza.blog-samples.metro-sts-tutorial</groupId>
    <artifactId>metro-sts-tutorial</artifactId>
    <name>Tutorial: Metro Security Token Service (STS)</name>
-   <url>http://www.jroller.com/gmazza/entry/metro_sts_tutorial</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/metro-sts-tutorial</url>
 
    <packaging>pom</packaging>
 

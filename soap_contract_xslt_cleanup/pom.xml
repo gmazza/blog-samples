@@ -13,7 +13,7 @@
    <artifactId>soap_contract_xslt_cleanup</artifactId>
    <name>Tutorial: XSLT to organize SOAP contracts</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/soap_contract_xslt_cleanup</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/soap-contract-xslt-cleanup</url>
 
    <build>
       <plugins>

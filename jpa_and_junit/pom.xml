@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>JPA with JUnit example</name>
     <packaging>jar</packaging>
-    <url>http://www.jroller.com/gmazza/entry/jpa_and_junit</url>
+    <url>http://web-gmazza.rhcloud.com/blog/entry/jpa-and-junit</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

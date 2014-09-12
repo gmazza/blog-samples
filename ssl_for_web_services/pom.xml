@@ -12,7 +12,7 @@
    <artifactId>ssl-for-web-services</artifactId>
    <name>Tutorial: Web Service w/SSL</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/ssl_for_web_services</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/ssl-for-web-services</url>
 
    <modules>
       <module>service</module>

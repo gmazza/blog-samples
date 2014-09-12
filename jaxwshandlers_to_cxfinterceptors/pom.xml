@@ -12,7 +12,7 @@
    <artifactId>jaxwshandlers_to_cxfinterceptors</artifactId>
    <packaging>pom</packaging>
    <name>Tutorial: JAX-WS handlers --> CXF interceptors</name>
-   <url>http://www.jroller.com/gmazza/entry/jaxwshandlers_to_cxfinterceptors</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/jaxwshandlers-to-cxfinterceptors</url>
 
    <modules>
       <module>service</module>

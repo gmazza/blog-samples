@@ -12,7 +12,7 @@
    <artifactId>junit-for-soap-clients</artifactId>
    <name>Tutorial: Testing SOAP Clients with JUnit</name>
    <packaging>jar</packaging>
-   <url>http://www.jroller.com/gmazza/entry/junit_for_soap_clients</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/junit-for-soap-clients</url>
 
    <dependencies>
      <dependency>

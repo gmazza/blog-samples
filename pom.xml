@@ -7,7 +7,7 @@
     <artifactId>blog-samples</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Root POM for Blog Samples</name>
-    <description>Source code for web service tutorials at http://www.jroller.com/gmazza/entry/blog_article_index</description>
+    <description>Source code for the web service tutorials listed at http://web-gmazza.rhcloud.com/blog/entry/blog-index</description>
     <packaging>pom</packaging>
 
     <modules>
@@ -255,11 +255,11 @@
                     </executions>
                 </plugin>
                 <!-- 
-                  For Tomcat 7, both embedded (tomcat7:run-war) and standalone
+                  For Tomcat 7 and 8, both embedded (tomcat7:run-war) and standalone
                   deployment - tomcat7:deploy/undeploy/redeploy 
 
                   How to configure Maven and Tomcat to use below plugin:
-                  http://www.jroller.com/gmazza/entry/web_service_tutorial#WFstep8
+                  http://web-gmazza.rhcloud.com/blog/entry/web-service-tutorial#maventomcat
                 --> 
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>

@@ -7,7 +7,7 @@ import entities.Department;
 import entities.Employee;
 
 /* Information on Derby:
-   http://www.jroller.com/gmazza/entry/apache_derby_setup
+   http://web-gmazza.rhcloud.com/blog/entry/apache-derby-setup
 
    Create Derby DB via:
    ij> connect 'jdbc:derby:/media/work1/EMPLDB;create=true';

@@ -12,7 +12,7 @@
    <artifactId>junit-web-service-testing</artifactId>
    <packaging>pom</packaging>
    <name>Tutorial: Testing WSP's with JUnit</name>
-   <url>http://www.jroller.com/gmazza/entry/junit_web_service_testing</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/junit-web-service-testing</url>
 
    <dependencies>
       <dependency>

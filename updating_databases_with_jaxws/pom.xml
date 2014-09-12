@@ -12,7 +12,7 @@
    <artifactId>updating_databases_with_jaxws</artifactId>
    <packaging>pom</packaging>
    <name>Tutorial: Using JAX-WS to update databases</name>
-   <url>http://www.jroller.com/gmazza/entry/updating_databases_with_jaxws</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/updating-databases-with-jaxws</url>
 
    <modules>
       <module>service</module>

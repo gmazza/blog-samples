@@ -12,7 +12,7 @@
    <artifactId>web-service-ear-tutorial</artifactId>
    <name>Tutorial: Deploying JAX-WS Services as EARs</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/web_service_ear_tutorial</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/web-service-ear-tutorial</url>
 
    <modules>
       <module>service</module>

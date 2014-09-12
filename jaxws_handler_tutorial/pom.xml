@@ -12,7 +12,7 @@
    <artifactId>jaxws_handler_tutorial</artifactId>
    <packaging>pom</packaging>
    <name>Tutorial: Using JAX-WS Handlers</name>
-   <url>http://www.jroller.com/gmazza/entry/jaxws_handler_tutorial</url>
+   <url>http://web-gmazza.rhcloud.com/blog/entry/jaxws-handler-tutorial</url>
 
    <modules>
       <module>service</module>
