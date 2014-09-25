@@ -31,7 +31,7 @@
             -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.4.1</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/jaxws-jar.xml</descriptor>
@@ -109,7 +109,7 @@
                     <plugin>
                         <groupId>org.jvnet.jax-ws-commons</groupId>
                         <artifactId>jaxws-maven-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>2.3</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -126,6 +126,10 @@
                                     <sourceDestDir>
                                         ${basedir}/target/generated-sources
                                     </sourceDestDir>
+                                    <!-- Needed with JAXP 1.5, see https://netbeans.org/bugzilla/show_bug.cgi?id=241570#c2 -->
+                                    <vmArgs>
+                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                                    </vmArgs>
                                 </configuration>
                             </execution>
                         </executions>
@@ -135,4 +139,3 @@
         </profile>
     </profiles>
 </project>
-

@@ -1,66 +1,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.gmazza</groupId>
-      <artifactId>blog-samples</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
-   <groupId>org.gmazza.blog-samples.opensaml-with-web-services</groupId>
-   <artifactId>opensaml-with-web-services</artifactId>
-   <name>Tutorial: OpenSAML with web services</name>
-   <packaging>pom</packaging>
-   <url>http://web-gmazza.rhcloud.com/blog/entry/opensaml-with-web-services</url>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gmazza</groupId>
+        <artifactId>blog-samples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>org.gmazza.blog-samples.opensaml-with-web-services</groupId>
+    <artifactId>opensaml-with-web-services</artifactId>
+    <name>Tutorial: OpenSAML with web services</name>
+    <packaging>pom</packaging>
+    <url>http://web-gmazza.rhcloud.com/blog/entry/opensaml-with-web-services</url>
 
-   <modules>
-      <module>service</module>
-      <module>war</module>
-      <module>client</module>
-   </modules>
+    <modules>
+        <module>service</module>
+        <module>war</module>
+        <module>client</module>
+    </modules>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.opensaml</groupId>
-         <artifactId>opensaml</artifactId>
-         <version>2.5.1-1</version>
-      </dependency>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-jdk14</artifactId>
-      </dependency>
-   </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
+        </dependency>
+    </dependencies>
 
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!-- To use Metro by default, move activation element to its profile below  -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-transports-http</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
+    <profiles>
+        <profile>
+            <id>CXF</id>
+            <!-- To use Metro by default, move activation element to its profile below  -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-rt-transports-http</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
 
-      <profile>
-         <id>Metro</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
-   </profiles>
+        <profile>
+            <id>Metro</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.glassfish.metro</groupId>
+                    <artifactId>webservices-rt</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>
 

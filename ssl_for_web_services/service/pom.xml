@@ -81,6 +81,9 @@
                                     <sourceDestDir>
                                         ${basedir}/target/generated-sources
                                     </sourceDestDir>
+                                    <vmArgs>
+                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                                    </vmArgs>
                                 </configuration>
                             </execution>
                         </executions>

@@ -1,158 +1,161 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.gmazza</groupId>
-      <artifactId>blog-samples</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gmazza</groupId>
+        <artifactId>blog-samples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-   <groupId>org.gmazza.blog-samples.enhancing_jaxb_artifacts</groupId>
-   <artifactId>enhancing_jaxb_artifacts</artifactId>
-   <name>Tutorial: Enhancing JAXB-generated classes</name>
-   <packaging>jar</packaging>
-   <url>http://web-gmazza.rhcloud.com/blog/entry/enhancing-jaxb-artifacts</url>
+    <groupId>org.gmazza.blog-samples.enhancing_jaxb_artifacts</groupId>
+    <artifactId>enhancing_jaxb_artifacts</artifactId>
+    <name>Tutorial: Enhancing JAXB-generated classes</name>
+    <packaging>jar</packaging>
+    <url>http://web-gmazza.rhcloud.com/blog/entry/enhancing-jaxb-artifacts</url>
 
-   <properties>
-      <jaxb2.basics.version>0.6.3</jaxb2.basics.version>
-   </properties>
+    <properties>
+        <jaxb2.basics.version>0.8.2</jaxb2.basics.version>
+    </properties>
 
-   <dependencies>
-      <!-- Needed only when additional methods added by JAXB Basics Plugin 
-           into JAXB-generated classes (e.g., -XtoString) reference 
-           helper classes defined in JAXB2 Basics library, missing class
-           compilation errors will otherwise occur.
-      -->
-      <dependency>
-         <groupId>org.jvnet.jaxb2_commons</groupId>
-         <artifactId>jaxb2-basics-runtime</artifactId>
-         <version>${jaxb2.basics.version}</version>
-      </dependency>
-   </dependencies>
+    <dependencies>
+        <!-- Needed only when additional methods added by JAXB Basics Plugin
+             into JAXB-generated classes (e.g., -XtoString) reference
+             helper classes defined in JAXB2 Basics library, missing class
+             compilation errors will otherwise occur.
+        -->
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>${jaxb2.basics.version}</version>
+        </dependency>
+    </dependencies>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-               <executable>java</executable>
-               <arguments>
-                  <argument>-classpath</argument>
-                  <classpath />
-                  <argument>client.WSClient</argument>
-                  <!-- Modify argument below for the item you wish to search eBay for. -->
-                  <argument>camera</argument>
-               </arguments>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>client.WSClient</argument>
+                        <!-- Modify argument below for the item you wish to search eBay for. -->
+                        <argument>camera</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!-- To use Metro by default, move this activation element to its profile below or use -PMetro with all Maven commands -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-transports-http</artifactId>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.cxf</groupId>
-                  <artifactId>cxf-codegen-plugin</artifactId>
-                  <dependencies>
-                     <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>${jaxb2.basics.version}</version>
-                     </dependency>
-                  </dependencies>
-                  <executions>
-                     <execution>
-                        <configuration>
-                           <sourceRoot>${basedir}/target/generated-sources</sourceRoot>
-                           <wsdlOptions>
-                              <wsdlOption>
-                                 <wsdl>
-                                    ${basedir}/src/main/resources/ShoppingService.wsdl
-                                 </wsdl>
-                                 <wsdlLocation>classpath:ShoppingService.wsdl</wsdlLocation>
-                                 <extraargs>
-                                    <!-- Below standard JAXB processing flags -->
-                                    <extraarg>-xjc-Xlocator,-mark-generated</extraarg>
-                                    <extraarg>-xjc-b,${basedir}/src/main/resources/sample.xjb</extraarg>
-                                    <!-- Below implemented by JAXB2 Basics Plugin -->
-                                    <extraarg>-xjc-XtoString</extraarg>
-                                    <extraarg>-xjc-Xinheritance</extraarg>
-                                 </extraargs>
-                              </wsdlOption>
-                           </wsdlOptions>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <profile>
-         <id>Metro</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.jvnet.jax-ws-commons</groupId>
-                  <artifactId>jaxws-maven-plugin</artifactId>
-                  <dependencies>
-                     <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>${jaxb2.basics.version}</version>
-                     </dependency>
-                  </dependencies>
-                  <executions>
-                     <execution>
-                        <configuration>
-                           <wsdlDirectory>src/main/resources</wsdlDirectory>
-                           <wsdlFiles>
-                              <wsdlFile>ShoppingService.wsdl</wsdlFile>
-                           </wsdlFiles>
-                           <wsdlLocation>/*</wsdlLocation>
-                           <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
-                           <xjcArgs>
-                              <!-- Below standard JAXB processing flags -->
-                              <xjcArg>-mark-generated</xjcArg>
-                              <xjcArg>-Xlocator</xjcArg>
-                              <xjcArg>-b</xjcArg>
-                              <xjcArg>${basedir}/src/main/resources/sample.xjb</xjcArg>
-                              <!-- Below implemented by JAXB2 Basics Plugin -->
-                              <xjcArg>-XtoString</xjcArg>
-                              <xjcArg>-Xinheritance</xjcArg>
-                           </xjcArgs>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+    <profiles>
+        <profile>
+            <id>CXF</id>
+            <!-- To use Metro by default, move this activation element to its profile below or use -PMetro with all Maven commands -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-rt-transports-http</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-codegen-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.jvnet.jaxb2_commons</groupId>
+                                <artifactId>jaxb2-basics</artifactId>
+                                <version>${jaxb2.basics.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <sourceRoot>${basedir}/target/generated-sources</sourceRoot>
+                                    <wsdlOptions>
+                                        <wsdlOption>
+                                            <wsdl>
+                                                ${basedir}/src/main/resources/ShoppingService.wsdl
+                                            </wsdl>
+                                            <wsdlLocation>classpath:ShoppingService.wsdl</wsdlLocation>
+                                            <extraargs>
+                                                <!-- Below standard JAXB processing flags -->
+                                                <extraarg>-xjc-Xlocator,-mark-generated</extraarg>
+                                                <extraarg>-xjc-b,${basedir}/src/main/resources/sample.xjb</extraarg>
+                                                <!-- Below implemented by JAXB2 Basics Plugin -->
+                                                <extraarg>-xjc-XtoString</extraarg>
+                                                <extraarg>-xjc-Xinheritance</extraarg>
+                                            </extraargs>
+                                        </wsdlOption>
+                                    </wsdlOptions>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>Metro</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.glassfish.metro</groupId>
+                    <artifactId>webservices-rt</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jvnet.jax-ws-commons</groupId>
+                        <artifactId>jaxws-maven-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.jvnet.jaxb2_commons</groupId>
+                                <artifactId>jaxb2-basics</artifactId>
+                                <version>${jaxb2.basics.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <wsdlDirectory>src/main/resources</wsdlDirectory>
+                                    <wsdlFiles>
+                                        <wsdlFile>ShoppingService.wsdl</wsdlFile>
+                                    </wsdlFiles>
+                                    <wsdlLocation>/*</wsdlLocation>
+                                    <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
+                                    <xjcArgs>
+                                        <!-- Below standard JAXB processing flags -->
+                                        <xjcArg>-mark-generated</xjcArg>
+                                        <xjcArg>-Xlocator</xjcArg>
+                                        <xjcArg>-b</xjcArg>
+                                        <xjcArg>${basedir}/src/main/resources/sample.xjb</xjcArg>
+                                        <!-- Below implemented by JAXB2 Basics Plugin -->
+                                        <xjcArg>-XtoString</xjcArg>
+                                        <xjcArg>-Xinheritance</xjcArg>
+                                    </xjcArgs>
+                                    <vmArgs>
+                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
 

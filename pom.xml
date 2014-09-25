@@ -46,9 +46,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.6</cxf.version>
-        <spring.version>3.0.7.RELEASE</spring.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <cxf.version>3.0.1</cxf.version>
+        <spring.version>3.2.5.RELEASE</spring.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
         <stswar.module.name>-- STS WAR file</stswar.module.name>
@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
-                <version>10.9.1.0</version>
+                <version>10.11.1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -146,10 +146,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -172,7 +172,7 @@
                 -->
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.4.1</version>
                     <configuration>
                         <appendAssemblyId>true</appendAssemblyId>
                         <attach>true</attach>
@@ -191,7 +191,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.2.1</version>
+                    <version>1.3.2</version>
                     <executions>
                         <execution>
                             <goals>
@@ -225,7 +225,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.3.7</version>
+                    <version>2.5.3</version>
                     <extensions>true</extensions>
                 </plugin>
                 <!-- Below used with CXF service poms -->
@@ -264,7 +264,7 @@
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.2</version>
                     <configuration>
                         <server>myTomcat</server>
                         <url>http://localhost:8080/manager/text</url>
@@ -284,14 +284,14 @@
                 <!-- Below for WAR submodules, defaults for when creating the WAR file. --> 
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.4</version>
                 </plugin>
                 <!-- Below activates any integration tests where testcases require
                      the JAR or WAR to be created first (see http://tinyurl.com/7zfp7v7) -->
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-failsafe-plugin</artifactId>
-	                <version>2.12.4</version>
+	                <version>2.17</version>
 	                <executions>
 	                    <execution>
 	                        <goals>
