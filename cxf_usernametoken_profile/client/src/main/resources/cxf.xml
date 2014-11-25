@@ -2,9 +2,9 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:jaxws="http://cxf.apache.org/jaxws"
    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://cxf.apache.org/jaxws 
+        http://cxf.apache.org/jaxws
         http://cxf.apache.org/schemas/jaxws.xsd">
 
     <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
@@ -13,7 +13,7 @@
             <entry key="ws-security.username" value="joe"/>        
             <entry key="ws-security.callback-handler" value-ref="myPasswordCallback"/>
         </jaxws:properties>
-        
+
         <!-- Note with above WS-SecPol method you can omit creating
              a client-side callback handler by removing the
              ws-security.callback-handler entry and replacing it with:
