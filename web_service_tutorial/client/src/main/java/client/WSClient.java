@@ -8,12 +8,6 @@ public class WSClient {
     public WSClient() {
     }
 
-    // used by OSGi-hosted client
-    public WSClient(DoubleItPortType portType) {
-        makeCalls(portType);
-    }
-
-    // used by standalone Java client
     public static void main (String[] args) {
         DoubleItService service = new DoubleItService();
         DoubleItPortType port = service.getDoubleItPort();           

@@ -47,13 +47,7 @@
    </wsdl:binding>
    <wsdl:service name="DoubleItService">
       <wsdl:port name="DoubleItPort" binding="tns:DoubleItBinding">
-         <!-- Default address for Tomcat deployment (CXF/Metro) -->
-         <soap:address
-            location="http://localhost:8080/doubleit/services/doubleit"/>
-         <!-- Default address for Karaf deployment (CXF only) -->
-         <!--soap:address
-            location="http://localhost:8181/cxf/doubleit"/-->
+         <soap:address location="http://localhost:8080/doubleit/services/doubleit"/>
       </wsdl:port>
    </wsdl:service>
 </wsdl:definitions> 
-
