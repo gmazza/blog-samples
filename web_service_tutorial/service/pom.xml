@@ -25,7 +25,7 @@
         <plugins>
             <!--
                  Below plugin provides a separate JAR for the JAX-WS artifacts (i.e.,
-                 the objects created by running wsdl2java or wsimport), as this JAR
+                 the objects created by running wsdl2java), as this JAR
                  will also be used by the SOAP client.  More info:
                  http://maven.apache.org/plugins/maven-assembly-plugin/
             -->
