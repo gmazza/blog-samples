@@ -10,13 +10,13 @@
     </parent>
     <artifactId>web-service-tutorial-service</artifactId>
     <name>-- Web Service Provider</name>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -31,7 +31,7 @@
             -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>3.0.0</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/jaxws-jar.xml</descriptor>
@@ -50,92 +50,33 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>service</Export-Package>
-                    </instructions>
-                </configuration>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <sourceRoot>
+                                ${basedir}/target/generated-sources
+                            </sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        ${basedir}/src/main/resources/DoubleIt.wsdl
+                                    </wsdl>
+                                    <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <!-- Name of the generated WAR file -->
         <finalName>doubleit</finalName>
     </build>
 
-    <profiles>
-        <profile>
-            <id>CXF</id>
-            <!-- To use Metro by default, move activation element to its profile below  -->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-codegen-plugin</artifactId>
-                        <version>${cxf.version}</version>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <sourceRoot>
-                                        ${basedir}/target/generated-sources
-                                    </sourceRoot>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <wsdl>
-                                                ${basedir}/src/main/resources/DoubleIt.wsdl
-                                            </wsdl>
-                                            <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                                <goals>
-                                    <goal>wsdl2java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>Metro</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jvnet.jax-ws-commons</groupId>
-                        <artifactId>jaxws-maven-plugin</artifactId>
-                        <version>2.3</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>wsimport</goal>
-                                </goals>
-                                <configuration>
-                                    <wsdlDirectory>
-                                        src/main/resources
-                                    </wsdlDirectory>
-                                    <wsdlFiles>
-                                        <wsdlFile>DoubleIt.wsdl</wsdlFile>
-                                    </wsdlFiles>
-                                    <wsdlLocation>/*</wsdlLocation>
-                                    <sourceDestDir>
-                                        ${basedir}/target/generated-sources
-                                    </sourceDestDir>
-                                    <!-- Needed with JAXP 1.5, see https://netbeans.org/bugzilla/show_bug.cgi?id=241570#c2 -->
-                                    <vmArgs>
-                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                                    </vmArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
