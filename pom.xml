@@ -12,7 +12,7 @@
 
     <modules>
         <module>web_service_tutorial</module>
-        <module>soap_client_tutorial</module>
+        <module>cxf_salesforce_soap_api</module>
         <module>ssl_for_web_services</module>
         <module>cxf_usernametoken_profile</module>
         <module>metro_usernametoken_profile</module>
@@ -39,9 +39,8 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <!-- Note web_service_tutorial, java_first_web_service, and soap_client_tutorial  
-         poms are standalone (do not reference this pom) to help keep the
-         corresponding blog tutorials as clear as possible.
+    <!-- Note some modules are standalone (do not reference this pom) to help 
+         keep the corresponding blog tutorials as clear as possible.
          Others reference this pom and hence rely on the below settings -->
 
     <properties>
