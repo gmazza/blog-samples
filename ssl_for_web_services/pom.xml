@@ -20,35 +20,16 @@
       <module>client</module>
    </modules>
 
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!-- To use Metro by default, move activation element to its profile below  -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-transports-http</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
-
-      <profile>
-         <id>Metro</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
-   </profiles>
+   <dependencies>
+       <dependency>
+           <groupId>org.apache.cxf</groupId>
+           <artifactId>cxf-rt-frontend-jaxws</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.cxf</groupId>
+           <artifactId>cxf-rt-transports-http</artifactId>
+       </dependency>
+   </dependencies>
 
 </project>
 

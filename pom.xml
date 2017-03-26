@@ -32,7 +32,6 @@
         <module>soap_contract_xslt_cleanup</module>
         <module>using_mtom_and_apache_fop</module>
         <module>cxf_soap_over_jms</module>
-        <module>web_service_ear_tutorial</module>
     </modules>
 
     <prerequisites>
@@ -45,9 +44,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>3.0.2</cxf.version>
-        <spring.version>3.2.5.RELEASE</spring.version>
-        <slf4j.version>1.7.7</slf4j.version>
+        <cxf.version>3.1.10</cxf.version>
+        <spring.version>4.3.6.RELEASE</spring.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
         <stswar.module.name>-- STS WAR file</stswar.module.name>
@@ -147,8 +146,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
