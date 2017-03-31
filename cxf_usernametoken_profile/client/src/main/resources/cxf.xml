@@ -8,7 +8,7 @@
         http://cxf.apache.org/schemas/jaxws.xsd">
 
     <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
-        <!-- Uncomment if using WS-SecPolicy method -->
+        <!-- Below for WS-SecurityPolicy method, comment-out if using CXF interceptors instead -->
         <jaxws:properties>
             <entry key="ws-security.username" value="joe"/>        
             <entry key="ws-security.callback-handler" value-ref="myPasswordCallback"/>

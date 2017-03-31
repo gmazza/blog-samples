@@ -13,11 +13,11 @@
       implementor="service.DoubleItPortTypeImpl"
       address="/doubleit" 
       wsdlLocation="WEB-INF/wsdl/DoubleIt.wsdl">
- 
-      <!-- Uncomment only if using WS-SecurityPolicy -->
+
+      <!-- Below for WS-SecurityPolicy method, comment-out if using CXF interceptors instead -->
       <jaxws:properties>
          <entry key="ws-security.callback-handler" value-ref="myPasswordCallback"/>
-      </jaxws:properties> 
+      </jaxws:properties>
 
       <!-- Uncomment only if using standard WSS4J interceptors -->
       <!--jaxws:inInterceptors>
