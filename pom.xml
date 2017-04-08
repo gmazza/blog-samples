@@ -17,7 +17,6 @@
         <module>cxf_usernametoken_profile</module>
         <module>cxf_x509_profile</module>
         <module>cxf_sts_tutorial</module>
-        <module>metro_sts_tutorial</module>
         <module>opensaml_with_web_services</module>
         <module>junit_for_soap_clients</module>
         <module>junit_web_service_testing</module>
