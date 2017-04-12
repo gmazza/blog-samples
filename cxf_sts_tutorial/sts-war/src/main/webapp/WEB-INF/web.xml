@@ -1,8 +1,9 @@
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-    http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
-    <display-name>CXF STS</display-name>
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<display-name>CXF STS</display-name>
     <servlet>
         <servlet-name>sts</servlet-name>
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
@@ -18,5 +19,23 @@
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
-</web-app>
 
+    <!-- Below activates SSL if uncommented (servlet container will also need to be configured to support it)
+         If using UsernameToken auth between WSC and STS, and don't wish to rely on CXF message-layer
+         encryption for the UsernameToken credentials, SSL is an alternative.
+         Note: regardless of method, good to use Wireshark or similar tool while testing to confirm
+         credentials are being encrypted.
+    -->
+    <!--security-constraint>
+        <web-resource-collection>
+            <web-resource-name>restricted web services</web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint-->
+
+</web-app>

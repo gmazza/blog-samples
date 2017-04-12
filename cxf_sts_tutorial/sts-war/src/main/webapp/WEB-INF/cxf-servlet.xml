@@ -1,8 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xmlns:test="http://apache.org/hello_world_soap_http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="
+       xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:test="http://apache.org/hello_world_soap_http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
 http://cxf.apache.org/core
 http://cxf.apache.org/schemas/core.xsd
 http://www.springframework.org/schema/beans
@@ -21,7 +21,7 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     </cxf:bus>
 
     <bean id="mySTSProviderBean"
-        class="org.apache.cxf.sts.provider.DefaultSecurityTokenServiceProvider">
+          class="org.apache.cxf.sts.provider.DefaultSecurityTokenServiceProvider">
         <property name="stsProperties" ref="mySTSProperties" />
         <property name="services" ref="myServiceList" />
     </bean>
@@ -44,20 +44,17 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     </bean>
 
     <jaxws:endpoint id="CXFSTS" implementor="#mySTSProviderBean"
-        address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
-        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
-        serviceName="ns1:SecurityTokenService" endpointName="ns1:STS_Port">
+                    address="/STS" wsdlLocation="/WEB-INF/wsdl/DoubleItSTSService.wsdl"
+                    xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+                    serviceName="ns1:SecurityTokenService" endpointName="ns1:STS_Port">
         <jaxws:properties>
             <entry key="ws-security.callback-handler" value="sts.PasswordCallbackHandler" />
             <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
             <entry key="ws-security.signature.username" value="mystskey" />
-            <!-- Below unused/unneeded if using UT auth between WSC and STS -->
-            <entry key="ws-security.encryption.username" value="useReqSigCert" />
-            <!-- Uncomment below only if (1) using UT auth *and* (2) Metro clients -->
-            <!-- Needed due to lack of TokenType param (Metro bugs WSIT-1324 and WSIT-1570) -->
-            <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
+            <!-- Below used w/X.509 to allow server to connect with any client whose key is in STS' truststore-->
+            <!-- Unneeded if using UT authentication between WSC and STS -->
+            <!--entry key="ws-security.encryption.username" value="useReqSigCert" /-->
         </jaxws:properties>
     </jaxws:endpoint>
 
 </beans>
-

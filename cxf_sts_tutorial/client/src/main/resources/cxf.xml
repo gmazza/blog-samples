@@ -23,6 +23,8 @@
                 <bean class="org.apache.cxf.ws.security.trust.STSClient">
                     <constructor-arg ref="cxf" />
                     <property name="wsdlLocation" value="http://localhost:8080/DoubleItSTS/STS?wsdl" />
+                    <!-- use below instead if using SSL for STS -->
+                    <!--property name="wsdlLocation" value="https://localhost:8443/DoubleItSTS/STS?wsdl" /-->
                     <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
                     <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}STS_Port" />
                     <property name="properties">
@@ -35,9 +37,6 @@
                     </property>
                 </bean>
             </entry>
-            <!-- Below line needed only when accessing a Metro STS *and* w/UT auth due to 
-                 lack of TokenType param (Metro bugs WSIT-1324 and WSIT-1570) -->
-            <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
             <!-- Use below for X.509 Authentication between WSC and STS -->
             <!--entry key="ws-security.sts.client"-->
             <!-- Add ".sct" if using WS-SecureConversation between WSC and WSP. -->

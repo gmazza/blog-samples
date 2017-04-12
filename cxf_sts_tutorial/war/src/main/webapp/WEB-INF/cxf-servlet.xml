@@ -21,8 +21,7 @@
           <!-- Use only if using WS-SecureConversation -->
           <!--entry key="ws-security.callback-handler.sct" value="service.ServiceKeystorePasswordCallback"/>
           <entry key="ws-security.signature.properties.sct" value="serviceKeystore.properties"/-->
-          <!-- Uncomment below element if Metro clients present -->
-          <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
        </jaxws:properties>
     </jaxws:endpoint>
 </beans>
+
