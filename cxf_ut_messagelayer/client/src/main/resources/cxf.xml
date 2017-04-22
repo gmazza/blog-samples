@@ -13,9 +13,6 @@
             <entry key="ws-security.callback-handler" value="client.ClientPasswordCallback"/>        
             <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/>
             <entry key="ws-security.encryption.username" value="myservicekey"/>
-            <!-- Below line needed only when accessing a Metro WSP due to 
-                 lack of TokenType param (Metro bugs WSIT-1324 and WSIT-1570) -->
-            <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
         </jaxws:properties>
 
         <!-- Use this for the UsernameToken Symmetric Binding w/UT password for secret key derivation -->

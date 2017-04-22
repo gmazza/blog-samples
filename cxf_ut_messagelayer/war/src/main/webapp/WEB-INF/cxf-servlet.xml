@@ -23,7 +23,7 @@
                 <ref bean="myPasswordCallback"/>
             </entry>
             <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
-        </jaxws:properties> 
+        </jaxws:properties>
 
         <!-- Use this for the UsernameToken Symmetric Binding w/UT password for secret key derivation -->
         <!--jaxws:properties>
