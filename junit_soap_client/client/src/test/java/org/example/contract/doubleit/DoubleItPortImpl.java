@@ -40,7 +40,7 @@ public class DoubleItPortImpl implements DoubleItPortType {
         LOG.info("Executing operation doubleIt");
         System.out.println(numberToDouble);
         try {
-            int _return = 24;
+            int _return = numberToDouble * 2;
             return _return;
         } catch (java.lang.Exception ex) {
             ex.printStackTrace();

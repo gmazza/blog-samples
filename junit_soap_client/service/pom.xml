@@ -13,6 +13,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -42,6 +46,9 @@
                                     <wsdl>
                                         ${basedir}/src/main/resources/DoubleIt.wsdl
                                     </wsdl>
+                                    <extraargs>
+                                        <extraarg>-impl</extraarg>
+                                    </extraargs>
                                     <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
                                 </wsdlOption>
                             </wsdlOptions>

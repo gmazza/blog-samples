@@ -39,27 +39,25 @@ public class WSClientTest {
 
    @Test
    public void testStubWebServiceWorks() {
-      int resp = createPort().doubleIt(10);
+      int resp = createPort().doubleIt(12);
       validateObject(resp);
    }
 
    @Test
    public void testWSClientSOAPCallWorks() {
-      int response = WSClient.doubleIt(createPort(), 10);
+      int response = WSClient.doubleIt(createPort(), 12);
       validateObject(response);
    }
 
    @Test
    public void testWSClientProcessingWorks() {
-      String response = WSClient.doubleItMessage(createPort(), 10);
+      String response = WSClient.doubleItMessage(createPort(), 12);
       
-      // mock Service hardcoded to return 24
-      Assert.assertEquals("DoubleIt string response not reporting 24", 
-         "The number 10 doubled is 24", response);
+      Assert.assertEquals("DoubleIt string response not as expected", 
+         "The number 12 doubled is 24", response);
    }
 
    private void validateObject(int resp) {
-      // mock Service hardcoded to return 24
       Assert.assertTrue("Response is not 24", resp == 24);
    }
 

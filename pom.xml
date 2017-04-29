@@ -18,7 +18,7 @@
         <module>cxf_x509_profile</module>
         <module>cxf_sts_tutorial</module>
         <module>opensaml_with_web_services</module>
-        <module>junit_for_soap_clients</module>
+        <module>junit_soap_client</module>
         <module>junit_web_service_testing</module>
         <module>asynchronous_web_service_calls</module>
         <module>jaxws_handler_tutorial</module>
@@ -41,8 +41,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>3.1.10</cxf.version>
-        <spring.version>4.3.6.RELEASE</spring.version>
+        <cxf.version>3.1.11</cxf.version>
+        <spring.version>4.3.8.RELEASE</spring.version>
         <slf4j.version>1.7.25</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
@@ -115,7 +115,7 @@
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-rt</artifactId>
-                <version>2.3</version>
+                <version>2.3.1</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -131,7 +131,7 @@
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
-                <version>10.11.1.1</version>
+                <version>10.13.1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
