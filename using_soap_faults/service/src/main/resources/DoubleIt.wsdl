@@ -22,6 +22,8 @@
                </xsd:sequence>
             </xsd:complexType>
          </xsd:element>
+         <!-- Be sure not to reuse an element for multiple exception types, CXF uses
+              the element name to determine the type of exception being returned. -->
          <xsd:element name="DoubleOddFault">
             <xsd:complexType>
                <xsd:sequence>
