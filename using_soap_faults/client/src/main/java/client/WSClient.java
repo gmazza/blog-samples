@@ -15,10 +15,10 @@ public class WSClient {
     public static void main (String[] args) {
         DoubleItService service = new DoubleItService();
         DoubleItPortType port = service.getDoubleItPort();
-          doubleIt(port, 22);
-          doubleIt(port, 11);
-          doubleIt(port, 316);
-          doubleIt(port, 428);
+        doubleIt(port, 22);
+        doubleIt(port, 11);
+        doubleIt(port, 316);
+        doubleIt(port, 428);
     }
 
     private static void doubleIt(DoubleItPortType port, int numToDouble) {

@@ -22,7 +22,14 @@
                </xsd:sequence>
             </xsd:complexType>
          </xsd:element>
-         <xsd:element name="BasicFault">
+         <xsd:element name="DoubleOddFault">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="errorDetails" type="xsd:string" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Double316Fault">
             <xsd:complexType>
                <xsd:sequence>
                   <xsd:element name="errorDetails" type="xsd:string" />
@@ -39,17 +46,17 @@
       <wsdl:part element="di:DoubleItResponse" name="parameters" />
    </wsdl:message>
    <wsdl:message name="DoubleOddNumberFault">
-      <wsdl:part element="di:BasicFault" name="DoubleOddFault" />
+      <wsdl:part element="di:DoubleOddFault" name="required-but-not-used" />
    </wsdl:message>
    <wsdl:message name="DoubleNumber316Fault">
-      <wsdl:part element="di:BasicFault" name="Double316Fault" />
+      <wsdl:part element="di:Double316Fault" name="required-but-not-used" />
    </wsdl:message>
    <wsdl:portType name="DoubleItPortType">
       <wsdl:operation name="DoubleIt">
          <wsdl:input message="tns:DoubleItRequest" />
          <wsdl:output message="tns:DoubleItResponse" />
          <!-- Fault names are required and used by the wsdl:binding fault elements -->
-         <wsdl:fault message="tns:DoubleOddNumberFault" name="DoubleOdd1Fault" />
+         <wsdl:fault message="tns:DoubleOddNumberFault" name="DoubleOddNumFault" />
          <wsdl:fault message="tns:DoubleNumber316Fault" name="DoubleNum316Fault" />
       </wsdl:operation>
    </wsdl:portType>
@@ -60,7 +67,7 @@
          <soap:operation soapAction=""/>
          <wsdl:input><soap:body use="literal"/></wsdl:input>
          <wsdl:output><soap:body use="literal"/></wsdl:output>
-         <wsdl:fault name="DoubleOdd1Fault">
+         <wsdl:fault name="DoubleOddNumFault">
             <soap:fault name="required-but-unused" use="literal" />
          </wsdl:fault>
          <wsdl:fault name="DoubleNum316Fault">
