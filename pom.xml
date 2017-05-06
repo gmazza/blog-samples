@@ -17,14 +17,13 @@
         <module>cxf_usernametoken_profile</module>
         <module>cxf_x509_profile</module>
         <module>cxf_sts_tutorial</module>
-        <module>opensaml_with_web_services</module>
         <module>junit_soap_client</module>
         <module>junit_web_service_testing</module>
         <module>asynchronous_web_service_calls</module>
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
         <module>enhancing_jaxb_artifacts</module>
-        <module>updating_databases_with_jaxws</module>
+        <module>using_soap_faults</module>
         <module>quartz_scheduled_soap_calls</module>
         <module>soap_contract_xslt_cleanup</module>
         <module>using_mtom_and_apache_fop</module>

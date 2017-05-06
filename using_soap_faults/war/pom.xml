@@ -3,18 +3,18 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gmazza.blog-samples.junit-soap-client</groupId>
-        <artifactId>junit-soap-client</artifactId>
+        <groupId>org.gmazza.blog-samples.using-soap-faults</groupId>
+        <artifactId>using-soap-faults</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>junit-soap-client-war</artifactId>
+    <artifactId>using-soap-faults-war</artifactId>
     <name>${wspwar.module.name}</name>
     <packaging>war</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.gmazza.blog-samples.junit-soap-client</groupId>
-            <artifactId>junit-soap-client-service</artifactId>
+            <groupId>org.gmazza.blog-samples.using-soap-faults</groupId>
+            <artifactId>using-soap-faults-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
