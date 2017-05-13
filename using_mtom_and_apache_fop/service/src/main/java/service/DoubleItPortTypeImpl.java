@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.net.URL;
 
 import javax.activation.DataHandler;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.mail.util.ByteArrayDataSource;
 import javax.xml.namespace.QName;
@@ -54,7 +53,7 @@ public class DoubleItPortTypeImpl implements DoubleItPortType {
                     factory.newTransformer(new StreamSource(stylesheetURL.toString()));
 
             // Run the results through Apache FOP to get the PDF response
-            FopFactory fopFactory = FopFactory.newInstance();
+            FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, pdfBaos);
             Result res = new SAXResult(fop.getDefaultHandler());
 
