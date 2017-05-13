@@ -25,7 +25,6 @@
                     <fo:block text-align="center">Double It Response</fo:block>
                 </fo:static-content>
           
-                <!--Daily Maximum and Minimum Temperatures -->
                 <fo:flow flow-name="xsl-region-body">
                    <fo:block text-align="center"><xsl:value-of select="."/> 
                          doubled is <xsl:value-of select=". * 2"/></fo:block>
