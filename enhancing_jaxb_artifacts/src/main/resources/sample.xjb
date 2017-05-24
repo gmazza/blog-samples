@@ -3,10 +3,7 @@
    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance">
-   <!-- Use below jaxb:bindings for CXF -->
-   <jaxb:bindings schemaLocation="ShoppingService.wsdl#types1" node="/xs:schema"> 
-   <!-- Use below jaxb:bindings for Metro -->
-   <!--jaxb:bindings schemaLocation="ShoppingService.wsdl#types?schema1" 
+   <jaxb:bindings schemaLocation="ShoppingService.wsdl#types1" node="/xs:schema">
       node="/xs:schema"-->
       <jaxb:globalBindings 
          collectionType="java.util.ArrayList"
