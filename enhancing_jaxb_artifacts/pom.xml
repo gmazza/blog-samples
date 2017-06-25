@@ -60,17 +60,17 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
                 <dependencies>
-                    <!-- JAXB2 Basics Plugin -->
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>${jaxb2.basics.version}</version>
-                    </dependency>
                     <!-- CXF-specific "boolean" extension (other CXF extensions: http://preview.tinyurl.com/lhphmm3) -->
                     <dependency>
                         <groupId>org.apache.cxf.xjcplugins</groupId>
                         <artifactId>cxf-xjc-boolean</artifactId>
                         <version>3.1.0</version>
+                    </dependency>
+                    <!-- JAXB2 Basics Plugin -->
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2.basics.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
