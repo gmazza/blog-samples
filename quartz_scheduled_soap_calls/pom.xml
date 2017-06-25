@@ -15,9 +15,22 @@
 
    <dependencies>
       <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.quartz-scheduler</groupId>
          <artifactId>quartz</artifactId>
-         <version>2.2.1</version>
+         <version>2.2.3</version>
+      </dependency>
+      <dependency>
+         <groupId>org.quartz-scheduler</groupId>
+         <artifactId>quartz-jobs</artifactId>
+         <version>2.2.3</version>
       </dependency>
       <dependency>
          <groupId>javax.transaction</groupId>
@@ -27,7 +40,7 @@
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-log4j12</artifactId>
-         <version>1.7.7</version>
+         <version>1.7.25</version>
       </dependency>
    </dependencies>
 
@@ -37,83 +50,26 @@
             <groupId>org.apache.tomcat.maven</groupId>
             <artifactId>tomcat7-maven-plugin</artifactId>
          </plugin>
+         <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <executions>
+               <execution>
+                  <configuration>
+                     <wsdlOptions>
+                        <wsdlOption>
+                           <wsdl>
+                              ${basedir}/src/main/resources/DoubleIt.wsdl
+                           </wsdl>
+                           <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
+                        </wsdlOption>
+                     </wsdlOptions>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
       </plugins>
       <finalName>myscheduler</finalName>
    </build>
 
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!--
-            To use Metro by default, move this activation element to its
-            profile below, or use -PMetro with all mvn commands.
-         -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-transports-http</artifactId>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.cxf</groupId>
-                  <artifactId>cxf-codegen-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <configuration>
-                           <wsdlOptions>
-                              <wsdlOption>
-                                 <wsdl>
-                                    ${basedir}/src/main/resources/DoubleIt.wsdl
-                                 </wsdl>
-                                 <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
-                              </wsdlOption>
-                           </wsdlOptions>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <profile>
-         <id>Metro</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.jvnet.jax-ws-commons</groupId>
-                  <artifactId>jaxws-maven-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <configuration>
-                           <wsdlDirectory>src/main/resources</wsdlDirectory>
-                           <wsdlFiles>
-                              <wsdlFile>DoubleIt.wsdl</wsdlFile>
-                           </wsdlFiles>
-                           <wsdlLocation>/*</wsdlLocation>
-                           <sourceDestDir>
-                              ${basedir}/target/generated-sources
-                           </sourceDestDir>
-                     </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
 </project>

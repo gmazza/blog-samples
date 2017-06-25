@@ -29,7 +29,8 @@
                         <value>12</value>
                     </entry>
                 </job-data-map>
-                <cron-expression>0 55 22 11 JUL ?</cron-expression>
+                <!-- every minute -->
+                <cron-expression>0 0/1 * * * ?</cron-expression>
             </cron>
         </trigger>
         <trigger>
@@ -45,9 +46,9 @@
                         <value>-12</value>
                     </entry>
                 </job-data-map>
-                <cron-expression>0 57 22 11 JUL ?</cron-expression>
+                <!-- every two minutes -->
+                <cron-expression>0 0/2 * * * ?</cron-expression>
             </cron>
         </trigger>
     </schedule>
 </job-scheduling-data>
-

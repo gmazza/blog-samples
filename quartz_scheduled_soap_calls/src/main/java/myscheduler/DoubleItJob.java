@@ -35,9 +35,7 @@ public class DoubleItJob implements Job {
 
    private void makeSOAPCall (DoubleItPortType port, int numToDouble) throws Exception {
         int resp = port.doubleIt(numToDouble);
-        System.out.println("The number " + numToDouble + " doubled is " 
-            + resp);
+        System.out.println("The number " + numToDouble + " doubled is " + resp);
    }
 
 }
-
