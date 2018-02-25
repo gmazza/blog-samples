@@ -1,6 +1,0 @@
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-    <persistence-unit name ="CompanyPU" transaction-type = "RESOURCE_LOCAL"> 
-        <mapping-file>entities/department.orm.xml</mapping-file>
-        <class>entities.Employee</class>
-    </persistence-unit>
-</persistence>
