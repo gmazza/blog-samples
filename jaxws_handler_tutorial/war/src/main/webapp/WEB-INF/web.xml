@@ -4,13 +4,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <display-name>Sample web service provider</display-name>
     <listener>
-        <!-- For Metro, use this listener-class instead: 
-             com.sun.xml.ws.transport.http.servlet.WSServletContextListener -->
         <listener-class>
               org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
-    <!-- Remove below context-param element if using Metro -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -19,8 +16,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     </context-param>
     <servlet>
         <servlet-name>WebServicePort</servlet-name>
-        <!-- For Metro, use this servlet-class instead: 
-             com.sun.xml.ws.transport.http.servlet.WSServlet  -->
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>

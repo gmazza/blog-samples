@@ -56,9 +56,8 @@ public class WSClient {
       try {
          int resp = port.doubleIt(numToDouble);
          System.out.println("The number " + numToDouble + " doubled is " + resp);
-      } catch (ProtocolException e) { // Metro can use SOAPFaultException, see notes at bottom.
+      } catch (ProtocolException e) {
          System.out.println("SOAP Call Error: " + e.getMessage());
       }
    }
 }
-
