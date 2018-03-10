@@ -84,7 +84,7 @@
                                     <wsdlLocation>classpath:ShoppingService.wsdl</wsdlLocation>
                                     <extraargs>
                                         <!-- Standard JAXB-available processing flags -->
-                                        <extraarg>-xjc-Xlocator,-mark-generated</extraarg>
+                                        <extraarg>-xjc-mark-generated</extraarg>
                                         <extraarg>-xjc-b,${basedir}/src/main/resources/sample.xjb</extraarg>
                                         <!-- CXF-specific extension -->
                                         <extraarg>-xjc-Xbg</extraarg>
