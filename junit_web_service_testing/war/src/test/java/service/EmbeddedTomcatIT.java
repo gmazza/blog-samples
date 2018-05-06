@@ -1,5 +1,6 @@
 package service;
 
+import java.io.File;
 import java.net.URL;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -14,17 +15,16 @@ import org.apache.catalina.startup.Tomcat;
    switch from the Jetty to Tomcat dependencies in war/pom.xml
 */
 public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
-   protected static Tomcat tomcat;
-   protected static String address;
+   private static Tomcat tomcat;
 
    @BeforeClass
    public static void setUp() throws Exception {
-      address = "http://localhost:9001/doubleit/services/doubleit";
+      String address = "http://localhost:9002/doubleit/services/doubleit";
       wsdlURL = new URL(address + "?wsdl");
 
       String appBase = "./target";
       tomcat = new Tomcat();
-      tomcat.setPort(9001);
+      tomcat.setPort(9002);
       tomcat.setBaseDir(".");
       tomcat.getHost().setAppBase(appBase);
       
@@ -33,7 +33,7 @@ public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
       AprLifecycleListener listener = new AprLifecycleListener();
       server.addLifecycleListener(listener);
 
-      tomcat.addWebapp("/doubleit", "doubleit.war");
+      tomcat.addWebapp("/doubleit", new File("target/doubleit").getAbsolutePath());
       tomcat.start();
    }
 
@@ -46,4 +46,3 @@ public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
       }
    }
 }
-

@@ -32,9 +32,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 
 public abstract class DoubleItPortTypeImplTest {
-   protected static URL wsdlURL;
-   protected static QName serviceName;
-   protected static QName portName;
+   static URL wsdlURL;
+   private static QName serviceName;
+   private static QName portName;
 
    static {
       serviceName = new QName("http://www.example.org/contract/DoubleIt",
@@ -103,7 +103,7 @@ public abstract class DoubleItPortTypeImplTest {
             "justPayload.xml");
       Document newDoc = builder.parse(is);
       DOMSource request = new DOMSource(newDoc);
-      // Below works for both CXF and Metro:
+
       Dispatch<Source> disp = jaxwsService.createDispatch(portName,
             Source.class, Service.Mode.PAYLOAD);
       Source result = disp.invoke(request);
@@ -113,7 +113,7 @@ public abstract class DoubleItPortTypeImplTest {
       assertEquals("Double-It failing with prime numbers", "14", domResponse
             .getNode().getFirstChild().getTextContent().trim());
 
-      /* Simpler CXF-only alternative that uses Dispatch<DOMSource>: 
+      /* Simpler alternative offered by CXF that uses Dispatch<DOMSource>:
       Dispatch<DOMSource> disp = jaxwsService.createDispatch(portName, DOMSource.class,
          Service.Mode.PAYLOAD); 
       DOMSource domResponse = disp.invoke(request);
@@ -136,7 +136,7 @@ public abstract class DoubleItPortTypeImplTest {
       DoubleIt myDoubleIt = new DoubleIt();
       myDoubleIt.setNumberToDouble(3);
 
-      JAXBElement<DoubleIt> doubleItElement = new JAXBElement<DoubleIt>(new QName(
+      JAXBElement<DoubleIt> doubleItElement = new JAXBElement<>(new QName(
             "http://www.example.org/schema/DoubleIt", "DoubleIt"), DoubleIt.class,
             myDoubleIt);
 
@@ -147,4 +147,3 @@ public abstract class DoubleItPortTypeImplTest {
             .getDoubledNumber());
    }
 }
-

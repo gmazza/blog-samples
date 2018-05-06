@@ -13,7 +13,7 @@ public class WSClient {
         doubleIt(port, -10);
     } 
     
-    public static void doubleIt(DoubleItPortType port, 
+    private static void doubleIt(DoubleItPortType port,
             int numToDouble) {
         int resp = port.doubleIt(numToDouble);
         System.out.println("The number " + numToDouble + " doubled is " 

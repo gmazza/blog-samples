@@ -18,6 +18,10 @@
           <artifactId>using_mtom_and_apache_fop-service</artifactId>
           <version>1.0-SNAPSHOT</version>
       </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+      </dependency>
    </dependencies>
 
    <build>
@@ -45,21 +49,5 @@
       <!-- Name of the generated WAR file -->
       <finalName>doubleit</finalName>
    </build>
-
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!-- Remove activation element below if using Metro  -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.springframework</groupId>
-               <artifactId>spring-web</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
-   </profiles>
 
 </project>

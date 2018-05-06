@@ -5,13 +5,10 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 <display-name>Sample web service provider</display-name>
     <listener>
-        <!-- For Metro, use this listener-class instead: 
-             com.sun.xml.ws.transport.http.servlet.WSServletContextListener -->
         <listener-class>
               org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
-    <!-- Remove below context-param element if using Metro -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -20,8 +17,6 @@
     </context-param>
     <servlet>
         <servlet-name>WebServicePort</servlet-name>
-        <!-- For Metro, use this servlet-class instead: 
-             com.sun.xml.ws.transport.http.servlet.WSServlet  -->
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -33,4 +28,3 @@
         <session-timeout>60</session-timeout>
     </session-config>
 </web-app>
-

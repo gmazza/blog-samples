@@ -18,7 +18,6 @@
         <module>cxf_sts_tutorial</module>
         <module>junit_soap_client</module>
         <module>junit_web_service_testing</module>
-        <module>asynchronous_web_service_calls</module>
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
         <module>enhancing_jaxb_artifacts</module>
@@ -42,8 +41,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>3.2.2</cxf.version>
-        <spring.version>4.3.8.RELEASE</spring.version>
+        <cxf.version>3.2.4</cxf.version>
+        <spring.version>5.0.5.RELEASE</spring.version>
         <slf4j.version>1.7.25</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
@@ -109,20 +108,6 @@
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <!-- 
-                 See http://metro.java.net/guide/Using_Mavenized_Metro_Binaries.html  
-                 for more Metro/Maven config info 
-            -->
-            <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>webservices-rt</artifactId>
-                <version>2.3.1</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.5</version>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -132,7 +117,7 @@
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
-                <version>10.13.1.1</version>
+                <version>10.14.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -207,22 +192,11 @@
                             <!--argument> 
                                 -Djava.util.logging.config.file=mylogging.properties 
                             </argument -->
-                            <!-- Uncomment below for debug output with Metro -->
-                            <!--argument>
-                                -Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true
-                            </argument-->
                             <argument>
                                 client.WSClient
                             </argument>
                         </arguments>
                     </configuration>
-                </plugin>
-                <!-- Below used with OSGi deployment; in service poms -->
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <extensions>true</extensions>
                 </plugin>
                 <!-- Below used with CXF service poms -->
                 <plugin>
@@ -237,20 +211,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!-- Below used with Metro service poms -->
-                <plugin>
-                    <groupId>org.jvnet.jax-ws-commons</groupId>
-                    <artifactId>jaxws-maven-plugin</artifactId>
-                    <version>2.2.1</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>wsimport</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- 
+                <!--
                   For Tomcat 7 and 8, both embedded (tomcat7:run-war) and standalone
                   deployment - tomcat7:deploy/undeploy/redeploy 
 
@@ -287,7 +248,7 @@
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-failsafe-plugin</artifactId>
-	                <version>2.17</version>
+	                <version>2.21.0</version>
 	                <executions>
 	                    <execution>
 	                        <goals>

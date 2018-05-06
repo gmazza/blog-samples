@@ -22,89 +22,35 @@
                     </descriptors>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        ${basedir}/src/main/resources/DoubleIt.wsdl
+                                    </wsdl>
+                                    <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <!-- Name of the generated WAR file -->
         <finalName>doubleit</finalName>
     </build>
 
-    <profiles>
-        <profile>
-            <id>CXF</id>
-            <!-- To use Metro, move below activation element to its profile -->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-codegen-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <wsdl>
-                                                ${basedir}/src/main/resources/DoubleIt.wsdl
-                                            </wsdl>
-                                            <wsdlLocation>classpath:DoubleIt.wsdl</wsdlLocation>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <!-- Use following dependency if testing w/Endpoint Class -->
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-transports-http-jetty</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-        <profile>
-            <id>Metro</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jvnet.jax-ws-commons</groupId>
-                        <artifactId>jaxws-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <wsdlDirectory>
-                                        src/main/resources
-                                    </wsdlDirectory>
-                                    <wsdlFiles>
-                                        <wsdlFile>DoubleIt.wsdl</wsdlFile>
-                                    </wsdlFiles>
-                                    <wsdlLocation>/*</wsdlLocation>
-                                    <sourceDestDir>
-                                        ${basedir}/target/generated-sources
-                                    </sourceDestDir>
-                                    <vmArgs>
-                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                                    </vmArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <!-- Use following dependency if testing w/Endpoint Class -->
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                    <version>2.5</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>
-
