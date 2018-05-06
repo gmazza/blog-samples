@@ -9,11 +9,6 @@ import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.startup.Tomcat;
 
-/* To test with Tomcat instead of Jetty:
-   rename this file to EmbeddedTomcatIT.java
-   change extension of EmbeddedJettyIT.java to .txt
-   switch from the Jetty to Tomcat dependencies in war/pom.xml
-*/
 public class EmbeddedTomcatIT extends DoubleItPortTypeImplTest {
    private static Tomcat tomcat;
 
