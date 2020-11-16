@@ -34,7 +34,7 @@
       <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-webapp</artifactId>
-          <version>9.4.10.v20180503</version>
+          <version>9.4.34.v20201102</version>
           <scope>test</scope>
       </dependency>
       <!-- Use the below dependencies if testing with embedded Tomcat -->
