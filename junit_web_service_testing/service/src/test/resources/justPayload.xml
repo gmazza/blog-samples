@@ -1,3 +1,0 @@
-<ns2:DoubleIt xmlns:ns2="http://www.example.org/schema/DoubleIt">
-   <numberToDouble>7</numberToDouble>
-</ns2:DoubleIt>
