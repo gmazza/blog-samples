@@ -19,7 +19,6 @@
         <module>junit_soap_client</module>
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
-        <module>enhancing_jaxb_artifacts</module>
         <module>using_soap_faults</module>
         <module>quartz_scheduled_soap_calls</module>
         <module>using_mtom_and_apache_fop</module>
