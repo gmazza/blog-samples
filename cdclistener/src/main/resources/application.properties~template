@@ -1,0 +1,30 @@
+# Rename this file to application.properties and plug in the appropriate values
+# Make sure this file not checked into source control like GitHub, etc.
+
+# audience field used in bearer token request to get access token
+# will be either https://login.salesforce.com or https://test.salesforce.com
+# use former for developer editions
+salesforce.cometd.jwt-audience=https://login.salesforce.com
+
+# root URL of salesforce when you're logged in, something like https://mycompany.salesforce.com
+salesforce.cometd.url=
+# your login ID (serves as resource owner for OAuth2 access token request)
+salesforce.cometd.username=
+# Consumer Key for connected app, see https://glenmazza.net/blog/entry/salesforce-connected-app
+salesforce.cometd.client-id=
+
+# Private key for public cert uploaded to Connected app
+# see https://glenmazza.net/blog/entry/salesforce-connected-app
+salesforce.cometd.privateKeyForConnectedApp=-----BEGIN PRIVATE KEY-----\
+ZAfdgmaBqg26NazDZFu04COQlcIPasjUm/WrzH7BXdUCWSMEV7GW3gEdtvWJcc1g\
+ewxeDzuuz3NMIgzlfUzdJTaLE7qM/eSiimAItK4/HNezdGW23H1xj+OLsdIV3I7V\
+xHyAw73XsiYcHasdfasd/ZMrIpg1Y3BpI3QkQMsC0Eeorh1Ursdw4ZvH5SP9B3Rm\
+P6j/r0c6g7Bz9hMKxYaEXMhnIwijL65H4jSKAkBdkgMBRbhjxKGKVasaiwHfPwMH\
+....more lines such as above....
+RlIP45ZCTbQk7na7LpMjsWwx\
+-----END PRIVATE KEY-----
+
+salesforce.cometd.accountCdcChannel=/data/AccountChangeEvent
+# -2 for all messages in queue (perhaps last 24-48 hours), -1 for just new messages
+# or specific replayId (and anything after)
+salesforce.cometd.accountCdcReplayId=-2
