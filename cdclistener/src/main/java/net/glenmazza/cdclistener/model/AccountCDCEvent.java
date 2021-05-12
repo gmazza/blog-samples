@@ -17,7 +17,7 @@ public class AccountCDCEvent extends BaseCDCEvent {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Payload extends BasePayload {
-        enum Rating { Hot, Warm, Cold };
+        enum Rating { Hot, Warm, Cold }
 
         private String name;
 

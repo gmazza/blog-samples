@@ -24,7 +24,9 @@ P6j/r0c6g7Bz9hMKxYaEXMhnIwijL65H4jSKAkBdkgMBRbhjxKGKVasaiwHfPwMH\
 RlIP45ZCTbQk7na7LpMjsWwx\
 -----END PRIVATE KEY-----
 
+# channel format: https://developer.salesforce.com/docs/atlas.en-us.230.0.change_data_capture.meta/change_data_capture/cdc_subscribe_channels.htm
 salesforce.cometd.accountCdcChannel=/data/AccountChangeEvent
+
 # -2 for all messages in queue (perhaps last 24-48 hours), -1 for just new messages
 # or specific replayId (and anything after)
 salesforce.cometd.accountCdcReplayId=-2
