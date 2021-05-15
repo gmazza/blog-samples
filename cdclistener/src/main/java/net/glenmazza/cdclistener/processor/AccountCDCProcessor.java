@@ -71,14 +71,14 @@ public class AccountCDCProcessor extends BaseEventProcessor {
 
     private void addAccount(Payload payload, ChangeType ct) {
         String recordId = payload.getChangeEventHeader().getRecordIds().get(0);
-        LOGGER.info("Account {}: {}, name {}, employee count {}, rating {}",
-                UNDELETE.equals(ct) ? "undeleted" : "added", recordId, payload.getName(),
+        LOGGER.info("Account {}: {}, employee count {}, rating {}",
+                UNDELETE.equals(ct) ? "undeleted" : "added", descAccount(payload.getName(), recordId),
                 payload.getNumberOfEmployees(), payload.getRating());
     }
 
     private void deleteAccount(Payload payload) {
         for (String recordId : payload.getChangeEventHeader().getRecordIds()) {
-            LOGGER.info("Account deleted: {}", recordId);
+            LOGGER.info("Account deleted: {}", descAccount(payload.getName(), recordId));
         }
     }
 
@@ -86,7 +86,8 @@ public class AccountCDCProcessor extends BaseEventProcessor {
         List<String> changedFields = payload.getChangeEventHeader().getChangedFields();
 
         for (String recordId : payload.getChangeEventHeader().getRecordIds()) {
-            StringBuilder recordUpdate = new StringBuilder("Account updated: " + recordId + ": ");
+            StringBuilder recordUpdate = new StringBuilder(
+                    String.format("Account %s updated: ", descAccount(payload.getName(), recordId)));
 
             for (String field : changedFields) {
                 switch (field) {
@@ -103,6 +104,13 @@ public class AccountCDCProcessor extends BaseEventProcessor {
             }
             LOGGER.info(recordUpdate.toString());
         }
+    }
+
+    // if Account Name is added to CDC messages (if it is an enriched field), add it in.
+    // note if enriched, then will no longer get multiple records per event due to each
+    // record having different enriched field values.
+    private static String descAccount(String name, String recordId) {
+        return (name != null) ? String.format("%s (%s)", name, recordId) : recordId;
     }
 
 }
