@@ -32,11 +32,11 @@ salesforce.api.base-url=https://your.salesforce.server
 #spring.security.oauth2.client.registration.mysalesforce.authorization-grant-type=urn:ietf:params:oauth:grant-type:jwt-bearer
 #salesforce.oauth2.jwtbearertoken.audience=https://test.salesforce.com
 
-# This is the value between the BEGIN PRIVATE KEY and END PRIVATE KEY
-# delimiters (but not including them) in the key.pem as created at the link at the top.
-# end each line but the last with an immediate (no spaces before) \
-#salesforce.oauth2.client.privatekey=...
-
+# Use the key.pem as created at the link at the top.
+# End each line but the last with an immediate \
+#salesforce.oauth2.client.privatekey=-----BEGIN PRIVATE KEY-----\
+....key data...\
+-----END PRIVATE KEY-----
 
 
 ##### Other optional configuration (for either flow type)

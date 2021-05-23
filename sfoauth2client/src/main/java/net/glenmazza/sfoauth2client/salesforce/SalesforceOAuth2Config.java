@@ -1,5 +1,6 @@
 package net.glenmazza.sfoauth2client.salesforce;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,15 +76,12 @@ public class SalesforceOAuth2Config {
         } else if (StringUtils.isBlank(password) && StringUtils.isNotBlank(bearerTokenPrivateKey) &&
                 StringUtils.isNotBlank(bearerTokenAudience)) {
             LOGGER.info("JWT Bearer Token Grant (RFC 7523) being used to obtain access tokens.");
-
             accessTokenRequestProperties.put(BEARER_TOKEN_AUD, bearerTokenAudience);
 
-            java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
-            byte[] keyBytes = decoder.decode(bearerTokenPrivateKey);
             PrivateKey privateKey;
             try {
-                privateKey = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(keyBytes));
-            } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+                privateKey = readPrivateKey(bearerTokenPrivateKey);
+            } catch (GeneralSecurityException e) {
                 throw new IllegalStateException(e);
             }
             accessTokenRequestProperties.put(BEARER_TOKEN_PRIVATE_KEY_PROP, privateKey);
@@ -135,4 +133,20 @@ public class SalesforceOAuth2Config {
                 //.clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
+
+    // See https://www.baeldung.com/java-read-pem-file-keys
+    // other option: https://stackoverflow.com/a/49753179
+    private static RSAPrivateKey readPrivateKey(String pemEncodedString) throws GeneralSecurityException {
+        String privateKeyPEM = pemEncodedString
+                .replace("-----BEGIN PRIVATE KEY-----", "")
+                .replaceAll(System.lineSeparator(), "")
+                .replace("-----END PRIVATE KEY-----", "");
+
+        byte[] encoded = Base64.decodeBase64(privateKeyPEM);
+
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+        return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
+    }
+
 }
