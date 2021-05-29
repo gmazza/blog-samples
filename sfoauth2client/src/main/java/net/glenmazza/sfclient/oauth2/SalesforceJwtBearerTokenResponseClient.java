@@ -1,4 +1,4 @@
-package net.glenmazza.sfoauth2client.salesforce;
+package net.glenmazza.sfclient.oauth2;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;

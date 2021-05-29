@@ -12,6 +12,39 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	test {
+		java {
+			srcDir 'src/test/java'
+		}
+	}
+	// https://docs.gradle.org/current/userguide/java_testing.html#sec:configuring_java_integration_tests
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/itest/java')
+			include '**/*.java'
+		}
+		resources.srcDir file('src/main/resources')
+	}
+}
+
+configurations {
+	integrationTestImplementation.extendsFrom implementation, testImplementation
+	integrationTestRuntimeOnly.extendsFrom runtimeOnly
+	// using log4j2 instead of logback
+	// global excludes: http://mrhaki.blogspot.com/2012/10/gradle-goodness-exclude-transitive.html
+//	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+task integrationTest(type: Test) {
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	outputs.upToDateWhen { false }
+	mustRunAfter test
+}
+
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-web"
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -24,5 +57,9 @@ dependencies {
 }
 
 test {
+	useJUnitPlatform()
+}
+
+integrationTest {
 	useJUnitPlatform()
 }

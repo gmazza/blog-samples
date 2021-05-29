@@ -1,4 +1,4 @@
-package net.glenmazza.sfoauth2client.salesforce;
+package net.glenmazza.sfclient.oauth2;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +30,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.glenmazza.sfoauth2client.salesforce.SalesforceJwtBearerOAuth2AuthorizedClientProvider.BEARER_TOKEN_AUD;
-import static net.glenmazza.sfoauth2client.salesforce.SalesforceJwtBearerOAuth2AuthorizedClientProvider.BEARER_TOKEN_PRIVATE_KEY_PROP;
+import static net.glenmazza.sfclient.oauth2.SalesforceJwtBearerOAuth2AuthorizedClientProvider.BEARER_TOKEN_AUD;
+import static net.glenmazza.sfclient.oauth2.SalesforceJwtBearerOAuth2AuthorizedClientProvider.BEARER_TOKEN_PRIVATE_KEY_PROP;
 
 @Configuration
 @EnableConfigurationProperties({OAuth2ClientProperties.class})

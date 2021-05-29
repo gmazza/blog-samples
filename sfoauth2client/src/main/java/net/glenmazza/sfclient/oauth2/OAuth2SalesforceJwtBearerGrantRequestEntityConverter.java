@@ -1,4 +1,4 @@
-package net.glenmazza.sfoauth2client.salesforce;
+package net.glenmazza.sfclient.oauth2;
 
 import org.slf4j.Logger;
 import org.apache.commons.codec.binary.Base64;

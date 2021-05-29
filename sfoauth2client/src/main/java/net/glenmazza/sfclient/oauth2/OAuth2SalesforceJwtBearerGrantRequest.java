@@ -1,4 +1,4 @@
-package net.glenmazza.sfoauth2client.salesforce;
+package net.glenmazza.sfclient.oauth2;
 
 import org.springframework.security.oauth2.client.endpoint.AbstractOAuth2AuthorizationGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
