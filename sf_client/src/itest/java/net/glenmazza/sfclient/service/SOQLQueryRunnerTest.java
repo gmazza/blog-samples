@@ -1,19 +1,21 @@
 package net.glenmazza.sfclient.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.glenmazza.sfclient.TestApplication;
 import net.glenmazza.sfclient.model.AccountRecord;
 import net.glenmazza.sfclient.model.SOQLQueryResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ContextConfiguration(classes = TestApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 public class SOQLQueryRunnerTest {
 
     @Autowired
