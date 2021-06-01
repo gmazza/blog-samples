@@ -4,7 +4,7 @@ package net.glenmazza.sfclient.model;
  * Concrete implementation of SOQLQueryResponse.Record used to
  * support a particular SOQL query for Account objects.
  */
-public class AccountRecord extends SOQLQueryResponse.Record {
+public class AccountQueryRecord extends SOQLQueryResponse.Record {
     String name;
     String type;
 

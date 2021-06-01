@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'checkstyle'
+	id 'maven'
 }
 
 group = 'net.glenmazza'
@@ -27,7 +28,7 @@ sourceSets {
 			srcDir file('src/itest/java')
 			include '**/*.java'
 		}
-		resources.srcDir file('src/main/resources')
+		resources.srcDir file('src/itest/resources')
 	}
 }
 
@@ -70,6 +71,14 @@ check.dependsOn integrationTest
 checkstyle {
 	ignoreFailures = false
 	toolVersion = 8.9
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: mavenLocal().url)
+		}
+	}
 }
 
 bootJar.enabled = false

@@ -1,5 +1,6 @@
 package net.glenmazza.sfclient.oauth2;
 
+import io.netty.channel.ChannelOption;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizationContext;
 import org.springframework.security.oauth2.client.OAuth2AuthorizationFailureHandler;
@@ -21,12 +23,14 @@ import org.springframework.security.oauth2.client.RemoveAuthorizedClientOAuth2Au
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +54,12 @@ public class SalesforceOAuth2Config {
 
     @Value("${salesforce.oauth2.jwtbearertoken.audience:}")
     private String bearerTokenAudience;
+
+    @Value("${salesforce.connection-timeout-ms:60}")
+    private int connectionTimeoutSec;
+
+    @Value("${salesforce.response-timeout-ms:30}")
+    private int responseTimeoutSec;
 
     @Bean
     public OAuth2AuthorizedClientManager salesforceAuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
@@ -117,20 +127,22 @@ public class SalesforceOAuth2Config {
     }
 
     @Bean
+    @Qualifier("SFWebClient")
     WebClient webClient(@Qualifier("salesforceAuthorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager,
                         OAuth2AuthorizationFailureHandler failureHandler) {
-        // Uncomment // lines & set logging as given in application.properties to activate debug logging of requests & responses
-        // (https://www.baeldung.com/spring-log-webclient-calls#logging-request-repsonse)
-        //HttpClient httpClient = HttpClient.create().wiretap(true);
+        // To log req & res: https://www.baeldung.com/spring-log-webclient-calls#logging-request-repsonse
+        HttpClient httpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(responseTimeoutSec))
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeoutSec * 1000);
         ServletOAuth2AuthorizedClientExchangeFilterFunction oAuth2Filter =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-        oAuth2Filter.setDefaultClientRegistrationId("mysalesforce");
+        oAuth2Filter.setDefaultClientRegistrationId("sfclient");
         oAuth2Filter.setAuthorizationFailureHandler(failureHandler);
+        // changing the ObjectMapper used by WebClient (if ever needed): https://stackoverflow.com/a/64105246/1207540
 
         return WebClient.builder()
                 .filter(oAuth2Filter)
-                // if logging (see above)
-                //.clientConnector(new ReactorClientHttpConnector(httpClient))
+                .filter(WebClientFilter.handleErrors())
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
 
