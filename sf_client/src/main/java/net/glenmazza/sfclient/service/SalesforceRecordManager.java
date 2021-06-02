@@ -38,17 +38,20 @@ public class SalesforceRecordManager extends AbstractRESTService {
      * WARNING: Any null field in the POJO will be erased in Salesforce, if updating just a few
      * fields use an object containing just those fields, or supply a Map<String, Object> instead.
      *
-     * @param object: Class of Salesforce entity (Account, Contact, User, etc.) being updated
+     * @param entity: Salesforce entity (Account, Contact, User, etc.) being updated
      * @param salesforceId: ID of Salesforce record being updated
-     * @param updateObject: Class or Map containing JUST those fields that are to be updated.
+     * @param object: Class or Map containing JUST those fields that are to be updated.
      */
-    public void updateByObject(String object, String salesforceId, Object updateObject) {
+    public void update(String entity, String salesforceId, Object object) throws JsonProcessingException {
+
+        // first parsing to JSON to avoid problems working with LocalDates.
+        String jsonString = objectMapper.writeValueAsString(object);
 
         webClient
                 .patch()
-                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + object + "/" + salesforceId)
+                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + entity + "/" + salesforceId)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .bodyValue(updateObject)
+                .bodyValue(jsonString)
                 .retrieve()
                 .bodyToMono(String.class)
                 // retry of 1: if access token expired, will be removed after
@@ -64,18 +67,18 @@ public class SalesforceRecordManager extends AbstractRESTService {
      * The columns of the POJO must match those of the field names for the Salesforce entity,
      * advisable to use @JsonProperty("emailaddress__c"), etc. annotations
      *
-     * @param object: Class of Salesforce entity (Account, Contact, User, etc.) being created
-     * @param insertObject: Class or Map containing all fields required for the object
+     * @param entity: Salesforce entity (Account, Contact, User, etc.) being created
+     * @param object: Class or Map containing all fields required for the object
      * @return RecordCreateResponse: Salesforce object containing create results (success or error)
      */
-    public RecordCreateResponse createObject(String object, Object insertObject) throws JsonProcessingException {
+    public RecordCreateResponse create(String entity, Object object) throws JsonProcessingException {
 
         // first parsing to JSON to avoid problems working with LocalDates.
-        String jsonString = objectMapper.writeValueAsString(insertObject);
+        String jsonString = objectMapper.writeValueAsString(object);
 
         return webClient
                 .post()
-                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + object)
+                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + entity)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(jsonString)
@@ -92,12 +95,12 @@ public class SalesforceRecordManager extends AbstractRESTService {
     /**
      * Delete a record in the Salesforce Database by its Salesforce Id.
      *
-     * @param object: Class of Salesforce entity (Account, Contact, User, etc.) being deleted
+     * @param entity: Salesforce entity (Account, Contact, User, etc.) being deleted
      * @param salesforceId: ID of Salesforce record being delete
      */
-    public void deleteObject(String object, String salesforceId) {
+    public void deleteObject(String entity, String salesforceId) {
         webClient.delete()
-                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + object + "/" + salesforceId)
+                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + entity + "/" + salesforceId)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toBodilessEntity()
@@ -109,10 +112,17 @@ public class SalesforceRecordManager extends AbstractRESTService {
                 .block();
     }
 
-    public String getJson(String object, String salesforceId) {
+    /**
+     * Obtain all information about a particular entity in the form of a JSON-formatted String.
+     *
+     * @param entity - type of object being queried: Account, Contact, User, etc.
+     * @param salesforceId - Salesforce ID of the object being queried.
+     * @return String holding the JSON of the object queried.
+     */
+    public String getJson(String entity, String salesforceId) {
         return webClient
                 .get()
-                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + object + "/" + salesforceId)
+                .uri(baseUrl + "/services/data/" + apiVersion + "/sobjects/" + entity + "/" + salesforceId)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(String.class)
@@ -124,9 +134,18 @@ public class SalesforceRecordManager extends AbstractRESTService {
                 .block();
     }
 
-    public <T> T getObject(String object, String salesforceId, Class<?> returnedObjectType) throws JsonProcessingException {
-        JavaType type = javaTypeMap.computeIfAbsent(returnedObjectType, this::createJavaType);
-        String jsonResult = getJson(object, salesforceId);
+    /**
+     * Obtain information about a particular entity in a Java object.  Only information
+     * returned are those with fields in that object.
+     *
+     * @param entity - type of object being queried: Account, Contact, User, etc.
+     * @param salesforceId - Salesforce ID of the object being queried.
+     * @param returnedJavaClass - Class of the POJO to return.
+     * @return String holding the JSON of the object queried.
+     */
+    public <T> T getObject(String entity, String salesforceId, Class<?> returnedJavaClass) throws JsonProcessingException {
+        JavaType type = javaTypeMap.computeIfAbsent(returnedJavaClass, this::createJavaType);
+        String jsonResult = getJson(entity, salesforceId);
         return objectMapper.readValue(jsonResult, type);
     }
 

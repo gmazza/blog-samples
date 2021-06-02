@@ -6,7 +6,7 @@ package net.glenmazza.sfclient.model;
  */
 public class AccountQueryRecord extends SOQLQueryResponse.Record {
     String name;
-    String type;
+    String site;
 
     public String getName() {
         return name;
@@ -16,11 +16,11 @@ public class AccountQueryRecord extends SOQLQueryResponse.Record {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getSite() {
+        return site;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSite(String site) {
+        this.site = site;
     }
 }

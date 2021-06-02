@@ -64,7 +64,7 @@ public class WebClientFilter {
                         .flatMap(body -> {
                             LOG.info("Error status code {} ({}) Response Body: {}", status.value(),
                                     status.getReasonPhrase(), body);
-//                            return Mono.just(response);
+                            // return Mono.just(response); <-- throws WebClient exception back to client instead
                             return Mono.error(new ServiceException(body, response.rawStatusCode()));
                         });
             } else {
