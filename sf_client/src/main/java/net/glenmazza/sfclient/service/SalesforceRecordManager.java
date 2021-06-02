@@ -3,7 +3,6 @@ package net.glenmazza.sfclient.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import net.glenmazza.sfclient.model.RecordCreateResponse;
-import net.glenmazza.sfclient.model.SOQLQueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
