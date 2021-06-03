@@ -6,11 +6,11 @@ import java.util.List;
  * Class holds the results of a SOQL query:
  * https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_query.htm
  *
- * The Record object is the only portion that is dependent on what you are are querying,
- * and will need to be implemented with fields to hold those values, see AccountRecord
- * in the itest folder for an example.
+ * The EntityRecord object is the only portion that is dependent on what you are are querying,
+ * and will need to be implemented with fields to hold those values.  The model folder in the
+ * itest directory offers some examples of subclassing this object.
  */
-public class SOQLQueryResponse<T extends SOQLQueryResponse.Record> {
+public class SOQLQueryResponse<T extends EntityRecord> {
     int totalSize;
     boolean done;
     String nextRecordsUrl;
@@ -49,36 +49,4 @@ public class SOQLQueryResponse<T extends SOQLQueryResponse.Record> {
         this.nextRecordsUrl = nextRecordsUrl;
     }
 
-    public static class Record {
-        Attributes attributes;
-
-        public Attributes getAttributes() {
-            return attributes;
-        }
-
-        public void setAttributes(Attributes attributes) {
-            this.attributes = attributes;
-        }
-
-        public static class Attributes {
-            String type;
-            String url;
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-        }
-    }
 }

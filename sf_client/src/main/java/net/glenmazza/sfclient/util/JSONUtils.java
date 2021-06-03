@@ -27,7 +27,5 @@ public class JSONUtils {
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
                 // timestamps to Instant (https://stackoverflow.com/q/45762857/1207540)
                 .configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-
     }
-
 }

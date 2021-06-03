@@ -1,18 +1,24 @@
 package net.glenmazza.sfclient.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.glenmazza.sfclient.TestApplication;
 import net.glenmazza.sfclient.model.AccountCreateRecord;
 import net.glenmazza.sfclient.model.AccountQueryRecord;
 import net.glenmazza.sfclient.model.AccountUpdateRecord;
+import net.glenmazza.sfclient.model.ApexAccountRecord;
 import net.glenmazza.sfclient.model.RecordCreateResponse;
 import net.glenmazza.sfclient.model.SOQLQueryResponse;
+import net.glenmazza.sfclient.model.ServiceException;
 import net.glenmazza.sfclient.util.JSONUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -24,6 +30,14 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test cases cover the three AbstractRESTService subclasses supporting Salesforce entity calls, Apex endpoints,
+ * and SOQLQueries.
+ *
+ * Will need to have your test Salesforce instance configured in application-test.properties.  Also,
+ * the Apex REST test requires a certain Apex endpoint to be installed see the header for that
+ * test for more info.
+ */
 @SpringBootTest
 @ContextConfiguration(classes = TestApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 @ActiveProfiles("test")
@@ -34,6 +48,9 @@ public class RESTServicesTest {
 
     @Autowired
     private SalesforceRecordManager srm;
+
+    @Autowired
+    private ApexRESTCaller arc;
 
     private static ObjectMapper objectMapper;
 
@@ -46,7 +63,7 @@ public class RESTServicesTest {
     // GET to query results and check data.
 
     @Test
-    void testSRMInsertsGetsAndSOQLQueries() throws Exception {
+    void testSRMInsertsGetsAndSOQLQueries() throws JsonProcessingException {
         // insert first Account via Class & SOQL query
         AccountCreateRecord acr = new AccountCreateRecord();
         acr.setName("Test Account");
@@ -100,10 +117,20 @@ public class RESTServicesTest {
         // cleanup
         srm.deleteObject("Account", rcr1.getId());
         srm.deleteObject("Account", rcr2.getId());
+
+        // test 404 will occur as object no longer present
+        int errorCode = 0;
+        try {
+            srm.deleteObject("Account", rcr2.getId());
+            Assertions.fail("Should have thrown 404");
+        } catch (ServiceException e) {
+            errorCode = e.getStatusCode();
+        }
+        assertEquals(404, errorCode);
     }
 
     @Test
-    void testSRMUpdates() throws Exception {
+    void testSRMUpdates() throws JsonProcessingException {
         // insert first Account via Class & SOQL query
         AccountCreateRecord acr = new AccountCreateRecord();
         acr.setName("Test Account 3");
@@ -145,6 +172,49 @@ public class RESTServicesTest {
 
         // cleanup
         srm.deleteObject("Account", rcr1.getId());
+    }
+
+    @Test
+    // Must have MyRestResource installed
+    // is here: https://developer.salesforce.com/docs/atlas.en-us.224.0.apexcode.meta/apexcode/apex_rest_code_sample_basic.htm
+    void testApexRestCalls() throws JsonProcessingException {
+        // post company
+        Map<String, Object> createAccountMap = new HashMap<>();
+        createAccountMap.put("name", "Wingo Ducks");
+        createAccountMap.put("phone", "707-555-1234");
+        createAccountMap.put("website", "www.wingo.ca");
+        String id = arc.makeCall("Account", HttpMethod.POST, createAccountMap);
+        // REST endpoint returns id in quotes
+        id = id.replace("\"", "");
+
+        // query company into Map
+        String company = arc.get("Account/" + id);
+        Map<String, Object> companyVals = objectMapper.readValue(company, new TypeReference<>() { });
+        assertEquals(companyVals.get("Id"), id);
+        assertEquals(companyVals.get("Name"), "Wingo Ducks");
+        assertEquals(companyVals.get("Phone"), "707-555-1234");
+        assertEquals(companyVals.get("Website"), "www.wingo.ca");
+
+        // query company into Object
+        ApexAccountRecord aar = arc.getObject("Account/" + id, ApexAccountRecord.class);
+        assertEquals(aar.getId(), id);
+        assertEquals(aar.getName(), "Wingo Ducks");
+        assertEquals(aar.getPhone(), "707-555-1234");
+        assertEquals(aar.getWebsite(), "www.wingo.ca");
+
+        // delete company
+        arc.makeCall("Account/" + id, HttpMethod.DELETE);
+
+        // test 500 will occur if object no longer present
+        // (Apex REST API has an internal error in that case).
+        int errorCode = 0;
+        try {
+            arc.makeCall("Account/" + id, HttpMethod.DELETE);
+            Assertions.fail("Should have thrown 404");
+        } catch (ServiceException e) {
+            errorCode = e.getStatusCode();
+        }
+        assertEquals(500, errorCode);
     }
 
 }

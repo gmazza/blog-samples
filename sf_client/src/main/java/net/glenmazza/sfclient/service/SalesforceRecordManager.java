@@ -148,10 +148,4 @@ public class SalesforceRecordManager extends AbstractRESTService {
         return objectMapper.readValue(jsonResult, type);
     }
 
-    private JavaType createJavaType(Class<?> clazz) {
-        JavaType jt = objectMapper.getTypeFactory().constructType(clazz);
-        LOGGER.info("Created new JavaType for {}", clazz);
-        return jt;
-    }
-
 }

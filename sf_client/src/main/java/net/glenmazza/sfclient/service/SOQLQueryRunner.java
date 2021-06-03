@@ -2,6 +2,7 @@ package net.glenmazza.sfclient.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import net.glenmazza.sfclient.model.EntityRecord;
 import net.glenmazza.sfclient.model.SOQLQueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class SOQLQueryRunner extends AbstractRESTService {
     @Value("${salesforce.api.version:v50.0}")
     private String apiVersion;
 
-    private final Map<Class<? extends SOQLQueryResponse.Record>, JavaType> parametricTypes = new HashMap<>();
+    private final Map<Class<? extends EntityRecord>, JavaType> parametricTypes = new HashMap<>();
 
     @Autowired
     public SOQLQueryRunner(WebClient webClient) {
@@ -35,8 +36,9 @@ public class SOQLQueryRunner extends AbstractRESTService {
     }
 
     // use to have Queries returned as Java objects
-    public <T extends SOQLQueryResponse.Record> SOQLQueryResponse<T> runObjectQuery(String query,
-            Class<? extends SOQLQueryResponse.Record> recordType) throws JsonProcessingException {
+    public <T extends EntityRecord> SOQLQueryResponse<T> runObjectQuery(String query,
+                                                                        Class<? extends EntityRecord> recordType)
+            throws JsonProcessingException {
 
         JavaType type = parametricTypes.computeIfAbsent(recordType, this::createParametricJavaType);
         String jsonResult = runQuery(query);
@@ -59,7 +61,7 @@ public class SOQLQueryRunner extends AbstractRESTService {
                 .block();
     }
 
-    private JavaType createParametricJavaType(Class<? extends SOQLQueryResponse.Record> recordType) {
+    private JavaType createParametricJavaType(Class<? extends EntityRecord> recordType) {
         JavaType jt = objectMapper.getTypeFactory().constructParametricType(SOQLQueryResponse.class, recordType);
         LOGGER.info("Created new JavaType for recordType {}", recordType.getName());
         return jt;

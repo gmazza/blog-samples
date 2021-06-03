@@ -5,6 +5,9 @@ import java.util.List;
 /**
  * Class holds the response of creating a Salesforce record:
  * https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm
+ * Note most (all?) errors seem to get returned by Salesforce as 4xx error so will not appear in the
+ * getErrors() list below, instead you will need to trap by catching ServiceException (see integrated test
+ * cases for examples).
  */
 public class RecordCreateResponse {
     String id;
