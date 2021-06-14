@@ -1,3 +1,13 @@
+# To run integration tests, configure below & rename to application-test.properties
+# (should already be .git-ignored, but be sure not to check into source control once configured)
+# Also remove @Disabled annotation from RESTServicesTest
+
+# When used as a library, this configuration should be placed in one of the properties files of
+# the application using it.
+
+# setting below to false will disable library and exempt you from providing any other configuration
+salesforce.client.enabled=true
+
 # Infrequently overridden properties (good for most applications using this client)
 spring.security.oauth2.client.registration.sfclient.provider=sfclient
 spring.security.oauth2.client.registration.sfclient.client-authentication-method=post

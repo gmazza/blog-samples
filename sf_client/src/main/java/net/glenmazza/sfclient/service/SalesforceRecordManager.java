@@ -6,6 +6,7 @@ import net.glenmazza.sfclient.model.RecordCreateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Map;
  * https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/using_resources_working_with_records.htm
  */
 @Service
+@ConditionalOnProperty(name = "salesforce.client.enabled", matchIfMissing = true)
 public class SalesforceRecordManager extends AbstractRESTService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesforceRecordManager.class);

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,7 @@ import static net.glenmazza.sfclient.oauth2.SalesforceJwtBearerOAuth2AuthorizedC
 
 @Configuration
 @EnableConfigurationProperties({OAuth2ClientProperties.class})
+@ConditionalOnProperty(name = "salesforce.client.enabled", matchIfMissing = true)
 public class SalesforceOAuth2Config {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesforceOAuth2Config.class);

@@ -14,6 +14,7 @@ import net.glenmazza.sfclient.model.ServiceException;
 import net.glenmazza.sfclient.util.JSONUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
@@ -41,6 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @ContextConfiguration(classes = TestApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 @ActiveProfiles("test")
+@Disabled("Must first configure application-test.properties")
 public class RESTServicesTest {
 
     @Autowired

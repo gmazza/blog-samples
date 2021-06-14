@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import java.util.Map;
  * https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_rest.htm
  */
 @Service
+@ConditionalOnProperty(name = "salesforce.client.enabled", matchIfMissing = true)
 public class ApexRESTCaller extends AbstractRESTService {
 
     private final Map<Class<?>, JavaType> javaTypeMap = new HashMap<>();
