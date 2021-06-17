@@ -6,12 +6,12 @@
 # the application using it.
 
 # setting below to false will disable library and exempt you from providing any other configuration
-salesforce.client.enabled=true
+salesforce.client.enabled=false
 
 # Infrequently overridden properties (good for most applications using this client)
-spring.security.oauth2.client.registration.sfclient.provider=sfclient
-spring.security.oauth2.client.registration.sfclient.client-authentication-method=post
-spring.security.oauth2.client.provider.sfclient.token-uri=${salesforce.api.base-url}/services/oauth2/token
+#spring.security.oauth2.client.registration.sfclient.provider=sfclient
+#spring.security.oauth2.client.registration.sfclient.client-authentication-method=post
+#spring.security.oauth2.client.provider.sfclient.token-uri=${salesforce.api.base-url}/services/oauth2/token
 
 # Below additional properties should be put in the application.properties/.yaml for the application
 # using this library.
@@ -19,20 +19,22 @@ spring.security.oauth2.client.provider.sfclient.token-uri=${salesforce.api.base-
 # Background for both: https://glenmazza.net/blog/entry/salesforce-connected-app
 
 # Properties to supply for either JWT or Username/Password flow:
-# spring.security.oauth2.client.registration.mysalesforce.client-id=<get from connected app>
-# salesforce.api.base-url=https://your.salesforce.server
+# spring.security.oauth2.client.registration.sfclient.client-id=<get from connected app>
+# Warning: URL below should not have "lightning" in it (probably won't work), use URL from SF Classic or Developer console.
+# salesforce.api.base-url=https://xxxxx.my.salesforce.com
+# salesforce.oauth2.resourceowner.username= (user's salesforce login)
 
 # Properties just for JWT Bearer Token Flow
 # For audience, use test for sandbox environments, login for anything else (include developer SF instances)
 # salesforce.oauth2.jwtbearertoken.audience=https://test.salesforce.com or https://login.salesforce.com
 spring.security.oauth2.client.registration.sfclient.authorization-grant-type=urn:ietf:params:oauth:grant-type:jwt-bearer
 # See tutorial above on info for creating private key
-# End each line but the last with an immediate \
+# End each line but the last with an immediate \, this can be done via IntelliJ regex search-and-replace: (.*)$ -> $1\\
 # salesforce.oauth2.client.privatekey=-----BEGIN PRIVATE KEY-----\
 #....key data...\
 #-----END PRIVATE KEY-----
 
 # Properties just for Username/Password Flow
-#spring.security.oauth2.client.registration.mysalesforce.authorization-grant-type=password
-#spring.security.oauth2.client.registration.mysalesforce.client-secret=<get from connected app>
+#spring.security.oauth2.client.registration.sfclient.authorization-grant-type=password
+#spring.security.oauth2.client.registration.sfclient.client-secret=<get from connected app>
 #salesforce.oauth2.resourceowner.password=...

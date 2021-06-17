@@ -1,6 +1,11 @@
 package net.glenmazza.sfclient.model;
 
-// https://careydevelopment.us/blog/spring-webflux-how-to-handle-errors-with-webclient
+/**
+ * https://careydevelopment.us/blog/spring-webflux-how-to-handle-errors-with-webclient
+ * Sample exceptions:
+ * Status Code 404: [{"errorCode":"NOT_FOUND","message":"Provided external ID field does not exist or is not accessible: 51"}]
+ * Status Code 400: [{"message":"No such column 'abcd' on sobject of type Account","errorCode":"INVALID_FIELD"}]
+ */
 public class ServiceException extends RuntimeException {
 
     private static final long serialVersionUID = -7661881974219233311L;
