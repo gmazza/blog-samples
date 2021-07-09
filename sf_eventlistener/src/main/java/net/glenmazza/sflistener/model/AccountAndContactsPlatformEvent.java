@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountAndContactsPlatformEvent {
+public class AccountAndContactsPlatformEvent extends BasePlatformEvent {
 
     private Payload payload;
 
