@@ -13,7 +13,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,9 +51,19 @@ public class SOQLQueryRunner extends AbstractRESTService {
 
     // use if a JSON of the results is sufficient.
     public String runQuery(String query) {
+
+        // helps ensure queries are properly encoded
+        // https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#web-uri-encoding
+        final URI uri =
+                UriComponentsBuilder.fromHttpUrl(baseUrl + "/services/data/" + apiVersion + "/query")
+                    .queryParam("q", "{q}")
+                    .encode()
+                    .buildAndExpand(query)
+                    .toUri();
+
         return webClient
                 .get()
-                .uri(baseUrl + "/services/data/" + apiVersion + "/query?q=" + query)
+                .uri(uri)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(String.class)

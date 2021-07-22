@@ -35,9 +35,6 @@ sourceSets {
 configurations {
 	integrationTestImplementation.extendsFrom implementation, testImplementation
 	integrationTestRuntimeOnly.extendsFrom runtimeOnly
-	// using log4j2 instead of logback
-	// global excludes: http://mrhaki.blogspot.com/2012/10/gradle-goodness-exclude-transitive.html
-//	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 }
 
 task integrationTest(type: Test) {
