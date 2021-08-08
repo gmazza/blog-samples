@@ -23,9 +23,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.RemoveAuthorizedClientOAuth2AuthorizationFailureHandler;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import java.security.GeneralSecurityException;
@@ -145,22 +143,13 @@ public class SalesforceOAuth2Config {
 
         return WebClient.builder()
                 .filter(oAuth2Filter)
-//                .filter(logRequest())
+                // below for troubleshooting when needed
+                // note request logging will log sensitive headers (JWTs etc.) so not good to run in production.
+                //.filter(WebClientFilter.logRequest())
+                //.filter(WebClientFilter.logResponse())
                 .filter(WebClientFilter.handleErrors())
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
-    }
-
-    // https://stackoverflow.com/a/46867786
-    // For optional logging of requests during troubleshooting (uncomment in above method to activate)
-    // other logging options: https://www.baeldung.com/spring-log-webclient-calls#logging-request-repsonse
-    // note will log sensitive headers (JWTs etc.) so not good to run in production.
-    private static ExchangeFilterFunction logRequest() {
-        return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
-            LOGGER.info("Request: {} {}", clientRequest.method(), clientRequest.url());
-            clientRequest.headers().forEach((name, values) -> values.forEach(value -> LOGGER.info("{}={}", name, value)));
-            return Mono.just(clientRequest);
-        });
     }
 
     // See https://www.baeldung.com/java-read-pem-file-keys

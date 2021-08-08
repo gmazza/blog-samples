@@ -16,6 +16,11 @@ public class WebClientFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebClientFilter.class);
 
+    // logging request and response bodies more complex due to once-only consumption rules
+    // i.e., body no longer available downstream. However logging headers & status code fine.
+    // options on logging body:
+    // https://www.baeldung.com/spring-log-webclient-calls#logging-request-repsonse
+    // https://stackoverflow.com/a/55790675/1207540
     public static ExchangeFilterFunction logRequest() {
         return ExchangeFilterFunction.ofRequestProcessor(request -> {
             logMethodAndUrl(request);
@@ -30,7 +35,7 @@ public class WebClientFilter {
             logStatus(response);
             logHeaders(response);
 
-            return logBody(response);
+            return Mono.just(response);
         });
     }
 
@@ -39,24 +44,11 @@ public class WebClientFilter {
         LOG.debug("Returned status code {} ({})", status.value(), status.getReasonPhrase());
     }
 
-    private static Mono<ClientResponse> logBody(ClientResponse response) {
-        HttpStatus status = response.statusCode();
-        if (status.is4xxClientError() || status.is5xxServerError()) {
-            return response.bodyToMono(String.class)
-                    .flatMap(body -> {
-                        LOG.info("Error status code {} ({}) Response Body: {}", status.value(),
-                                status.getReasonPhrase(), body);
-                        return Mono.just(response);
-                    });
-        } else {
-            return Mono.just(response);
-        }
-    }
-
     public static ExchangeFilterFunction handleErrors() {
         return ExchangeFilterFunction.ofResponseProcessor(response -> {
             HttpStatus status = response.statusCode();
-            if (status.is4xxClientError() || status.is5xxServerError()) {
+            // don't wrap 401 errors, as Spring uses that code to delete expired access token and request new one
+            if ((status.is4xxClientError() && status.value() != 401) || status.is5xxServerError()) {
                 return response.bodyToMono(String.class)
                         // defaultIfEmpty:  401's, 403's, etc. sometimes return null body
                         // https://careydevelopment.us/blog/spring-webflux-how-to-handle-empty-responses
