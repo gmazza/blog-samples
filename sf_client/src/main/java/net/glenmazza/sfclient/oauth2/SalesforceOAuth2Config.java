@@ -143,6 +143,10 @@ public class SalesforceOAuth2Config {
 
         return WebClient.builder()
                 .filter(oAuth2Filter)
+                // raise default 256K message limit to 2MB (https://stackoverflow.com/a/59392022/1207540)
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(2 * 1024 * 1024))
                 // below for troubleshooting when needed
                 // note request logging will log sensitive headers (JWTs etc.) so not good to run in production.
                 //.filter(WebClientFilter.logRequest())
