@@ -21,11 +21,6 @@
         <module>jaxwshandlers_to_cxfinterceptors</module>
         <module>using_soap_faults</module>
         <module>quartz_scheduled_soap_calls</module>
-        <!-- Below project requires addition of a non-open source WSDL to it to build
-             Commenting out here so one can mvn clean install from the project root and
-             still build the other projects.
-        -->
-        <!--module>cxf_salesforce_soap_api</module-->
     </modules>
 
     <prerequisites>
