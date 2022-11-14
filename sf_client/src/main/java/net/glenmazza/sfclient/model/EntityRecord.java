@@ -8,7 +8,7 @@ package net.glenmazza.sfclient.model;
  *
  * Usage:
  * 1.) Subclass and add fields like any POJO for each column of the entity to be returned.
- * 2.) Add @JsonIgnoreProperties(ignoreUnknown = true) if there columns being returned that
+ * 2.) Add @JsonIgnoreProperties(ignoreUnknown = true) if there are columns being returned that
  *     you haven't provided fields for.
  */
 public abstract class EntityRecord {

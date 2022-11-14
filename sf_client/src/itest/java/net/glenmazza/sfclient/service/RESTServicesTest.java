@@ -5,9 +5,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.glenmazza.sfclient.TestApplication;
 import net.glenmazza.sfclient.model.AccountCreateRecord;
+import net.glenmazza.sfclient.model.AccountMultipleEntityRecord;
 import net.glenmazza.sfclient.model.AccountQueryRecord;
 import net.glenmazza.sfclient.model.AccountUpdateRecord;
 import net.glenmazza.sfclient.model.ApexAccountRecord;
+import net.glenmazza.sfclient.model.MultipleEntityRecord;
+import net.glenmazza.sfclient.model.MultipleEntityRecord201Response;
+import net.glenmazza.sfclient.model.MultipleEntityRecord400ResponseException;
+import net.glenmazza.sfclient.model.MultipleEntityRecordRequest;
 import net.glenmazza.sfclient.model.RecordCreateResponse;
 import net.glenmazza.sfclient.model.SOQLQueryResponse;
 import net.glenmazza.sfclient.model.ServiceException;
@@ -26,23 +31,25 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 /**
  * Test cases cover the three AbstractRESTService subclasses supporting Salesforce entity calls, Apex endpoints,
  * and SOQLQueries.
  *
- * Will need to have your test Salesforce instance configured in application-test.properties.  Also,
+ * Will need to have your test Salesforce instance configured in application-test.properties~template.  Also,
  * the Apex REST test requires a certain Apex endpoint to be installed see the header for that
  * test for more info.
  */
 @SpringBootTest
 @ContextConfiguration(classes = TestApplication.class, initializers = ConfigDataApplicationContextInitializer.class)
 @ActiveProfiles("test")
-@Disabled("Must first configure application-test.properties")
+@Disabled("testing requires config setup in application.properties")
 public class RESTServicesTest {
 
     @Autowired
@@ -50,6 +57,9 @@ public class RESTServicesTest {
 
     @Autowired
     private SalesforceRecordManager srm;
+
+    @Autowired
+    private SalesforceMultipleRecordInserter smri;
 
     @Autowired
     private ApexRESTCaller arc;
@@ -65,15 +75,16 @@ public class RESTServicesTest {
     // GET to query results and check data.
 
     @Test
-    void testSRMInsertsGetsAndSOQLQueries() throws JsonProcessingException {
+    void testSalesforceRecordManagerInsertsGetsAndSOQLQueries() throws JsonProcessingException {
         // insert first Account via Class & SOQL query
         AccountCreateRecord acr = new AccountCreateRecord();
-        acr.setName("Test Account");
+        String account1Name = "Test Account " + LocalDate.now();
+        acr.setName(account1Name);
         acr.setSite("Philadelphia");
         acr.setNumberOfEmployees(25);
         acr.setRating(AccountCreateRecord.RatingEnum.Hot);
-        LocalDate expirationDate = LocalDate.now().plus(30, ChronoUnit.DAYS);
-        acr.setSLAExpirationDate(expirationDate);
+        LocalDate leadDate = LocalDate.now().plus(30, ChronoUnit.DAYS);
+        acr.setLeadDate(leadDate);
         RecordCreateResponse rcr1 = srm.create("Account", acr);
         assertTrue(rcr1.isSuccess());
 
@@ -83,15 +94,16 @@ public class RESTServicesTest {
         assertEquals(acr.getSite(), resp.getSite());
         assertEquals(acr.getNumberOfEmployees(), resp.getNumberOfEmployees());
         assertEquals(acr.getRating(), resp.getRating());
-        assertEquals(acr.getSLAExpirationDate(), resp.getSLAExpirationDate());
+        assertEquals(acr.getLeadDate(), resp.getLeadDate());
 
         // create via Map
         Map<String, Object> accountViaMap = new HashMap<>();
-        accountViaMap.put("Name", "Test Account 2");
+        String account2Name = "Test Account 2 " + LocalDate.now();
+        accountViaMap.put("Name", account2Name);
         accountViaMap.put("Site", "Baltimore");
         accountViaMap.put("NumberOfEmployees", 30);
         accountViaMap.put("Rating", "Cold");
-        accountViaMap.put("SLAExpirationDate__c", expirationDate);
+        accountViaMap.put("Lead_Date__c", leadDate);
         RecordCreateResponse rcr2 = srm.create("Account", accountViaMap);
         assertTrue(rcr2.isSuccess());
 
@@ -102,19 +114,19 @@ public class RESTServicesTest {
         assertEquals(accountViaMap.get("Site"), resp2.getSite());
         assertEquals(accountViaMap.get("NumberOfEmployees"), resp2.getNumberOfEmployees());
         assertEquals(accountViaMap.get("Rating"), resp2.getRating().name());
-        assertEquals(accountViaMap.get("SLAExpirationDate__c"), resp2.getSLAExpirationDate());
+        assertEquals(accountViaMap.get("Lead_Date__c"), resp2.getLeadDate());
 
         // while we have two known accounts, check SOQL queries
         SOQLQueryResponse<AccountQueryRecord> result = sqr.runObjectQuery(
                 String.format("SELECT name, site FROM Account WHERE Id in ('%s', '%s')",
-                rcr1.getId(), rcr2.getId()),
+                        rcr1.getId(), rcr2.getId()),
                 AccountQueryRecord.class);
 
         assertEquals(2, result.getTotalSize());
         assertTrue(result.isDone());
-        assertTrue(result.getRecords().stream().anyMatch(a -> "Test Account".equals(a.getName())));
-        assertTrue(result.getRecords().stream().filter(a -> "Test Account 2".equals(a.getName()))
-            .anyMatch(a -> "Baltimore".equals(a.getSite())));
+        assertTrue(result.getRecords().stream().anyMatch(a -> account1Name.equals(a.getName())));
+        assertTrue(result.getRecords().stream().filter(a -> account2Name.equals(a.getName()))
+                .anyMatch(a -> "Baltimore".equals(a.getSite())));
 
         // cleanup
         srm.deleteObject("Account", rcr1.getId());
@@ -132,15 +144,15 @@ public class RESTServicesTest {
     }
 
     @Test
-    void testSRMUpdates() throws JsonProcessingException {
+    void testSalesforceRecordManagerUpdates() throws JsonProcessingException {
         // insert first Account via Class & SOQL query
         AccountCreateRecord acr = new AccountCreateRecord();
         acr.setName("Test Account 3");
         acr.setSite("Richmond");
         acr.setNumberOfEmployees(15);
         acr.setRating(AccountCreateRecord.RatingEnum.Cold);
-        LocalDate expirationDate = LocalDate.now().plus(30, ChronoUnit.DAYS);
-        acr.setSLAExpirationDate(expirationDate);
+        LocalDate leadDate = LocalDate.now().plus(30, ChronoUnit.DAYS);
+        acr.setLeadDate(leadDate);
         RecordCreateResponse rcr1 = srm.create("Account", acr);
         assertTrue(rcr1.isSuccess());
 
@@ -156,13 +168,13 @@ public class RESTServicesTest {
         assertEquals("Norfolk", resp.getSite());
         assertEquals(25, resp.getNumberOfEmployees());
         assertEquals(acr.getRating(), resp.getRating());
-        assertEquals(acr.getSLAExpirationDate(), resp.getSLAExpirationDate());
+        assertEquals(acr.getLeadDate(), resp.getLeadDate());
 
         // update via Map
         Map<String, Object> changedVals = new HashMap<>();
         changedVals.put("Rating", "Warm");
-        LocalDate newExpirationDate = expirationDate.plus(30, ChronoUnit.DAYS);
-        changedVals.put("SLAExpirationDate__c", newExpirationDate);
+        LocalDate newLeadDate = leadDate.plus(30, ChronoUnit.DAYS);
+        changedVals.put("Lead_Date__c", newLeadDate);
         srm.update("Account", rcr1.getId(), changedVals);
 
         resp = srm.getObject("Account", rcr1.getId(), AccountCreateRecord.class);
@@ -170,21 +182,113 @@ public class RESTServicesTest {
         assertEquals("Norfolk", resp.getSite());
         assertEquals(25, resp.getNumberOfEmployees());
         assertEquals("Warm", resp.getRating().name());
-        assertEquals(newExpirationDate, resp.getSLAExpirationDate());
+        assertEquals(newLeadDate, resp.getLeadDate());
 
         // cleanup
         srm.deleteObject("Account", rcr1.getId());
     }
 
     @Test
-    // Must have MyRestResource installed
-    // is here: https://developer.salesforce.com/docs/atlas.en-us.224.0.apexcode.meta/apexcode/apex_rest_code_sample_basic.htm
+    void testMultipleEntityRecordInsertions() throws JsonProcessingException {
+        AccountMultipleEntityRecord amer = new AccountMultipleEntityRecord("111");
+        amer.setName("Test MER Account1");
+        amer.setSite("Raleigh");
+        amer.setNumberOfEmployees(20);
+        amer.setRating(AccountMultipleEntityRecord.RatingEnum.Cold);
+        LocalDate leadDate = LocalDate.now().plus(20, ChronoUnit.DAYS);
+        amer.setLeadDate(leadDate);
+
+        AccountMultipleEntityRecord amer2 = new AccountMultipleEntityRecord("222");
+        amer2.setName("Test MER Account2");
+        amer2.setSite("Charlotte");
+        amer2.setNumberOfEmployees(30);
+        amer2.setRating(AccountMultipleEntityRecord.RatingEnum.Hot);
+        LocalDate leadDate2 = LocalDate.now().plus(10, ChronoUnit.DAYS);
+        amer2.setLeadDate(leadDate2);
+
+        MultipleEntityRecordRequest<AccountMultipleEntityRecord> merr = new MultipleEntityRecordRequest<>();
+        merr.setRecords(List.of(amer, amer2));
+
+        MultipleEntityRecord201Response response = smri.bulkInsert("Account", merr);
+        assertEquals(2, response.getResults().size());
+
+        // method also deletes objects once done comparing
+        queryAndConfirmValues(response, amer);
+        queryAndConfirmValues(response, amer2);
+
+        // now test exception handling:  will activate by having both accounts have the same reference ID.
+        amer2.setAttributes(new MultipleEntityRecord.Attributes("Account", "111"));
+
+        /* Error response should be:
+         * {
+         *     "hasErrors": true,
+         *     "results": [
+         *         {
+         *             "referenceId": "111",
+         *             "errors": [
+         *                 {
+         *                     "statusCode": "INVALID_INPUT",
+         *                     "message": "Duplicate ReferenceId provided in the request.",
+         *                     "fields": []
+         *                 }
+         *             ]
+         *         },
+         *     ]
+         * }
+         */
+
+        boolean hasErrors = false;
+        int errorCount = 0;
+        String referenceId = null;
+        String statusCode = null;
+        String message = null;
+
+        try {
+            smri.bulkInsert("Account", merr);
+        } catch (MultipleEntityRecord400ResponseException ex) {
+            hasErrors = ex.getResponse().isHasErrors();
+            List<MultipleEntityRecord400ResponseException.Response.Result> errorResults = ex.getResponse().getResults();
+            errorCount = errorResults.size();
+            referenceId = errorResults.get(0).getReferenceId();
+            statusCode = errorResults.get(0).getErrors().get(0).getStatusCode();
+            message = errorResults.get(0).getErrors().get(0).getMessage();
+        }
+
+        assertTrue(hasErrors);
+        assertEquals(1, errorCount);
+        assertEquals("111", referenceId);
+        assertEquals("INVALID_INPUT", statusCode);
+        assertEquals("Duplicate ReferenceId provided in the request.", message);
+    }
+
+    private void queryAndConfirmValues(MultipleEntityRecord201Response response, AccountMultipleEntityRecord amer)
+            throws JsonProcessingException {
+        String accountSfId = response.getResults().stream()
+                .filter(r -> amer.getAttributes().getReferenceId().equals(r.getReferenceId()))
+                .map(MultipleEntityRecord201Response.Result::getId).findFirst().orElseThrow();
+
+        // query and check values
+        AccountCreateRecord acr = srm.getObject("Account", accountSfId, AccountCreateRecord.class);
+        assertEquals(acr.getName(), amer.getName());
+        assertEquals(acr.getSite(), amer.getSite());
+        assertEquals(acr.getNumberOfEmployees(), amer.getNumberOfEmployees());
+        assertEquals(acr.getRating().name(), amer.getRating().name());
+        assertEquals(acr.getLeadDate(), amer.getLeadDate());
+
+        srm.deleteObject("Account", accountSfId);
+    }
+
+    @Test
+        // Must have MyRestResource installed
+        // it is here: https://developer.salesforce.com/docs/atlas.en-us.224.0.apexcode.meta/apexcode/apex_rest_code_sample_basic.htm
+        // Then go to setup, search on MyRestResource and ensure salesforce.oauth2.resourceowner.username user's profile has
+        // access to this method (Security button to configure).
     void testApexRestCalls() throws JsonProcessingException {
         // post company
         Map<String, Object> createAccountMap = new HashMap<>();
         createAccountMap.put("name", "Wingo Ducks");
         createAccountMap.put("phone", "707-555-1234");
-        createAccountMap.put("website", "www.wingo.ca");
+        createAccountMap.put("website", "www2.wingo.ca");
         String id = arc.makeCall("Account", HttpMethod.POST, createAccountMap);
         // REST endpoint returns id in quotes
         id = id.replace("\"", "");
@@ -193,16 +297,16 @@ public class RESTServicesTest {
         String company = arc.get("Account/" + id);
         Map<String, Object> companyVals = objectMapper.readValue(company, new TypeReference<>() { });
         assertEquals(companyVals.get("Id"), id);
-        assertEquals(companyVals.get("Name"), "Wingo Ducks");
-        assertEquals(companyVals.get("Phone"), "707-555-1234");
-        assertEquals(companyVals.get("Website"), "www.wingo.ca");
+        assertEquals("Wingo Ducks", companyVals.get("Name"));
+        assertEquals("707-555-1234", companyVals.get("Phone"));
+        assertEquals("www2.wingo.ca", companyVals.get("Website"));
 
         // query company into Object
         ApexAccountRecord aar = arc.getObject("Account/" + id, ApexAccountRecord.class);
-        assertEquals(aar.getId(), id);
-        assertEquals(aar.getName(), "Wingo Ducks");
-        assertEquals(aar.getPhone(), "707-555-1234");
-        assertEquals(aar.getWebsite(), "www.wingo.ca");
+        assertEquals(id, aar.getId());
+        assertEquals("Wingo Ducks", aar.getName());
+        assertEquals("707-555-1234", aar.getPhone());
+        assertEquals("www2.wingo.ca", aar.getWebsite());
 
         // delete company
         arc.makeCall("Account/" + id, HttpMethod.DELETE);

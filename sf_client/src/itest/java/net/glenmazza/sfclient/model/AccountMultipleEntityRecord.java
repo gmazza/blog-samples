@@ -12,13 +12,19 @@ import java.time.LocalDate;
  * https://...yoursalesforceURL.../lightning/setup/ObjectManager/Account/FieldsAndRelationships/view
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountCreateRecord {
+public class AccountMultipleEntityRecord extends MultipleEntityRecord {
     public enum RatingEnum { Hot, Warm, Cold };
+
+    private static final String SF_OBJECT_TYPE = "Account";
 
     String site;
     String name;
     int numberOfEmployees;
     RatingEnum rating;
+
+    public AccountMultipleEntityRecord(String referenceId) {
+        super(SF_OBJECT_TYPE, referenceId);
+    }
 
     @JsonProperty("Lead_Date__c")
     LocalDate leadDate;

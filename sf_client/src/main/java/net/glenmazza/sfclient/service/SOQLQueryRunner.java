@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Service to run SOQL Queries:
@@ -29,7 +30,7 @@ public class SOQLQueryRunner extends AbstractRESTService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOQLQueryRunner.class);
 
-    @Value("${salesforce.api.version:v50.0}")
+    @Value("${salesforce.api.version:v56.0}")
     private String apiVersion;
 
     private final Map<Class<? extends EntityRecord>, JavaType> parametricTypes = new HashMap<>();
@@ -52,14 +53,17 @@ public class SOQLQueryRunner extends AbstractRESTService {
     // use if a JSON of the results is sufficient.
     public String runQuery(String query) {
 
-        // helps ensure queries are properly encoded
-        // https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#web-uri-encoding
+        // Emails with a plus in them (e.g., bob+smith@yopmail.com) need to have the + encoded for Salesforce
+        // not to treat it as a space (the usual role of + signs).  Normal URI encoding doesn't encode it,
+        // hence need to use buildAndExpand() below for that.
+        // lengthy discussion: https://github.com/spring-projects/spring-framework/issues/21399
+        // solution: https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#web-uri-encoding
         final URI uri =
                 UriComponentsBuilder.fromHttpUrl(baseUrl + "/services/data/" + apiVersion + "/query")
-                    .queryParam("q", "{q}")
-                    .encode()
-                    .buildAndExpand(query)
-                    .toUri();
+                        .queryParam("q", "{q}")
+                        .encode()
+                        .buildAndExpand(query)
+                        .toUri();
 
         return webClient
                 .get()
@@ -79,5 +83,13 @@ public class SOQLQueryRunner extends AbstractRESTService {
         JavaType jt = objectMapper.getTypeFactory().constructParametricType(SOQLQueryResponse.class, recordType);
         LOGGER.info("Created new JavaType for recordType {}", recordType.getName());
         return jt;
+    }
+
+    /**
+     * Helper method when having emails in query strings.
+     * In query strings, apostrophes in emails e.g.: o'brien@yopmail.com need to be replaced with \'
+     */
+    public static String safeEmail(String email) {
+        return Optional.ofNullable(email).map(e -> e.replace("'", "\\'")).orElse(null);
     }
 }

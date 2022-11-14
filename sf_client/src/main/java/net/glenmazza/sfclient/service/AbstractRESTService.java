@@ -15,13 +15,21 @@ public abstract class AbstractRESTService {
     @Value("${salesforce.api.base-url}")
     protected String baseUrl;
 
-    protected final WebClient webClient;
+    protected WebClient webClient;
 
     protected final ObjectMapper objectMapper;
 
-    protected AbstractRESTService(WebClient webClient) {
-        this.webClient = webClient;
+    public AbstractRESTService() {
         this.objectMapper = JSONUtils.createObjectMapper();
+    }
+
+    protected AbstractRESTService(WebClient webClient) {
+        this();
+        this.webClient = webClient;
+    }
+
+    public void setWebClient(WebClient webClient) {
+        this.webClient = webClient;
     }
 
     protected JavaType createJavaType(Class<?> clazz) {

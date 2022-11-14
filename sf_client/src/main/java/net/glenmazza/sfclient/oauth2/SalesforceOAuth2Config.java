@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
@@ -62,6 +63,17 @@ public class SalesforceOAuth2Config {
 
     @Value("${salesforce.response-timeout-ms:30}")
     private int responseTimeoutSec;
+
+    // 500 appears to be library default
+    @Value("${salesforce.maxconnections:500}")
+    private int maxConnections;
+
+    @Value("${salesforce.maxidletime.sec:300}")
+    private int maxIdleTimeSec;
+
+    // 0 = disabled (library default) (0 = eviction relies on maxIdle, maxLifetime)
+    @Value("${salesforce.evictInBackground.sec:0}")
+    private int evictInBackgroundTimeSec;
 
     @Bean
     public OAuth2AuthorizedClientManager salesforceAuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
@@ -128,13 +140,44 @@ public class SalesforceOAuth2Config {
                         authorizedClientService.removeAuthorizedClient(clientRegistrationId, principal.getName()));
     }
 
+    /**
+     * Can use this WebClient directly if wishing to have "standard" error handling,
+     * otherwise wire in WebClientBuilder and add a custom error handling filter.
+     */
     @Bean
     @Qualifier("SFWebClient")
-    WebClient webClient(@Qualifier("salesforceAuthorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager,
-                        OAuth2AuthorizationFailureHandler failureHandler) {
+    WebClient webClient(WebClient.Builder builder) {
+        return builder
+                .filter(WebClientFilter.handleErrors(WebClientFilter::getMonoClientResponse))
+                .build();
+    }
 
-        HttpClient httpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(responseTimeoutSec))
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeoutSec * 1000);
+    @Bean
+    WebClient.Builder webClientBuilder(@Qualifier("salesforceAuthorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager,
+                                       OAuth2AuthorizationFailureHandler failureHandler) {
+        return webClientBuilderGenerator(authorizedClientManager, failureHandler);
+    }
+
+    private WebClient.Builder webClientBuilderGenerator(@Qualifier("salesforceAuthorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager,
+                                                        OAuth2AuthorizationFailureHandler failureHandler) {
+
+        // 401's are solved by repeating the call (.retry(1)), but sometimes fails (1x/2x per day), error message:
+        // "The connection observed an error, the request cannot be retried as the headers/body
+        // were sent io.netty.channel.unix.Errors$NativeIoException: readAddress(..) failed: Connection reset by peer"
+        // Using solution: https://github.com/reactor/reactor-netty/issues/1774#issuecomment-908066283
+        // setting maxIdleTime in particular seems most important
+        ConnectionProvider provider = ConnectionProvider.builder("fixed")
+                .maxConnections(maxConnections)
+                .maxIdleTime(Duration.ofSeconds(maxIdleTimeSec))
+                // not using yet
+                //.maxLifeTime(Duration.ofSeconds(maxLifeTimeSec))
+                //.pendingAcquireTimeout(Duration.ofSeconds(60))
+                .evictInBackground(Duration.ofSeconds(evictInBackgroundTimeSec)).build();
+
+        // To log req & res: https://www.baeldung.com/spring-log-webclient-calls#logging-request-repsonse
+        HttpClient httpClient = HttpClient.create(provider).responseTimeout(Duration.ofSeconds(responseTimeoutSec))
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeoutSec * 1000);
+
         ServletOAuth2AuthorizedClientExchangeFilterFunction oAuth2Filter =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
         oAuth2Filter.setDefaultClientRegistrationId("sfclient");
@@ -142,18 +185,17 @@ public class SalesforceOAuth2Config {
         // changing the ObjectMapper used by WebClient (if ever needed): https://stackoverflow.com/a/64105246/1207540
 
         return WebClient.builder()
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .filter(oAuth2Filter)
                 // raise default 256K message limit to 2MB (https://stackoverflow.com/a/59392022/1207540)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
-                        .maxInMemorySize(2 * 1024 * 1024))
-                // below for troubleshooting when needed
-                // note request logging will log sensitive headers (JWTs etc.) so not good to run in production.
-                //.filter(WebClientFilter.logRequest())
-                //.filter(WebClientFilter.logResponse())
-                .filter(WebClientFilter.handleErrors())
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .build();
+                        .maxInMemorySize(2 * 1024 * 1024));
+        // below two helpful when debugging
+        //.filter(WebClientFilter.logRequest())
+        //.filter(WebClientFilter.logResponse())
+        // wraps non-401s into ServiceExceptions for client
+        // (401s passed-thru as Spring uses that as a signal to request a new access token)
     }
 
     // See https://www.baeldung.com/java-read-pem-file-keys
