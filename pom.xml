@@ -15,7 +15,6 @@
         <module>ssl_for_web_services</module>
         <module>cxf_usernametoken_profile</module>
         <module>cxf_x509_profile</module>
-        <module>cxf_sts_tutorial</module>
         <module>junit_soap_client</module>
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
