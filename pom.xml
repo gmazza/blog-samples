@@ -18,7 +18,6 @@
         <module>junit_soap_client</module>
         <module>jaxws_handler_tutorial</module>
         <module>jaxwshandlers_to_cxfinterceptors</module>
-        <module>using_soap_faults</module>
     </modules>
 
     <prerequisites>
