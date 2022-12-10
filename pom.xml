@@ -31,7 +31,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cxf.version>3.2.4</cxf.version>
-        <spring.version>5.0.5.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
         <slf4j.version>1.7.25</slf4j.version>
         <wsp.module.name>-- Web Service Provider</wsp.module.name>
         <wspwar.module.name>-- Service WAR file</wspwar.module.name>
