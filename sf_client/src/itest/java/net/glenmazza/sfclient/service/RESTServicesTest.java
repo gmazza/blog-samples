@@ -3,12 +3,18 @@ package net.glenmazza.sfclient.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.glenmazza.sfclient.TestApplication;
 import net.glenmazza.sfclient.model.AccountCreateRecord;
+import net.glenmazza.sfclient.model.AccountInsertCompositeRecord;
 import net.glenmazza.sfclient.model.AccountMultipleEntityRecord;
 import net.glenmazza.sfclient.model.AccountQueryRecord;
+import net.glenmazza.sfclient.model.AccountUpdateCompositeRecord;
 import net.glenmazza.sfclient.model.AccountUpdateRecord;
 import net.glenmazza.sfclient.model.ApexAccountRecord;
+import net.glenmazza.sfclient.model.CompositeEntityRecord;
+import net.glenmazza.sfclient.model.CompositeEntityRecordRequest;
+import net.glenmazza.sfclient.model.CompositeEntityRecordResponse;
 import net.glenmazza.sfclient.model.MultipleEntityRecord;
 import net.glenmazza.sfclient.model.MultipleEntityRecord201Response;
 import net.glenmazza.sfclient.model.MultipleEntityRecord400ResponseException;
@@ -30,6 +36,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +44,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 /**
  * Test cases cover the three AbstractRESTService subclasses supporting Salesforce entity calls, Apex endpoints,
  * and SOQLQueries.
- *
  * Will need to have your test Salesforce instance configured in application-test.properties~template.  Also,
  * the Apex REST test requires a certain Apex endpoint to be installed see the header for that
  * test for more info.
@@ -62,6 +67,9 @@ public class RESTServicesTest {
     private SalesforceMultipleRecordInserter smri;
 
     @Autowired
+    private SalesforceCompositeRequestService scrs;
+
+    @Autowired
     private ApexRESTCaller arc;
 
     private static ObjectMapper objectMapper;
@@ -78,7 +86,7 @@ public class RESTServicesTest {
     void testSalesforceRecordManagerInsertsGetsAndSOQLQueries() throws JsonProcessingException {
         // insert first Account via Class & SOQL query
         AccountCreateRecord acr = new AccountCreateRecord();
-        String account1Name = "Test Account " + LocalDate.now();
+        String account1Name = "ACR Test Account " + LocalDate.now();
         acr.setName(account1Name);
         acr.setSite("Philadelphia");
         acr.setNumberOfEmployees(25);
@@ -98,7 +106,7 @@ public class RESTServicesTest {
 
         // create via Map
         Map<String, Object> accountViaMap = new HashMap<>();
-        String account2Name = "Test Account 2 " + LocalDate.now();
+        String account2Name = "ACR Test Account 2 " + LocalDate.now();
         accountViaMap.put("Name", account2Name);
         accountViaMap.put("Site", "Baltimore");
         accountViaMap.put("NumberOfEmployees", 30);
@@ -188,8 +196,11 @@ public class RESTServicesTest {
         srm.deleteObject("Account", rcr1.getId());
     }
 
+
+    // Note if this test fails, may be necessary to delete Test MER Account1 and 2 that it creates
+    // from Salesforce CRM.  This test requires that neither exist in SF prior to running.
     @Test
-    void testMultipleEntityRecordInsertions() throws JsonProcessingException {
+    void testMultipleEntityRecordInsertionsAndCompositeCalls() throws JsonProcessingException {
         AccountMultipleEntityRecord amer = new AccountMultipleEntityRecord("111");
         amer.setName("Test MER Account1");
         amer.setSite("Raleigh");
@@ -212,11 +223,77 @@ public class RESTServicesTest {
         MultipleEntityRecord201Response response = smri.bulkInsert("Account", merr);
         assertEquals(2, response.getResults().size());
 
-        // method also deletes objects once done comparing
-        queryAndConfirmValues(response, amer);
-        queryAndConfirmValues(response, amer2);
+        String acct1SfId = queryAndConfirmMultipleRecordValues(response, amer);
+        String acct2SfId = queryAndConfirmMultipleRecordValues(response, amer2);
 
-        // now test exception handling:  will activate by having both accounts have the same reference ID.
+        // use the Composite objects to update the values
+        AccountUpdateCompositeRecord aucr1 = new AccountUpdateCompositeRecord(acct1SfId);
+        aucr1.getBody().setNumberOfEmployees(30);
+        aucr1.getBody().setSite("Asheville");
+
+        AccountUpdateCompositeRecord aucr2 = new AccountUpdateCompositeRecord(acct2SfId);
+        aucr2.getBody().setNumberOfEmployees(40);
+        aucr2.getBody().setSite("Greensboro");
+
+        // ...and add a third company, note SF ID not known yet, so just choosing a unique ref ID
+        AccountInsertCompositeRecord aicr = new AccountInsertCompositeRecord("mythirdcompany");
+        aicr.getBody().setName("Test MER Account3");
+        aicr.getBody().setSite("Winston-Salem");
+        aicr.getBody().setNumberOfEmployees(25);
+
+        CompositeEntityRecordRequest cerReq = new CompositeEntityRecordRequest(false);
+        List<? extends CompositeEntityRecord> compList = new ArrayList<>(List.of(aucr1, aucr2, aicr));
+        cerReq.setCompositeRequest(compList);
+
+        CompositeEntityRecordResponse cerr = scrs.bulkProcess(cerReq);
+
+        queryAndConfirmCompositeValues(acct1SfId, aucr1);
+        queryAndConfirmCompositeValues(acct2SfId, aucr2);
+
+        // test that create worked fine
+        String acct3SfId = (String) cerr.getCompositeResponse().get(2).getSuccessResultsMap().get("id");
+
+        AccountCreateRecord acr = srm.getObject("Account",
+                acct3SfId, AccountCreateRecord.class);
+
+        List<CompositeEntityRecordResponse.Result> results = cerr.getCompositeResponse();
+        assertEquals(201, results.get(2).getHttpStatusCode());
+        assertEquals("mythirdcompany", results.get(2).getReferenceId());
+        Map<String, Object> body = results.get(2).getSuccessResultsMap();
+        assertEquals(true, body.get("success"));
+        assertEquals(aicr.getBody().getName(), acr.getName());
+        assertEquals(aicr.getBody().getSite(), acr.getSite());
+        assertEquals(aicr.getBody().getNumberOfEmployees(), acr.getNumberOfEmployees());
+        srm.deleteObject("Account", acct3SfId);
+
+        // now test composite errors, will attempt to update Acct 1 even though it doesn't exist anymore
+        srm.deleteObject("Account", acct1SfId);
+        aucr2.getBody().setNumberOfEmployees(50);
+        aucr2.getBody().setSite("Durham");
+
+        cerr = scrs.bulkProcess(cerReq);
+
+        results = cerr.getCompositeResponse();
+        assertEquals(400, results.get(0).getHttpStatusCode());
+        assertEquals(acct1SfId, results.get(0).getReferenceId());
+        List<Map<String, Object>> errors = results.get(0).getErrorResultsList();
+        assertEquals("ENTITY_IS_DELETED", errors.get(0).get("errorCode"));
+        assertEquals("entity is deleted", errors.get(0).get("message"));
+        assertEquals(0, ((List<?>) errors.get(0).get("fields")).size());
+
+        assertEquals(200, results.get(1).getHttpStatusCode());
+        assertEquals(acct2SfId, results.get(1).getReferenceId());
+        body = results.get(1).getSuccessResultsMap();
+        assertEquals(acct2SfId, body.get("id"));
+        assertEquals(true, body.get("success"));
+        assertEquals(false, body.get("created"));
+
+        // check update occurred for success case
+        queryAndConfirmCompositeValues(acct2SfId, aucr2);
+
+        srm.deleteObject("Account", acct2SfId);
+
+        // now test Multiple Entry exception handling:  will activate by having both accounts have the same reference ID.
         amer2.setAttributes(new MultipleEntityRecord.Attributes("Account", "111"));
 
         /* Error response should be:
@@ -261,7 +338,7 @@ public class RESTServicesTest {
         assertEquals("Duplicate ReferenceId provided in the request.", message);
     }
 
-    private void queryAndConfirmValues(MultipleEntityRecord201Response response, AccountMultipleEntityRecord amer)
+    private String queryAndConfirmMultipleRecordValues(MultipleEntityRecord201Response response, AccountMultipleEntityRecord amer)
             throws JsonProcessingException {
         String accountSfId = response.getResults().stream()
                 .filter(r -> amer.getAttributes().getReferenceId().equals(r.getReferenceId()))
@@ -275,7 +352,16 @@ public class RESTServicesTest {
         assertEquals(acr.getRating().name(), amer.getRating().name());
         assertEquals(acr.getLeadDate(), amer.getLeadDate());
 
-        srm.deleteObject("Account", accountSfId);
+        return accountSfId;
+    }
+
+    private void queryAndConfirmCompositeValues(String accountSfId, AccountUpdateCompositeRecord aucr)
+            throws JsonProcessingException {
+
+        // query and check values
+        AccountCreateRecord acr = srm.getObject("Account", accountSfId, AccountCreateRecord.class);
+        assertEquals(aucr.getBody().getSite(), acr.getSite());
+        assertEquals(aucr.getBody().getNumberOfEmployees(), acr.getNumberOfEmployees());
     }
 
     @Test

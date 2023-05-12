@@ -11,7 +11,6 @@ import java.security.PrivateKey;
  * Serves a holder for the information needed to obtain a Salesforce access token using a JWT Bearer token.
  */
 public class OAuth2SalesforceJwtBearerGrantRequest extends AbstractOAuth2AuthorizationGrantRequest {
-    private final ClientRegistration clientRegistration;
     private final String username;
     private final String audience;
     private final PrivateKey privateKey;
@@ -20,21 +19,16 @@ public class OAuth2SalesforceJwtBearerGrantRequest extends AbstractOAuth2Authori
 
     public OAuth2SalesforceJwtBearerGrantRequest(ClientRegistration clientRegistration, String username,
                                                  String audience, PrivateKey privateKey) {
-        super(new AuthorizationGrantType(BEARER_GRANT_TYPE));
+        super(new AuthorizationGrantType(BEARER_GRANT_TYPE), clientRegistration);
         Assert.notNull(clientRegistration, "clientRegistration cannot be null");
         Assert.notNull(privateKey, "private key for signing JWT cannot be null");
         Assert.isTrue(BEARER_GRANT_TYPE.equals(clientRegistration.getAuthorizationGrantType().getValue()),
                 "clientRegistration.authorizationGrantType must be " + BEARER_GRANT_TYPE);
         Assert.hasText(username, "username cannot be empty");
 
-        this.clientRegistration = clientRegistration;
         this.username = username;
         this.audience = audience;
         this.privateKey = privateKey;
-    }
-
-    public ClientRegistration getClientRegistration() {
-        return clientRegistration;
     }
 
     public String getUsername() {

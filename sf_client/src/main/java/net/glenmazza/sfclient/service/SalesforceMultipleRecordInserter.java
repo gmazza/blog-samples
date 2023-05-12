@@ -89,7 +89,7 @@ public class SalesforceMultipleRecordInserter extends AbstractRESTService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SalesforceMultipleRecordInserter.class);
 
-    @Value("${salesforce.api.version:v56.0}")
+    @Value("${salesforce.api.version:v57.0}")
     private String apiVersion;
 
     public SalesforceMultipleRecordInserter(WebClient.Builder webClientBuilder) {

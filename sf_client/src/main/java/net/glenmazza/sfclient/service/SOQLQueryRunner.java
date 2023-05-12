@@ -30,7 +30,7 @@ public class SOQLQueryRunner extends AbstractRESTService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOQLQueryRunner.class);
 
-    @Value("${salesforce.api.version:v56.0}")
+    @Value("${salesforce.api.version:v57.0}")
     private String apiVersion;
 
     private final Map<Class<? extends EntityRecord>, JavaType> parametricTypes = new HashMap<>();

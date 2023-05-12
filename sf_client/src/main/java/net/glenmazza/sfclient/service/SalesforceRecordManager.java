@@ -29,7 +29,7 @@ public class SalesforceRecordManager extends AbstractRESTService {
         super(webClient);
     }
 
-    @Value("${salesforce.api.version:v56.0}")
+    @Value("${salesforce.api.version:v57.0}")
     private String apiVersion;
 
     private final Map<Class<?>, JavaType> javaTypeMap = new HashMap<>();
