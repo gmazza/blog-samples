@@ -1,4 +1,5 @@
-# To run integration tests, configure below & rename to application-test.properties
+# To run integration tests, create application-test.properties to sf_client/ project folder
+# and copy over needed values below into it.
 # (should already be .git-ignored, but be sure not to check into source control once configured)
 # Also remove @Disabled annotation from RESTServicesTest
 

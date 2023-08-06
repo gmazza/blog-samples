@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.6.12'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'checkstyle'
+}
+
+group = 'net.glenmazza'
+version = '0.0.2-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+    }
+    // https://docs.gradle.org/current/userguide/java_testing.html#sec:configuring_java_integration_tests
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/itest/java')
+            include '**/*.java'
+        }
+        resources.srcDir file('src/itest/resources')
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom implementation, testImplementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+    mustRunAfter test
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+integrationTest {
+    useJUnitPlatform()
+}
+
+check.dependsOn integrationTest
+
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '10.12.1'
+}
+
+bootJar.enabled = false
+jar.enabled = true
