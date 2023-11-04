@@ -27,7 +27,7 @@ import java.util.List;
  *     [
  *       "Bob Smith",
  *       "bobsmithid",
- *       19
+ *       "19"
  *     ],
  *     ...
  *   ],
