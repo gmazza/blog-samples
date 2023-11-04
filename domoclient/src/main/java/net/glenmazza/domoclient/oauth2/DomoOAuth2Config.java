@@ -52,6 +52,10 @@ public class DomoOAuth2Config {
     @Value("${domo.maxidletime.sec:300}")
     private int maxIdleTimeSec;
 
+    // adjust upwards if you're handling larger messages
+    @Value("${domo.max.response.size.mb:2}")
+    private int responseBufferMB;
+
     // 0 = disabled (library default) (0 = eviction relies on maxIdle, maxLifetime)
     @Value("${domo.evictInBackground.sec:0}")
     private int evictInBackgroundTimeSec;
@@ -138,7 +142,7 @@ public class DomoOAuth2Config {
                 // raise default 256K message limit to 2MB (https://stackoverflow.com/a/59392022/1207540)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
-                        .maxInMemorySize(2 * 1024 * 1024));
+                        .maxInMemorySize(responseBufferMB * 1024 * 1024));
                 // below two helpful when debugging
                 //.filter(WebClientFilter.logRequest())
                 //.filter(WebClientFilter.logResponse())
