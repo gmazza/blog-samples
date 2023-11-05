@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <module name="FileTabCharacter"/>
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf" />
+    </module>
+
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
+        <property name="minimum" value="0"/>
+    </module>
+
+    <module name="RegexpMultiline">
+        <property name="format" value="[^\n]+\n{4,}"/>
+        <property name="message" value="Three or more consecutive empty lines."/>
+    </module>
+
+    <module name="Translation"/>
+
+    <module name="TreeWalker">
+        <module name="ArrayTypeStyle"/>
+        <module name="AvoidStarImport"/>
+        <module name="ConstantName"/>
+
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
+
+        <module name="EmptyForIteratorPad"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsHashCode"/>
+        <module name="FinalClass"/>
+        <module name="GenericWhitespace"/>
+        <module name="IllegalImport"/>
+        <module name="IllegalInstantiation"/>
+        <module name="LeftCurly"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="MethodParamPad"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="ModifierOrder"/>
+        <module name="NeedBraces"/>
+
+        <module name="NoWhitespaceAfter">
+            <property name="tokens" value="BNOT, DOT, LNOT, UNARY_MINUS, UNARY_PLUS"/>
+        </module>
+
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="SEMI"/>
+        </module>
+
+        <module name="OperatorWrap">
+            <property name="option" value="eol"/>
+        </module>
+
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="ParenPad"/>
+        <module name="RedundantImport"/>
+        <!--
+                <module name="RedundantThrows">
+                    <property name="suppressLoadErrors" value="true"/>
+                </module>
+        -->
+        <module name="RightCurly"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StaticVariableName"/>
+        <module name="TypecastParenPad"/>
+        <module name="TypeName"/>
+        <module name="UnusedImports"/>
+        <module name="UpperEll"/>
+        <module name="WhitespaceAfter"/>
+
+        <module name="WhitespaceAround">
+            <property name="ignoreEnhancedForColon" value="false"/>
+        </module>
+
+    </module>
+    <!--
+        <module name="SuppressionCommentFilter"/>
+     -->
+</module>

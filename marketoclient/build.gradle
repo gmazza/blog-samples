@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'net.glenmazza'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -62,8 +62,11 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
-test {
-    useJUnitPlatform()
+check.dependsOn integrationTest
+
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '10.12.1'
 }
 
 integrationTest {

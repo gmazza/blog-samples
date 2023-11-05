@@ -1,0 +1,24 @@
+### Intellij ###
+.idea/
+*.iml
+
+### Mac ###
+.DS_Store
+
+### Java ###
+*.class
+*.jar
+
+### Gradle ###
+.gradle
+build/
+target/
+out/
+bin/
+!gradle-wrapper.jar
+pasture/
+.settings/
+.project
+.classpath
+
+/application-test.properties
