@@ -2,6 +2,8 @@ package net.glenmazza.domoclient.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.glenmazza.domoclient.TestApplication;
+import net.glenmazza.domoclient.model.DataSetListRequest;
+import net.glenmazza.domoclient.model.DataSetMetadata;
 import net.glenmazza.domoclient.model.DataSetQueryRequest;
 import net.glenmazza.domoclient.model.DataSetQueryResponse;
 import org.junit.jupiter.api.Disabled;
@@ -12,7 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * To run tests locally: will need to have Domo instance configured in an application-test.properties file
@@ -46,5 +55,27 @@ public class RESTServicesTest {
         assertEquals("col2", response.getColumns().get(1));
         assertEquals(dataSetId, response.getMetadata().get(2).getDataSourceId());
     }
+
+    @Test
+    void testDataSetMetadataQueries() throws JsonProcessingException {
+        // Update line below with some part of an already existing dataset name.
+        DataSetListRequest dslr = new DataSetListRequest("portion of dataset name");
+        dslr.setSortBy(DataSetListRequest.SortField.CREATED_AT_DESC);
+        dslr.setOffset(0);
+        dslr.setLimit(10);
+        List<DataSetMetadata> dsmList = queryRunner.getDataSetMetadata(dslr);
+        // below need updating based on dataset queried, can run test in IDE debugger to find out responses
+        assertEquals(1, dsmList.size());
+        DataSetMetadata dsm = dsmList.get(0);
+        assertEquals(4, dsm.getColumns());
+        assertNotNull(dsm.getId());
+        assertTrue(dsm.getRows() > 10);
+        assertEquals("actual dataset name", dsm.getName());
+        assertEquals("developer name", dsm.getOwner().getName());
+        assertFalse(dsm.isPdpEnabled());
+        assertTrue(dsm.getCreatedAt().isBefore(dsm.getUpdatedAt()));
+        assertTrue(dsm.getDataCurrentAt().isAfter(LocalDateTime.now().minus(5, ChronoUnit.DAYS)));
+    }
+
 
 }

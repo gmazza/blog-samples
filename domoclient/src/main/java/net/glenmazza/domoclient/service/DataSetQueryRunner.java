@@ -1,14 +1,27 @@
 package net.glenmazza.domoclient.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import net.glenmazza.domoclient.model.DataSetListRequest;
+import net.glenmazza.domoclient.model.DataSetMetadata;
 import net.glenmazza.domoclient.model.DataSetQueryRequest;
 import net.glenmazza.domoclient.model.DataSetQueryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class DataSetQueryRunner extends AbstractRESTService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSetQueryRunner.class);
+
+    private final Map<Class<?>, JavaType> parametricTypes = new HashMap<>();
 
     public DataSetQueryRunner(WebClient webClient) {
         super(webClient);
@@ -37,6 +50,39 @@ public class DataSetQueryRunner extends AbstractRESTService {
                 // first failed call and obtained & used during second.
                 .retry(1)
                 .block();
+    }
+
+    // https://developer.domo.com/portal/72ae9b3e80374-list-data-sets
+    public List<DataSetMetadata> getDataSetMetadata(DataSetListRequest request) throws JsonProcessingException {
+
+        JavaType type = parametricTypes.computeIfAbsent(DataSetMetadata.class, this::createParametricJavaType);
+
+        String jsonResult = webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .host("api.domo.com")
+                        .path("/v1/datasets")
+                        .queryParam("limit", request.getLimit())
+                        .queryParam("nameLike", request.getNameContains())
+                        .queryParam("offset", request.getOffset())
+                        .queryParam("sort", request.getSortBy().getName())
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                // retry of 1: if access token expired, will be removed after
+                // first failed call and obtained & used during second.
+                .retry(1)
+                .block();
+
+        return objectMapper.readValue(jsonResult, type);
+    }
+
+
+    private JavaType createParametricJavaType(Class<?> clazz) {
+        JavaType jt = objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
+        LOGGER.info("Created new JavaType for class {}", clazz.getName());
+        return jt;
     }
 
 }
