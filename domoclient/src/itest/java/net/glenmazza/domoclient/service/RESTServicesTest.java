@@ -38,26 +38,7 @@ public class RESTServicesTest {
     private DataSetQueryRunner queryRunner;
 
     @Test
-    void testDataSetQueries() throws JsonProcessingException {
-        // Will need a data set ID for your Domo instance (see blog entry given in README)
-        // below is just a random UUID from a UUID generator
-        String dataSetId = "79ec191f-1a35-4d2e-8133-9d34b2a9b065";
-
-        // Will need to update col1->col3 with actual column names from the DataSet in your Domo instance
-        // note the table name is literally "table" as given, dataSetId is what identifies the DataSet
-        DataSetQueryRequest request = new DataSetQueryRequest(dataSetId,
-                "Select col1, col2, col3 from table");
-
-        DataSetQueryResponse response = queryRunner.runDataSetQuery(request);
-        assertEquals(response.getNumRows(), response.getRows().size());
-        assertEquals(dataSetId, response.getDatasource());
-        assertEquals(3, response.getNumColumns());
-        assertEquals("col2", response.getColumns().get(1));
-        assertEquals(dataSetId, response.getMetadata().get(2).getDataSourceId());
-    }
-
-    @Test
-    void testDataSetMetadataQueries() throws JsonProcessingException {
+    void testDataSetMetadataRetrieval() throws JsonProcessingException {
         // Update line below with some part of an already existing dataset name.
         DataSetListRequest dslr = new DataSetListRequest("portion of dataset name");
         dslr.setSortBy(DataSetListRequest.SortField.CREATED_AT_DESC);
@@ -77,5 +58,23 @@ public class RESTServicesTest {
         assertTrue(dsm.getDataCurrentAt().isAfter(LocalDateTime.now().minus(5, ChronoUnit.DAYS)));
     }
 
+    @Test
+    void testDataSetContentRetrieval() throws JsonProcessingException {
+        // Will need a data set ID for your Domo instance (see blog entry given in README)
+        // below is just a random UUID from a UUID generator
+        String dataSetId = "79ec191f-1a35-4d2e-8133-9d34b2a9b065";
+
+        // Will need to update col1->col3 with actual column names from the DataSet in your Domo instance
+        // note the table name is literally "table" as given, dataSetId is what identifies the DataSet
+        DataSetQueryRequest request = new DataSetQueryRequest(dataSetId,
+                "Select col1, col2, col3 from table");
+
+        DataSetQueryResponse response = queryRunner.runDataSetQuery(request);
+        assertEquals(response.getNumRows(), response.getRows().size());
+        assertEquals(dataSetId, response.getDatasource());
+        assertEquals(3, response.getNumColumns());
+        assertEquals("col2", response.getColumns().get(1));
+        assertEquals(dataSetId, response.getMetadata().get(2).getDataSourceId());
+    }
 
 }
