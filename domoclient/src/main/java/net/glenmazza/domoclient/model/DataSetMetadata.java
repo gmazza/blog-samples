@@ -13,6 +13,7 @@ public class DataSetMetadata {
     Owner owner;
     int rows;
     int columns;
+    DataSetSchema schema;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     LocalDateTime dataCurrentAt;
@@ -50,6 +51,14 @@ public class DataSetMetadata {
 
     public void setColumns(int columns) {
         this.columns = columns;
+    }
+
+    public DataSetSchema getSchema() {
+        return schema;
+    }
+
+    public void setSchema(DataSetSchema schema) {
+        this.schema = schema;
     }
 
     public LocalDateTime getCreatedAt() {

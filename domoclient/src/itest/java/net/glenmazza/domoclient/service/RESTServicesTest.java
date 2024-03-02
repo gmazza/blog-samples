@@ -2,10 +2,12 @@ package net.glenmazza.domoclient.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.glenmazza.domoclient.TestApplication;
+import net.glenmazza.domoclient.model.DataSetColumn;
 import net.glenmazza.domoclient.model.DataSetListRequest;
 import net.glenmazza.domoclient.model.DataSetMetadata;
 import net.glenmazza.domoclient.model.DataSetQueryRequest;
 import net.glenmazza.domoclient.model.DataSetQueryResponse;
+import net.glenmazza.domoclient.model.DataSetSchema;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,26 @@ public class RESTServicesTest {
         assertEquals(3, response.getNumColumns());
         assertEquals("col2", response.getColumns().get(1));
         assertEquals(dataSetId, response.getMetadata().get(2).getDataSourceId());
+    }
+
+    @Test
+    void dataSetMetadataById() throws JsonProcessingException {
+        // as with testDataSetContentRetrieval() above, will need actual dataSetId and to populate the
+        // tests with expected value for it.
+        String dataSetId = "79ec191f-1a35-4d2e-8133-9d34b2a9b065";
+        DataSetMetadata response = queryRunner.getDataSetMetadataById(dataSetId);
+        assertNotNull(response);
+        assertEquals("Sample dataset name", response.getName());
+        assertNotNull(response.getId());
+        assertNotNull(response.getOwner());
+        DataSetSchema schema = response.getSchema();
+        assertNotNull(schema);
+        List<DataSetColumn> columns = schema.getColumns();
+        assertNotNull(columns);
+        assertEquals(3, columns.size());
+        DataSetColumn column0 = columns.get(0);
+        assertEquals("column_name", column0.getName());
+        assertEquals("STRING", column0.getType());
     }
 
 }

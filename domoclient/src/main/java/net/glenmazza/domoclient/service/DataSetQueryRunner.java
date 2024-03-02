@@ -78,6 +78,19 @@ public class DataSetQueryRunner extends AbstractRESTService {
         return objectMapper.readValue(jsonResult, type);
     }
 
+    // https://developer.domo.com/portal/ea210df52a8a1-retrieve-a-data-set
+    public DataSetMetadata getDataSetMetadataById(String datasetId) throws JsonProcessingException  {
+
+        String jsonResult = webClient
+                .get()
+                .uri(baseUrl + "/v1/datasets/" + datasetId)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .bodyToMono(String.class)
+                .retry(1)
+                .block();
+        return objectMapper.readValue(jsonResult, DataSetMetadata.class);
+    }
 
     private JavaType createParametricJavaType(Class<?> clazz) {
         JavaType jt = objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
