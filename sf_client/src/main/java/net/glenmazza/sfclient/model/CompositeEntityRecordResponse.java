@@ -3,6 +3,14 @@ package net.glenmazza.sfclient.model;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Format of Composite responses: <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/responses_composite.htm">here</a>
+ * and <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_subrequest_result.htm">here</a>.
+ *
+ * <p>
+ * Note Body different based on success or error for particular sub-request (2nd link above).  Can read map by keys, or can use Jackson to
+ * deserialize to Result.CompositeSuccessBody or Result.CompositeErrorBody.
+ */
 public class CompositeEntityRecordResponse {
 
     List<Result> compositeResponse;

@@ -75,6 +75,9 @@ public class SalesforceOAuth2Config {
     @Value("${salesforce.evictInBackground.sec:0}")
     private int evictInBackgroundTimeSec;
 
+    @Value("${salesforce.max.response.size.mb:2}")
+    private int responseBufferMB;
+
     @Bean
     public OAuth2AuthorizedClientManager salesforceAuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
                                                                            OAuth2AuthorizedClientService authorizedClientService,
@@ -190,7 +193,7 @@ public class SalesforceOAuth2Config {
                 // raise default 256K message limit to 2MB (https://stackoverflow.com/a/59392022/1207540)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
-                        .maxInMemorySize(2 * 1024 * 1024));
+                        .maxInMemorySize(responseBufferMB * 1024 * 1024));
         // below two helpful when debugging
         //.filter(WebClientFilter.logRequest())
         //.filter(WebClientFilter.logResponse())

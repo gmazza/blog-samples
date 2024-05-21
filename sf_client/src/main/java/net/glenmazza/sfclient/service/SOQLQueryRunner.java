@@ -30,7 +30,7 @@ public class SOQLQueryRunner extends AbstractRESTService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOQLQueryRunner.class);
 
-    @Value("${salesforce.api.version:v57.0}")
+    @Value("${salesforce.api.version:v58.0}")
     private String apiVersion;
 
     private final Map<Class<? extends EntityRecord>, JavaType> parametricTypes = new HashMap<>();
@@ -50,6 +50,28 @@ public class SOQLQueryRunner extends AbstractRESTService {
         return objectMapper.readValue(jsonResult, type);
     }
 
+    /**
+     * After a call to runQuery() if the SOQLQueryResponse "done" field is false, use the "nextRecordsUrl"
+     * value for the next batch. Keep using this field in subsequent responses until "done" is true.
+     * See: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query_more_results.htm
+     * @param nextRecordsUrl The SOQLQueryResponse nextRecordsUrl field from the previous call to
+     *                       runQuery or runNextQuery.
+     */
+    public <T extends EntityRecord> SOQLQueryResponse<T> runNextObjectQuery(String nextRecordsUrl,
+                                                                            Class<? extends EntityRecord> recordType)
+            throws JsonProcessingException {
+
+        JavaType type = parametricTypes.computeIfAbsent(recordType, this::createParametricJavaType);
+        String jsonResult = runNextQuery(nextRecordsUrl);
+        return objectMapper.readValue(jsonResult, type);
+    }
+
+    private JavaType createParametricJavaType(Class<? extends EntityRecord> recordType) {
+        JavaType jt = objectMapper.getTypeFactory().constructParametricType(SOQLQueryResponse.class, recordType);
+        LOGGER.info("Created new JavaType for recordType {}", recordType.getName());
+        return jt;
+    }
+
     // use if a JSON of the results is sufficient.
     public String runQuery(String query) {
 
@@ -65,6 +87,20 @@ public class SOQLQueryRunner extends AbstractRESTService {
                         .buildAndExpand(query)
                         .toUri();
 
+        return getRestResponse(uri);
+    }
+
+    public String runNextQuery(String nextRecordsUrl) {
+        final URI uri =
+                UriComponentsBuilder.fromHttpUrl(baseUrl + nextRecordsUrl)
+                        .encode()
+                        .build()
+                        .toUri();
+
+        return getRestResponse(uri);
+    }
+
+    private String getRestResponse(URI uri) {
         return webClient
                 .get()
                 .uri(uri)
@@ -77,12 +113,6 @@ public class SOQLQueryRunner extends AbstractRESTService {
                 // and comparing results vs. retry of 0
                 .retry(1)
                 .block();
-    }
-
-    private JavaType createParametricJavaType(Class<? extends EntityRecord> recordType) {
-        JavaType jt = objectMapper.getTypeFactory().constructParametricType(SOQLQueryResponse.class, recordType);
-        LOGGER.info("Created new JavaType for recordType {}", recordType.getName());
-        return jt;
     }
 
     /**
