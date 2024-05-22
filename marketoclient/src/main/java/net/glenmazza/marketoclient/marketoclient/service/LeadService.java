@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationFailureHandler;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
@@ -30,23 +33,30 @@ public class LeadService extends AbstractRESTService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LeadService.class);
 
-    public LeadService(WebClient webClient) {
-        super(webClient);
+    public LeadService(WebClient webClient, OAuth2AuthorizationFailureHandler failureHandler) {
+        super(webClient, failureHandler);
+        this.authorizationFailureHandler = failureHandler;
     }
 
     // needed for Jackson deserialization of parametric type used in LeadQueryResponse
     private final Map<Class<? extends LeadUpsertRecord>, JavaType> parametricTypes = new HashMap<>();
 
+    // config has delays of 2, 22, 42, and 62 seconds
+    // past one minute (after 42) should be sufficient for triggering a new access token from Marketo.
+    @Retryable(value = {MarketoAccessTokenExpiredException.class, MarketoTooFrequentRequestsException.class},
+            maxAttempts = 4, backoff = @Backoff(delay = 2 * 1000, maxDelay = 62 * 1000))
     public <T extends LeadUpsertRecord> LeadQueryResponse<T> runLeadQueryRequest(LeadQueryRequest request,
                                                                                  Class<? extends LeadUpsertRecord> recordType)
             throws JsonProcessingException {
 
         JavaType type = parametricTypes.computeIfAbsent(recordType, this::createParametricJavaType);
         String jsonResult = runQuery(request);
-        return objectMapper.readValue(jsonResult, type);
+        LeadQueryResponse<T> response = objectMapper.readValue(jsonResult, type);
+        checkForMarketoErrorResponses(response);
+        return response;
     }
 
-    private String runQuery(LeadQueryRequest request) throws JsonProcessingException {
+    private String runQuery(LeadQueryRequest request) {
 
         if (request.getFilterType() == null) {
             throw new IllegalArgumentException("Filter type required");
@@ -80,11 +90,10 @@ public class LeadService extends AbstractRESTService {
     }
 
     public LeadUpsertResponse runLeadUpsertRequest(LeadUpsertRequest<?> request) throws JsonProcessingException {
-        String jsonResult = runUpsert(request);
-        return objectMapper.readValue(jsonResult, LeadUpsertResponse.class);
+        return runUpsert(request);
     }
 
-    private String runUpsert(LeadUpsertRequest<?> request) throws JsonProcessingException {
+    private LeadUpsertResponse runUpsert(LeadUpsertRequest<?> request) throws JsonProcessingException {
         if (request.getAction() == null) {
             throw new IllegalArgumentException("Action required");
         }
@@ -98,7 +107,7 @@ public class LeadService extends AbstractRESTService {
         }
 
         String jsonString = objectMapper.writeValueAsString(request);
-        return runUpsertStringInternal(jsonString);
+        return runMarketoRequest(this::runUpsertStringInternal, jsonString);
     }
 
     public LeadUpsertResponse upsertByEmail(List<Map<String, Object>> leads) throws JsonProcessingException {
@@ -117,16 +126,15 @@ public class LeadService extends AbstractRESTService {
         leadsToUpsert.put("lookupField", "email");
         leadsToUpsert.put("input", leads);
         String jsonString = objectMapper.writeValueAsString(leadsToUpsert);
-        String jsonResult = runUpsertStringInternal(jsonString);
-        return objectMapper.readValue(jsonResult, LeadUpsertResponse.class);
+        return runMarketoRequest(this::runUpsertStringInternal, jsonString);
     }
 
     public LeadUpsertResponse runUpsertString(String leads) throws JsonProcessingException {
-        String jsonResult = runUpsertStringInternal(leads);
-        return objectMapper.readValue(jsonResult, LeadUpsertResponse.class);
+        return runMarketoRequest(this::runUpsertStringInternal, leads);
     }
 
-    public String runUpsertStringInternal(String jsonString) throws JsonProcessingException {
+    private String runUpsertStringInternal(Object request) {
+        String jsonString = (String) request;
         return webClient
                 .post()
                 .uri(baseUrl + "/rest/v1/leads.json")
@@ -142,11 +150,22 @@ public class LeadService extends AbstractRESTService {
     }
 
     public LeadUpsertResponse runLeadDeleteRequest(LeadDeleteRequest request) throws JsonProcessingException {
-        String jsonResult = runDelete(request);
-        return objectMapper.readValue(jsonResult, LeadUpsertResponse.class);
+        return runMarketoRequest(this::runDelete, request);
     }
 
-    private String runDelete(LeadDeleteRequest request) throws JsonProcessingException {
+    @Retryable(value = {MarketoAccessTokenExpiredException.class, MarketoTooFrequentRequestsException.class},
+            maxAttempts = 4, backoff = @Backoff(delay = 2 * 1000, maxDelay = 62 * 1000))
+    public LeadUpsertResponse runMarketoRequest(JsonProcessingExceptionThrowingFunction<Object, String> fun, Object request) throws JsonProcessingException {
+        LeadUpsertResponse lur;
+
+        String jsonResult = fun.apply(request);
+        lur = objectMapper.readValue(jsonResult, LeadUpsertResponse.class);
+        checkForMarketoErrorResponses(lur);
+        return lur;
+    }
+
+    private String runDelete(Object requestObj) throws JsonProcessingException {
+        LeadDeleteRequest request = (LeadDeleteRequest) requestObj;
 
         if (ObjectUtils.isEmpty(request.getInput())) {
             throw new IllegalArgumentException("Input required");
@@ -174,4 +193,9 @@ public class LeadService extends AbstractRESTService {
         return jt;
     }
 
+    // https://stackoverflow.com/a/18198349
+    @FunctionalInterface
+    public interface JsonProcessingExceptionThrowingFunction<T, R> {
+        R apply(T t) throws JsonProcessingException;
+    }
 }

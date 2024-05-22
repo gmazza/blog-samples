@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationFailureHandler;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -19,17 +20,20 @@ public class AutoConfigBean {
     // instantiate as @Beans the API-calling objects in the service package
     // use Qualifier so no conflicts with WebClients in other packages
     @Bean
-    public LeadService leadService(@Qualifier("marketoClient_webClient") WebClient webClient) {
-        return new LeadService(webClient);
+    public LeadService leadService(@Qualifier("marketoClient_webClient") WebClient webClient,
+                                   @Qualifier("marketoClient_authorizationFailureHandler") OAuth2AuthorizationFailureHandler failureHandler) {
+        return new LeadService(webClient, failureHandler);
     }
 
     @Bean
-    public ActivityService activityService(@Qualifier("marketoClient_webClient") WebClient webClient) {
-        return new ActivityService(webClient);
+    public ActivityService activityService(@Qualifier("marketoClient_webClient") WebClient webClient,
+                                           @Qualifier("marketoClient_authorizationFailureHandler") OAuth2AuthorizationFailureHandler failureHandler) {
+        return new ActivityService(webClient, failureHandler);
     }
 
     @Bean
-    public BulkExtractService bulkExtractService(@Qualifier("marketoClient_webClient") WebClient webClient) {
-        return new BulkExtractService(webClient);
+    public BulkExtractService bulkExtractService(@Qualifier("marketoClient_webClient") WebClient webClient,
+                                                 @Qualifier("marketoClient_authorizationFailureHandler") OAuth2AuthorizationFailureHandler failureHandler) {
+        return new BulkExtractService(webClient, failureHandler);
     }
 }

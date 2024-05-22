@@ -41,7 +41,6 @@ public abstract class AbstractMarketoResponse {
         this.errors = errors;
     }
 
-    // Convenience method
     @JsonIgnore
     public String getErrorSummary() {
         if (errors == null) {
@@ -51,4 +50,8 @@ public abstract class AbstractMarketoResponse {
         }
     }
 
+    @JsonIgnore
+    public boolean tooManyRequestsError() {
+        return getErrors() != null && getErrors().size() == 1 && "606".equals(getErrors().get(0).getCode());
+    }
 }

@@ -25,7 +25,7 @@ public class JobStatusResponse extends AbstractMarketoResponse {
     @JsonIgnore
     public Job.Status getExpectedSingleJobStatus() {
         if (!isSuccess()) {
-            throw new IllegalStateException("Marketo call did not successfully complete");
+            throw new IllegalStateException("Marketo call did not successfully complete: " + getErrorSummary());
         }
 
         if (result == null || result.size() != 1) {

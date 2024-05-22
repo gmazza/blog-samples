@@ -1,6 +1,8 @@
 package net.glenmazza.marketoclient.marketoclient.oauth2;
 
 import io.netty.channel.ChannelOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,12 +14,14 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.ClientCredentialsOAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizationFailureHandler;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.RemoveAuthorizedClientOAuth2AuthorizationFailureHandler;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
@@ -34,6 +38,8 @@ import java.util.Map;
 @EnableConfigurationProperties({OAuth2ClientProperties.class})
 @ConditionalOnProperty(name = "marketo.client.enabled")
 public class MarketoOAuth2Config {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MarketoOAuth2Config.class);
 
     @Value("${marketo.connection-timeout-ms:60}")
     private int connectionTimeoutSec;
@@ -57,8 +63,10 @@ public class MarketoOAuth2Config {
 
     @Bean("marketoClient_authorizedClientManager")
     public OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
-                                                                     OAuth2AuthorizedClientService authorizedClientService,
-                                                                     @Qualifier("marketoClient_authorizationFailureHandler")
+                                                                    OAuth2AuthorizedClientService authorizedClientService,
+                                                                    @Qualifier("marketoClient_authorizationSuccessHandler")
+                                                                     OAuth2AuthorizationSuccessHandler successHandler,
+                                                                    @Qualifier("marketoClient_authorizationFailureHandler")
                                                                      OAuth2AuthorizationFailureHandler failureHandler) {
 
 
@@ -70,11 +78,24 @@ public class MarketoOAuth2Config {
                 new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
         authorizedClientManager.setAuthorizedClientProvider(clientProvider);
         authorizedClientManager.setContextAttributesMapper(request -> accessTokenRequestProperties);
+        authorizedClientManager.setAuthorizationSuccessHandler(successHandler);
         authorizedClientManager.setAuthorizationFailureHandler(failureHandler);
 
         return authorizedClientManager;
     }
 
+    @Bean("marketoClient_authorizationSuccessHandler")
+    public OAuth2AuthorizationSuccessHandler authorizationSuccessHandler(OAuth2AuthorizedClientService authorizedClientService) {
+        return (authorizedClient, principal, attributes) -> {
+            OAuth2AccessToken token = authorizedClient.getAccessToken();
+            LOGGER.info("Storing access token {}..., issued {}, expires {} ({} secs good)",
+                    token.getTokenValue().substring(0, 10),
+                    token.getIssuedAt(), token.getExpiresAt(),
+                    token.getIssuedAt() != null ?
+                            Duration.between(token.getIssuedAt(), token.getExpiresAt()).getSeconds() : "???");
+            authorizedClientService.saveAuthorizedClient(authorizedClient, principal);
+        };
+    }
 
     /** Using a single failure handler between the AuthorizedClientManager (which adds client access
      *  tokens) and the ServletOAuth2AuthorizedClientExchangeFilterFunction (which
@@ -133,6 +154,7 @@ public class MarketoOAuth2Config {
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
+                // removes access token in case of 401s/403s, forcing re-authorization
                 .filter(oAuth2Filter)
                 // raise default 256K message limit to 2MB (https://stackoverflow.com/a/59392022/1207540)
                 .codecs(configurer -> configurer

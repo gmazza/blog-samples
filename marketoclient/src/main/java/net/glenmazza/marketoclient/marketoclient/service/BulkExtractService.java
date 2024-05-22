@@ -8,6 +8,9 @@ import net.glenmazza.marketoclient.marketoclient.model.bulkextract.JobStatusResp
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationFailureHandler;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
@@ -17,11 +20,13 @@ import java.util.stream.Collectors;
 
 public class BulkExtractService extends AbstractRESTService {
 
-    public BulkExtractService(WebClient webClient) {
-        super(webClient);
+    public BulkExtractService(WebClient webClient, OAuth2AuthorizationFailureHandler failureHandler) {
+        super(webClient, failureHandler);
     }
 
     // create job
+    @Retryable(value = {MarketoAccessTokenExpiredException.class, MarketoTooFrequentRequestsException.class},
+            maxAttempts = 4, backoff = @Backoff(delay = 2 * 1000, maxDelay = 62 * 1000))
     public JobStatusResponse createJob(CreateJobRequest request) throws JsonProcessingException {
         // need to specify lead or activity type
         if (request.getType() == null) {
@@ -40,7 +45,7 @@ public class BulkExtractService extends AbstractRESTService {
 
         String jsonRequest = objectMapper.writeValueAsString(request);
 
-        return webClient
+        JobStatusResponse jsr = webClient
                 .post()
                 .uri(baseUrl + String.format("/bulk/v1/%s/export/create.json",
                         request.getType().getEndpointValue()))
@@ -53,6 +58,9 @@ public class BulkExtractService extends AbstractRESTService {
                 // first failed call and obtained & used during second.
                 .retry(1)
                 .block();
+
+        checkForMarketoErrorResponses(jsr);
+        return jsr;
     }
 
     public JobStatusResponse enqueueJob(ExtractType extractType, String exportId) {
@@ -98,18 +106,23 @@ public class BulkExtractService extends AbstractRESTService {
                 .block();
     }
 
+
+    @Retryable(value = {MarketoAccessTokenExpiredException.class, MarketoTooFrequentRequestsException.class},
+        maxAttempts = 4, backoff = @Backoff(delay = 2 * 1000, maxDelay = 62 * 1000))
     private JobStatusResponse apiCallForJobStatusResponse(HttpMethod method, String uriSuffix) {
-        return webClient
-                .method(method)
-                .uri(baseUrl + "/bulk/v1/" + uriSuffix)
-                .retrieve()
-                .bodyToMono(JobStatusResponse.class)
-                // retry of 1: if access token expired, will be removed after
-                // first failed call and obtained & used during second.
-                .retry(1)
-                .block();
+        JobStatusResponse jsr = webClient
+            .method(method)
+            .uri(baseUrl + "/bulk/v1/" + uriSuffix)
+            .retrieve()
+            .bodyToMono(JobStatusResponse.class)
+            // retry of 1: if access token expired, will be removed after
+            // first failed call and obtained & used during second.
+            .retry(1)
+            .block();
 
         // for debugging, can .bodyToMono(String.class), return String jsonResult
         // return objectMapper.readValue(jsonResult, JobStatusResponse.class);
+        checkForMarketoErrorResponses(jsr);
+        return jsr;
     }
 }
