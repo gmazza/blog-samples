@@ -38,6 +38,9 @@ class RESTServicesTest(
     @Autowired val queryRunner: SplashQueryRunner
 ) {
 
+    // Note Splash API client returns 429 error codes if more than 2 (or another number) calls per second,
+    // adding Thread.sleep(1000) to allow all tests to run successfully.
+
     @Test
     fun eventByEventIdAndCheckTooManyRequests() {
         Thread.sleep(1000);
