@@ -11,7 +11,6 @@ import net.glenmazza.splashclient.model.EventRsvp
 import net.glenmazza.splashclient.model.MultiItemResponse
 import net.glenmazza.splashclient.model.ServiceException
 import net.glenmazza.splashclient.model.SimpleContact
-import net.glenmazza.splashclient.service.SplashQueryRunner
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -43,7 +42,7 @@ class RESTServicesTest(
 
     @Test
     fun eventByEventIdAndCheckTooManyRequests() {
-        Thread.sleep(1000);
+        Thread.sleep(1000)
         val eventId = "123456789"
         var numRegular: Int = 0
         var numException: Int = 0
@@ -66,7 +65,7 @@ class RESTServicesTest(
 
     @Test
     fun testEventExtraDetails() {
-        Thread.sleep(1000);
+        Thread.sleep(1000)
         val eventId = "123456789"
         val response: SingleItemResponse<EventExtraDetails> = queryRunner.getExtraDetailsForEvent(eventId)
         Assertions.assertNotNull(response)
@@ -81,7 +80,7 @@ class RESTServicesTest(
 
     @Test
     fun multipleEventsByStartAndEndDate() {
-        Thread.sleep(1000);
+        Thread.sleep(1000)
         val request = EventRequest()
         request.eventStartAfter = LocalDate.of(2024, 1, 1)
         request.eventStartBefore = LocalDate.of(2024, 2, 20)
@@ -96,7 +95,7 @@ class RESTServicesTest(
 
     @Test
     fun testGetEventAttendees() {
-        Thread.sleep(1000);
+        Thread.sleep(1000)
         val request = EventAttendeesRequest()
         request.eventId = "123456789"
         request.limit = 10
@@ -145,7 +144,7 @@ class RESTServicesTest(
 
     @Test
     fun testGetContact() {
-        Thread.sleep(1000);
+        Thread.sleep(1000)
         val response = queryRunner.getContact("345678901")
         Assertions.assertNotNull(response)
         assertEquals(200, response.meta!!.code)
