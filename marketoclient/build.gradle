@@ -67,7 +67,7 @@ check.dependsOn integrationTest
 
 checkstyle {
     ignoreFailures = false
-    toolVersion = '10.16.0'
+    toolVersion = '10.17.0'
 }
 
 integrationTest {

@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.glenmazza.marketoclient.marketoclient.config.AutoConfigBean
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.glenmazza.marketoclient.config.AutoConfigBean
